@@ -20,4 +20,8 @@ WOrking directory
 /scratch/alpine/c832916267@colostate.edu
 ```
 
-To get b
+To get bold
+# 1 = big header
+## smaller header
+
+If PC goes to sleep, youll lose connection to terminal, so watch those settings before you start.
