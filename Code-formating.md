@@ -1,4 +1,7 @@
 Friday only reservation node
+
+https://help.obsidian.md/advanced-syntax
+
 ```
 sinteractive --reservation=aneq505 --time=01:00:00 --partition=amilan --nodes=1 --ntasks=2 --qos=normal
 ```
@@ -165,3 +168,30 @@ Similarly, you can create a nested task list by indenting one or more list items
     - [ ] Subtask 1
 
 Use `Tab` or `Shift+Tab` to indent or unindent selected list items to easily organize them.
+
+## Escaping Markdown Syntax 
+
+In some cases, you may need to display special characters in Markdown, such as `*`, `_`, or `#`, without triggering their formatting. To display these characters literally, place a backslash (`\`) before them.
+
+Common characters to escape
+
+- Asterisk: `\*`
+- Underscore: `\_`
+- Hashtag: `\#`
+- Backtick: `` \` ``
+- Pipe (used in tables): `\|`
+- Tilde: `\~`
+
+```md
+\*This text will not be italicized\*.
+```
+
+*This text will not be italicized*.
+
+When working with numbered lists, you may need to escape the period after the number to prevent automatic list formatting. Place the backslash (`\`) before the period, **not** before the number.
+
+```md
+1\. This won't be a list item.
+```
+
+1. This won't be a list item.
