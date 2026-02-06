@@ -1,4 +1,5 @@
-
+Class Node 
+<span style="color:rgb(255, 255, 0)"><span style="color:rgb(255, 255, 0)"><span style="color:rgb(255, 255, 0)"><span style="color:rgb(255, 255, 0)">sinteractive</span> <span style="color:rgb(255, 255, 0)">--reservation=aneq505 --time=01:00:00 --partition=amilan --nodes=1 --ntasks=2 --qos=normal</span></span></span></span>
 # 1/23/26
 
 1. Navigate to [ondemand-rmacc.rc.colorado.edu](http://ondemand-rmacc.rc.colorado.edu/ "(opens in a new window)")
