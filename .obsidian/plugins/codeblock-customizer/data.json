@@ -1018,8 +1018,8 @@
         "persistence": "session"
       },
       "annotations": {
-        "convertAllComments": false,
-        "excludeAnnotationsFromCopy": false
+        "convertAllComments": true,
+        "excludeAnnotationsFromCopy": true
       },
       "enableEditorActiveLineHighlight": true
     },
@@ -1052,7 +1052,7 @@
         },
         "inlineCode": {
           "backgroundColor": "--code-background",
-          "textColor": "--code-normal"
+          "textColor": "#dadada"
         },
         "prompts": {
           "editedPromptColors": {},
@@ -1135,7 +1135,7 @@
   "newPromptName": "",
   "alternateHighlightColorName": "",
   "languageBorderColorName": "",
-  "settingsType": "basic",
+  "settingsType": "prompts",
   "langSpecificSettingsType": "",
   "languageSpecificLanguageName": ""
 }

@@ -1,0 +1,44 @@
+/* ============================================================
+   Modern Dark (VS Code–style) R Code Blocks
+   Compatible with Minimal + Everforest
+   ============================================================ */
+
+/* ---------- Reading View (Prism) ---------- */
+.markdown-rendered pre code.language-r {
+  background-color: #1E1E1E !important;
+  color: #F0F0F0;
+  display: block;
+  padding: 1em;
+  border-radius: 6px;
+  border: 1px solid #252526;
+}
+
+/* Prism tokens */
+.markdown-rendered code.language-r .token.keyword {
+  color: #C586C0;
+}
+
+.markdown-rendered code.language-r .token.function {
+  color: #DCDCAA;
+}
+
+.markdown-rendered code.language-r .token.number {
+  color: #B5CEA8;
+}
+
+.markdown-rendered code.language-r .token.string {
+  color: #CE9178;
+}
+
+.markdown-rendered code.language-r .token.comment {
+  color: #6A9955;
+  font-style: italic;
+}
+
+.markdown-rendered code.language-r .token.operator,
+.markdown-rendered code.language-r .token.punctuation {
+  color: #D4D4D4;
+}
+
+/* ---------- Live Preview (CodeMirror) ---------- */
+.mark
