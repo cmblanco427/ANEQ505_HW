@@ -1,0 +1,45 @@
+/* ============================================================
+   Modern Dark Code Blocks - All code fences, no language required
+   Works in Minimal + Everforest Dark
+   ============================================================ */
+
+/* ---------- All code blocks (with or without language) ---------- */
+.markdown-preview-view pre,
+.markdown-source-view pre {
+  background-color: #1E1E1E !important; /* Modern dark background */
+  color: #F0F0F0 !important;           /* Off-white text */
+  border-radius: 6px;
+  border: 1px solid #252526;
+  padding: 1em;
+  font-size: 0.95em;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+/* ---------- Syntax highlighting for Reading View (Prism tokens) ---------- */
+.markdown-preview-view code .token.keyword { color: #C586C0; }
+.markdown-preview-view code .token.function { color: #DCDCAA; }
+.markdown-preview-view code .token.string { color: #CE9178; }
+.markdown-preview-view code .token.comment { color: #6A9955; font-style: italic; }
+.markdown-preview-view code .token.number { color: #B5CEA8; }
+.markdown-preview-view code .token.operator,
+.markdown-preview-view code .token.punctuation { color: #D4D4D4; }
+.markdown-preview-view code .token.variable { color: #9CDCFE; }
+.markdown-preview-view code .token.boolean,
+.markdown-preview-view code .token.constant { color: #569CD6; }
+
+/* ---------- Live Preview / Editor (CodeMirror) ---------- */
+.markdown-source-view .cm-s-obsidian .cm-keyword { color: #C586C0; }
+.markdown-source-view .cm-s-obsidian .cm-def,
+.markdown-source-view .cm-s-obsidian .cm-variable { color: #9CDCFE; }
+.markdown-source-view .cm-s-obsidian .cm-number { color: #B5CEA8; }
+.markdown-source-view .cm-s-obsidian .cm-string { color: #CE9178; }
+.markdown-source-view .cm-s-obsidian .cm-comment { color: #6A9955; font-style: italic; }
+.markdown-source-view .cm-s-obsidian .cm-operator { color: #D4D4D4; }
+
+/* ---------- Selection highlight ---------- */
+.markdown-preview-view pre ::selection,
+.markdown-source-view pre ::selection {
+  background-color: #007ACC;
+  color: #FFFFFF;
+}
