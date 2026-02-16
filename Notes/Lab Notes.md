@@ -1018,16 +1018,20 @@ On this visualization, you are checking to see if there are any samples where a 
 - In dada2 folder
 
 ```r
-qiime feature-table merge \
+#Important: you have 2 seq runs, denoise separately, have 2 feature tables. But we want to combine to 1 feature table. This will dereplicate all unique features and combine everything together into 1 merge table so you just have one table to work with.
+qiime feature-table merge \ #merges table
 --i-tables table_run2.qza \
 --i-tables table_run3.qza \
 --o-merged-table table.qza  
   
+#Then well take that table and turn it into a visualization. We need metadata to do this.
 qiime feature-table summarize \
 --i-table table.qza \
 --o-visualization table.qzv \
 --m-sample-metadata-file ../metadata/metadata.txt
+#When finished, download table .qzv, and visualize in Qiime2 view.
 ```
+- After merging checkpoint – Can look at table now and see 443 samples in one file (combo of two indivs)
 The table file contains the following: 
 
 **Features = ASVs**
@@ -1040,9 +1044,15 @@ The table file contains the following: 
 ![[20260213-1905-55.3689156.mp4]]
 ### **3. DADA2 SEQS FILE:**
 ```r
-qiime feature-table merge-seqs \--i-data seqs_run2.qza \--i-data seqs_run3.qza \--o-merged-data seqs.qza  
+#Merge sequence files (Sequences associated w/ ASVs)
+qiime feature-table merge-seqs \
+--i-data seqs_run2.qza \
+--i-data seqs_run3.qza \
+--o-merged-data seqs.qza  
   
-qiime feature-table tabulate-seqs \--i-data seqs.qza \--o-visualization seqs.qzv
+qiime feature-table tabulate-seqs \
+--i-data seqs.qza \
+--o-visualization seqs.qzv
 ```
 This file contains the ASV Feature ID and its corresponding sequence
 
@@ -1053,7 +1063,6 @@ if fasta files crash things, can change them to a .txt
 
 ### **Running jobs on Alpine 
 - **you will use this for demultiplexing the samples for your homework assignment** 
-
 - Some analysis can take a while (especially with large datasets), so we'll submit it as a "**job**".
 - So far we’ve been working on the **interactive node**, for jobs we’ll be using the **computing node**
 - **Batch jobs:** are resource provisions that run applications on compute nodes and do not require supervision or interaction.
@@ -1071,13 +1080,13 @@ This can be pasted into your example script. Note, to submit jobs, the .sh file 
 
 
 ```r
-#!/bin/bash  #Needs to start with this followed by job parameters. THese are the mains
+#!/bin/bash  #Shebang: needs to start with this followed by job parameters. These are the main things youll need in your job script (this is a test dummy one)
 #SBATCH --job-name=test #name of job  
 #SBATCH --nodes=1  #how many nodes, usually can only do 1 at a time
 #SBATCH --ntasks=2  #changing dep on how many resources you need
 #SBATCH --partition=amilan  #partition were on, affects number of cores/tasks you can request.This has 12 cores and only runs for 24 hours. READ ALPINE DOCS TO KNOW
 #SBATCH --time=01:00:00  # how much time you need
-#SBATCH --mail-type=ALL  #can change this but all helps
+#SBATCH --mail-type=ALL  #Mailing system that emails during certain times, can change this to just when start, ends, etc. but all helps
 #SBATCH --mail-user=c832916267@colostate.edu  #your email address
 #SBATCH --output=slurm-%j.out  #output slurm file. %j is a jobid.out, will give the error codes if your job fails. No red on the terminal with these
 #SBATCH --qos=normal  #just telling it its a normal job and not high memory
@@ -1086,6 +1095,7 @@ This can be pasted into your example script. Note, to submit jobs, the .sh file 
   
 module purge  
 module load qiime2/2024.10_amplicon  #always run these two when starting alpine
+#Dont need to put in sinteractive node becuase we already told it were in the amilan partition, just need to tell it what to load  
   
 # command goes here  
 OUTFILE="message_${SLURM_JOB_ID}.txt"  
@@ -1095,6 +1105,8 @@ echo "Node: $(hostname)" >> $OUTFILE
 echo "Timestamp: $(date)" >> $OUTFILE  
 echo "You ran your first job!" >> $OUTFILE
 ```
+The md above goes into the slurm file
+
 Click Save, and exit the file.
 
 FOR PC ONLY USERS RUN THIS COMMAND FIRST BEFORE running sbtach
@@ -1106,6 +1118,8 @@ To submit the job to the compute cluster, use:
 ```r
 sbatch test.sh
 ```
+- Jobs MUST end in .sh
+
 You will then get a job ID as an output. It might be good to note this job ID in case you need to kill the job or check its status. We can also use the On-Demand portal to look at our job status. You should receive an email as well with your job status!
 
 If you get a "failed" email, you can check your slurm directory for the slurm output file (looks like slurm-JOB-ID.out to see what went wrong. This is how you troubleshoot failed code from a job. 
