@@ -1106,9 +1106,10 @@ echo "Timestamp: $(date)" >> $OUTFILE
 echo "You ran your first job!" >> $OUTFILE
 ```
 The md above goes into the slurm file
+*More instructions for this starting at ~6 min in above audio file*
 
 Click Save, and exit the file.
-
+*when running in command line need to be in the slurm folder where the above script was pasted*
 FOR PC ONLY USERS RUN THIS COMMAND FIRST BEFORE running sbtach
   ```r
  dos2unix test.sh
@@ -1116,11 +1117,11 @@ FOR PC ONLY USERS RUN THIS COMMAND FIRST BEFORE running sbtach
 
 To submit the job to the compute cluster, use:
 ```r
-sbatch test.sh
+sbatch test.sh #runs that test.sh file in the slurm folder
 ```
 - Jobs MUST end in .sh
 
-You will then get a job ID as an output. It might be good to note this job ID in case you need to kill the job or check its status. We can also use the On-Demand portal to look at our job status. You should receive an email as well with your job status!
+You will then get a batch job ID as an output. It might be good to note this job ID in case you need to kill the job or check its status. We can also use the On-Demand portal to look at our job status. You should receive an email as well with your job status!
 
 If you get a "failed" email, you can check your slurm directory for the slurm output file (looks like slurm-JOB-ID.out to see what went wrong. This is how you troubleshoot failed code from a job. 
 
@@ -1141,9 +1142,7 @@ Let's review what we've done so far!
  **Today:**
 4. We used **Qiime2** to begin **processing sequence data.** 
 5. Qiime2 **requires some type of input data** (today we input demultiplexed reads, your homework will input raw data)
-    
-    - **Decomposition Tutorial:** 
-
+      -  **Decomposition Tutorial:** 
     1. We began with pre-demultiplexed paired end data (2x150nt). # Cow dataset will by 2x250, so more data
     2. We denoised each run separately. # In cow dataset dont need to denoise seperately, just one sequencing one.
     3. Merged quality controlled data together
@@ -1155,8 +1154,8 @@ Let's review what we've done so far!
 Now its time to practice, we will use a new dataset, called the "cow dataset" to practice the commands you have learned: 
 
 - **20 adult dairy cattle** were sampled (via swabbing) to determine the microbial community composition between **5 different body sites**.  
-- Samples were sequenced with 2x250 bp chemistry on an Illumina miseq
-- You will be given the raw sequencing file, the barcodes file, and the metadata file. # barcodes and metadata on canvas
+- Samples were sequenced with 2x250 bp chemistry on an Illumina miseq w/ same primers
+- You will be given the raw sequencing file, the barcodes file, and the metadata file (On alpine on public directory). # barcodes and metadata on canvas
 - We want you to determine **if and how the microbial composition changes between different cow sites**
 - These data are **paired end fastq files** that you will copy from a public folder on Alpine. 
 - For homework 1, you will practice **importing** raw data, **demultiplexing paired ends reads**, and **denoising**.
