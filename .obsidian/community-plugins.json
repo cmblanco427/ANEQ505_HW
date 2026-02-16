@@ -4,5 +4,8 @@
   "colored-text",
   "obsidian-style-settings",
   "obsidian-minimal-settings",
-  "templater-obsidian"
+  "templater-obsidian",
+  "obsidian-image-toolkit",
+  "obsidian-plugin-toc",
+  "insta-toc"
 ]
