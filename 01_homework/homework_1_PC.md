@@ -48,7 +48,6 @@ cp -r /pl/active/courses/2024_summer/maw_2024/raw_reads .
 #launch an interactive session: 
 ainteractive --ntasks=6 --time=02:00:00
 
-
 #insert your code here to activate qiime. Hint: there should be 2 things you add here
 
 module purge  
@@ -56,6 +55,12 @@ module purge
 module load qiime2/2024.10_amplicon
 
 ```
+
+```r
+#Modified from above
+ainteractive --partition=amilan
+```
+
 
 
 6.    Import the sequences/reads into a Qiime2-readable format (.qza). Note this might take 10-20 mins
