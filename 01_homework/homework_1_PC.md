@@ -143,11 +143,11 @@ qiime metadata tabulate \
 qiime feature-table summarize \
 --i-table cow_table_dada2.qza \
 --m-sample-metadata-file ../metadata/cow_metadata.txt \
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+--o-visualization sum_table_cow.qzv
 
 qiime feature-table tabulate-seqs \
 --i-data cow_seqs_dada2.qza \
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+--o-visualization feattable_cow.qzv
 ```
 
 	

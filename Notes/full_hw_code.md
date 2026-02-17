@@ -94,6 +94,8 @@ qiime feature-table tabulate-seqs \ #Creates table w/ ASV ID, DNA seq, length
 --i-data cow_seqs_dada2.qza \ #representative seqs file (has unique denoised ASVs)
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #output
 ```
+truncate at 250bp because bp#251 has a middle of the box quality score of 13, well below the recommendation of 30
+
 #### DADA2 Info
 - Filters low quality reads
 - trims primers and adapters
@@ -105,4 +107,3 @@ qiime feature-table tabulate-seqs \ #Creates table w/ ASV ID, DNA seq, length
 
 
 
-truncate at 250bp because bp#251 has a middle of the box quality score of 13, well below the recommendation of 30
