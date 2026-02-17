@@ -70,11 +70,11 @@ qiime dada2 denoise-paired \ #runs dada2 algorithm for paired end reads
 --p-trim-left-r NUMBER \
 --p-trunc-len-f NUMBER \ #these 2 lines cut every read at the input length and the rest are discarded. Ex.p-trunc-len-f 240 keeps reads until 240 then drops the rest
 --p-trunc-len-r NUMBER \
---o-representative-sequences cow_seqs_dada2.qza \ #output file
---o-denoising-stats cow_dada2_stats.qza \
---o-table cow_table_dada2.qza
+--o-representative-sequences cow_seqs_dada2.qza \ #output file w/ final ASVs after denoising. clean and ready to analyze
+--o-denoising-stats cow_dada2_stats.qza \ #denoising stats. Show how many reads filtered, denoised, merged, non-chimeric, etc.
+--o-table cow_table_dada2.qza #generates feature table w/ rows=ASVs, columns=samples, values=counts. 
 
-#i=input, p= , o=output
+#i=input (qza), p= parameter (instructions), o=output (qza), m=metadata
 
 #Visualize the denoising results:
 qiime metadata tabulate \
