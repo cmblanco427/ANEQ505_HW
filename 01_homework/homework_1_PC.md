@@ -1,31 +1,16 @@
 
-```r
-sinteractive  --time=02:00:00 --partition=amilan --nodes=1 --ntasks=2 --qos=normal
-
-module purge  #cleans everything out from last run
-  
-module load qiime2/2024.10_amplicon
-```
-
-
-**Due Feb 12th at midnight**
+**Due Feb 19th at midnight**
 
 **Name:**
 
 **For complete credit for this assignment, you must answer all questions and include all commands in your obsidian upload.**
-
 ------------------------------------------------------------------------
 **Learning Objectives**
 
 1. Practice independently running the first few steps of a Qiime2 workflow We will focus on importing data, demultiplexing, and denoising for homework 1.
-
 2. Practice recording commands and editing code to match your analysis
-
 3. Push to GitHub for credit
-
 ------------------------------------------------------------------------
-
-
 **Cow Site Dataset**
 
 20 adult dairy cattle were sampled (via swabbing) to determine the microbial community composition between 5 different body sites (nasal/skin/udder/fecal/oral).  We want you to determine if and how the microbial composition changes between sites over the course of multiple homework assignments.
@@ -66,6 +51,9 @@ ainteractive --ntasks=6 --time=02:00:00
 
 #insert your code here to activate qiime. Hint: there should be 2 things you add here
 
+module purge  
+  
+module load qiime2/2024.10_amplicon
 
 ```
 
@@ -73,7 +61,10 @@ ainteractive --ntasks=6 --time=02:00:00
 6.    Import the sequences/reads into a Qiime2-readable format (.qza). Note this might take 10-20 mins
 
 ```
-qiime tools import \--type EMPPairedEndSequences \--input-path raw_reads \--output-path cow_reads.qza
+qiime tools import \
+--type EMPPairedEndSequences \
+--input-path raw_reads \
+--output-path cow_reads.qza
 ```
 
 
@@ -92,19 +83,31 @@ a.    Go into your slurm directory using OnDemand. Create a new file named **
 #SBATCH --mail-type=ALL
 #SBATCH --output=slurm-%j.out
 #SBATCH --qos=normal
-#SBATCH --mail-user=ADD_YOUR_EMAIL@colostate.edu
+#SBATCH --mail-user=c832916267@colostate.edu
 
 #What needs to go here in order to “turn on” qiime2? Hint: we do these 2 commands every time we activate qiime2!
+
+module purge  
+  
+module load qiime2/2024.10_amplicon
 
 #change the following line if your file path looks different
 cd /scratch/alpine/$USER/cow/demux
 
 #Below is the command you will run to demultiplex the samples.
 
-qiime demux emp-paired \--m-barcodes-file ../metadata/ADD BARCODE FILE NAME HERE \--m-barcodes-column barcode \--p-rev-comp-mapping-barcodes \--p-rev-comp-barcodes \--i-seqs ../cow_reads.qza \--o-per-sample-sequences demux_cow.qza \--o-error-correction-details cow_demux_error.qza
+qiime demux emp-paired \
+--m-barcodes-file ../metadata/ADD BARCODE FILE NAME HERE \
+--m-barcodes-column barcode \--p-rev-comp-mapping-barcodes \
+--p-rev-comp-barcodes \
+--i-seqs ../cow_reads.qza \
+--o-per-sample-sequences demux_cow.qza \
+--o-error-correction-details cow_demux_error.qza
 
 #visualize the read quality
-qiime demux summarize \--i-data demux_cow.qza \--o-visualization demux_cow.qzv
+qiime demux summarize \
+--i-data demux_cow.qza \
+--o-visualization demux_cow.qzv
 ```
 
 
@@ -121,14 +124,29 @@ Fill in the blank to denoise your samples based on what you think should be trim
 ```
 cd ADD PATH TO DADA2 DIRECTORY
 
-qiime dada2 denoise-paired \--i-demultiplexed-seqs ../demux/cow_demux.qza \--p-trim-left-f NUMBER \--p-trim-left-r NUMBER \--p-trunc-len-f NUMBER \--p-trunc-len-r NUMBER \--o-representative-sequences cow_seqs_dada2.qza \--o-denoising-stats cow_dada2_stats.qza \--o-table cow_table_dada2.qza
+qiime dada2 denoise-paired \
+--i-demultiplexed-seqs ../demux/cow_demux.qza \
+--p-trim-left-f NUMBER \
+--p-trim-left-r NUMBER \
+--p-trunc-len-f NUMBER \
+--p-trunc-len-r NUMBER \
+--o-representative-sequences cow_seqs_dada2.qza \
+--o-denoising-stats cow_dada2_stats.qza \
+--o-table cow_table_dada2.qza
 
 #Visualize the denoising results:
-qiime metadata tabulate \--m-input-file cow_dada2_stats.qza \--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+qiime metadata tabulate \
+--m-input-file cow_dada2_stats.qza \
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
 
-qiime feature-table summarize \--i-table cow_table_dada2.qza \--m-sample-metadata-file ../metadata/cow_metadata.txt \--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+qiime feature-table summarize \
+--i-table cow_table_dada2.qza \
+--m-sample-metadata-file ../metadata/cow_metadata.txt \
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
 
-qiime feature-table tabulate-seqs \--i-data cow_seqs_dada2.qza \--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+qiime feature-table tabulate-seqs \
+--i-data cow_seqs_dada2.qza \
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
 ```
 
 	
