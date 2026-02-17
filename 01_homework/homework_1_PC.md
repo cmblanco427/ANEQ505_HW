@@ -138,7 +138,7 @@ qiime dada2 denoise-paired \
 #Visualize the denoising results:
 qiime metadata tabulate \
 --m-input-file cow_dada2_stats.qza \
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+--o-visualization denoise_cow.qzv
 
 qiime feature-table summarize \
 --i-table cow_table_dada2.qza \
