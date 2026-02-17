@@ -56,12 +56,6 @@ module load qiime2/2024.10_amplicon
 
 ```
 
-```r
-#Modified from above
-ainteractive --partition=amilan
-```
-
-
 
 6.    Import the sequences/reads into a Qiime2-readable format (.qza). Note this might take 10-20 mins
 
