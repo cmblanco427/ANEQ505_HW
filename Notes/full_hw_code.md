@@ -65,7 +65,7 @@ sbatch demux.sh
 cd /scratch/alpine/$USER/cow/dada2
 
 qiime dada2 denoise-paired \ #runs dada2 algorithm for paired end reads
---i-demultiplexed-seqs ../demux/cow_demux.qza \ #tells dada2 to use this demultiplexed dataset as input (we made this dataset as output from qiime demux emp-paired step).Contains forward/reverse reads and is sorted by sample.
+--i-demultiplexed-seqs ../demux/cow_demux.qza \ #tells dada2 to use this demultiplexed dataset as input (we made this dataset as output from qiime demux emp-paired step), code links to demux folder where the demux_cow file is.Contains forward/reverse reads and is sorted by sample.
 --p-trim-left-f NUMBER \ #these 2 lines do left trims of forward and reverse reads. The number we put here removes the first #b from every read. Ex: p-trim-left-f 7 removes first 7 bases from every forward read. If we dont need to trim put 0.
 --p-trim-left-r NUMBER \
 --p-trunc-len-f NUMBER \ #these 2 lines cut every read at the input length and the rest are discarded. Ex.p-trunc-len-f 240 keeps reads until 240 then drops the rest

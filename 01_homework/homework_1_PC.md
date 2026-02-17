@@ -126,7 +126,8 @@ Fill in the blank to denoise your samples based on what you think should be trim
 cd /scratch/alpine/$USER/cow/dada2
 
 qiime dada2 denoise-paired \
---i-demultiplexed-seqs ../demux/cow_demux.qza \
+#--i-demultiplexed-seqs ../demux/cow_demux.qza \ ########Wrong name?#####
+--i-demultiplexed-seqs ../demux/demux_cow.qza \
 --p-trim-left-f 0 \ # dont need to trim, QS's>30
 --p-trim-left-r 0 \ # dont need to trim, QS's>30
 --p-trunc-len-f 0 \ # dont need to truncate, QS's>30
