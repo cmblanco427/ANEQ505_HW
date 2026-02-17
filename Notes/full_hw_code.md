@@ -74,22 +74,25 @@ qiime dada2 denoise-paired \ #runs dada2 algorithm for paired end reads
 --o-denoising-stats cow_dada2_stats.qza \ #denoising stats. Show how many reads filtered, denoised, merged, non-chimeric, etc.
 --o-table cow_table_dada2.qza #generates feature table w/ rows=ASVs, columns=samples, values=counts. 
 
-#i=input (qza), p= parameter (instructions), o=output (qza), m=metadata
+#i=input (qza), p= parameter (instructions), o=output (qza or qzv), m=metadata
 
 #Visualize the denoising results; like quality control:
-	#visualize denoising stats
+
+	#Visualize denoising stats
 qiime metadata tabulate \
---m-input-file cow_dada2_stats.qza \ #input qza stats file
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #
+--m-input-file cow_dada2_stats.qza \ #input qza stats file that has stats from dada2 (ie. input reads, filtered reads, denoised reads, merged reads, non-chimeric reads)
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file
 
-qiime feature-table summarize \
---i-table cow_table_dada2.qza \
---m-sample-metadata-file ../metadata/cow_metadata.txt \
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
-
-qiime feature-table tabulate-seqs \
---i-data cow_seqs_dada2.qza \
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+	#Summarize feature table
+qiime feature-table summarize \ #generates summary of ASV table (includes total seqs per sample, total ASVs, freq distibution, sampling depth suggestions)
+--i-table cow_table_dada2.qza \ #feature table from dada2
+--m-sample-metadata-file ../metadata/cow_metadata.txt \ #adds sample metadata to visualization (helps sort by tx group, check seq depth by category, see patterns)
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv  #output file
+	
+	#View the actual sequence
+qiime feature-table tabulate-seqs \ #Creates table w/ ASV ID, DNA seq, length
+--i-data cow_seqs_dada2.qza \ #representative seqs file (has unique denoised ASVs)
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #output
 ```
 #### DADA2 Info
 - Filters low quality reads
