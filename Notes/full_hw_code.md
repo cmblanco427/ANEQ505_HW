@@ -49,10 +49,13 @@ qiime demux emp-paired \
 ```
 
 ## 4. Run script from slurm directory as a job
-script runs from script file in slurm directory (generated in first step of demultiplexing by submitting a job step)
+script runs from script file in slurm directory (generated in first step of demultiplexing by submitting a job step) So must be in slurm directory
 ```r
-dos2unix demux.sh #PC users; demux.sh is the file in slurm folder with our script
+cd /scratch/alpine/$USER/cow/slurm #make sure ur in slurm folder
+dos2unix demux.sh #PC users; converts file to unix format
+#demux.sh is the file in slurm folder with our script
 sbatch demux.sh
 ```
-
+- outputs batch job id that can be used to kill job or check its status. Can also use on demand portal to check
+	- ex output:  Submitted batch job 23996208
 ## 5. Denoise
