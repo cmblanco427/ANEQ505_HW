@@ -874,6 +874,9 @@ This means that your demultiplexed sequences from your demux.qzv might look like
 ![[q1lab.mp4]]
 Interactive Quality Plot of demux_run2
 ##Want mean score for each base to be ~30. At ~140 start to see means drop below 140, so since theyre under 30 no longer confident the base is read right. Hover over each of the lines in the plot to see what each of the box values are. Lab wants middle of box to be at 30 at least to be confident
+ - careful becuase 2x150 can only cut off ~36 nucleotides because need atleast 10 nucleotide overlap to merge forward and reverse. If you cut too many reads at the reverse theres not enough overlap to merge and itll mess up your computational workflow. 
+ - Bit better at 2x250 and can cut more nucleotides and keep the merge ok. 
+ - Also talks about designing primers and stuff like that
 
 Interactive Quality Plot of demux_run3
 ##quality plot looks ALOT better here, none of the middle box are below 30, so here can just keep. Extraction controls should have fewest sequencing runs

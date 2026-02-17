@@ -59,3 +59,13 @@ sbatch demux.sh
 - outputs batch job id that can be used to kill job or check its status. Can also use on demand portal to check
 	- ex output:  Submitted batch job 23996208
 ## 5. Denoise
+- denoise samples based on what should be <span style="color:rgb(0, 112, 192)">trimmed </span>(front of reads) or <span style="color:rgb(0, 112, 192)">truncated</span> (ends of reads). Use the demux_cow.qzv file. This can be done in the terminal or as a job. 
+```r
+
+```
+
+
+
+
+
+truncate at 250bp because bp#251 has a middle of the box quality score of 13, well below the recommendation of 30
