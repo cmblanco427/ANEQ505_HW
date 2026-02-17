@@ -1,5 +1,5 @@
 # HW1
-## Launch interactive session, load Qiime2 w/in cow directory
+## 1. Launch interactive session, load Qiime2 w/in cow directory
 
 ```r
 #launch an interactive session: 
@@ -10,16 +10,15 @@ module purge
 module load qiime2/2024.10_amplicon
 ```
 
-## Import raw reads -> output as Qiime2 readable format   (qza)
+## 2. Import raw reads -> output as Qiime2 readable format   (qza)
 ```r
 qiime tools import \
 --type EMPPairedEndSequences \
 --input-path raw_reads \
 --output-path cow_reads.qza
 ```
-
-## Demultiplex by submitting a job
-### make demux.sh file in slurm directory to demultiplex sequences quicker. Add following shebang followed by batch commands to the file
+## 3. Demultiplex by submitting a job
+### 3.a make demux.sh file in slurm directory to demultiplex sequences quicker. Add following shebang followed by batch commands to the file
 ```r
 #!/bin/bash
 #SBATCH --job-name=demux
@@ -32,8 +31,7 @@ qiime tools import \
 #SBATCH --qos=normal
 #SBATCH --mail-user=c832916267@colostate.edu
 ```
-
-### Demultiplex
+### 3.b Demultiplex
 ```r
 #Confirm in correct directory
 pwd
@@ -50,3 +48,11 @@ qiime demux emp-paired \
 --o-error-correction-details cow_demux_error.qza #generates details about barcode error corrections
 ```
 
+## 4. Run script from slurm directory as a job
+script runs from script file in slurm directory (generated in first step of demultiplexing by submitting a job step)
+```r
+dos2unix demux.sh #PC users; demux.sh is the file in slurm folder with our script
+sbatch demux.sh
+```
+
+## 5. Denoise
