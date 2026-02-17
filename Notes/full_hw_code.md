@@ -60,10 +60,43 @@ sbatch demux.sh
 	- ex output:  Submitted batch job 23996208
 ## 5. Denoise
 - denoise samples based on what should be <span style="color:rgb(0, 112, 192)">trimmed </span>(front of reads) or <span style="color:rgb(0, 112, 192)">truncated</span> (ends of reads). Use the demux_cow.qzv file. This can be done in the terminal or as a job. 
+- This is a dada2 analog step
 ```r
+cd /scratch/alpine/$USER/cow/dada2
 
+qiime dada2 denoise-paired \ #runs dada2 algorithm for paired end reads
+--i-demultiplexed-seqs ../demux/cow_demux.qza \ #tells dada2 to use this demultiplexed dataset as input (we made this dataset as output from qiime demux emp-paired step).Contains forward/reverse reads and is sorted by sample.
+--p-trim-left-f NUMBER \ #these 2 lines do left trims of forward and reverse reads. The number we put here removes the first #b from every read. Ex: p-trim-left-f 7 removes first 7 bases from every forward read. If we dont need to trim put 0.
+--p-trim-left-r NUMBER \
+--p-trunc-len-f NUMBER \ #these 2 lines cut every read at the input length and the rest are discarded. Ex.p-trunc-len-f 240 keeps reads until 240 then drops the rest
+--p-trunc-len-r NUMBER \
+--o-representative-sequences cow_seqs_dada2.qza \ #output file
+--o-denoising-stats cow_dada2_stats.qza \
+--o-table cow_table_dada2.qza
+
+#i=input, p= , o=output
+
+#Visualize the denoising results:
+qiime metadata tabulate \
+--m-input-file cow_dada2_stats.qza \
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+
+qiime feature-table summarize \
+--i-table cow_table_dada2.qza \
+--m-sample-metadata-file ../metadata/cow_metadata.txt \
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+
+qiime feature-table tabulate-seqs \
+--i-data cow_seqs_dada2.qza \
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
 ```
-
+#### DADA2 Info
+- Filters low quality reads
+- trims primers and adapters
+- corrects sequencing errors
+- removes chimeras
+- can merge paired reads
+- Produces ASVs (NOT OTUs)
 
 
 
