@@ -76,10 +76,11 @@ qiime dada2 denoise-paired \ #runs dada2 algorithm for paired end reads
 
 #i=input (qza), p= parameter (instructions), o=output (qza), m=metadata
 
-#Visualize the denoising results:
+#Visualize the denoising results; like quality control:
+	#visualize denoising stats
 qiime metadata tabulate \
---m-input-file cow_dada2_stats.qza \
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv
+--m-input-file cow_dada2_stats.qza \ #input qza stats file
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #
 
 qiime feature-table summarize \
 --i-table cow_table_dada2.qza \
