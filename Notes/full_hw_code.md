@@ -7,7 +7,7 @@ ainteractive --ntasks=6 --time=02:00:00
 
 #activate qiime.
 module purge  
-module load qiime2/2024.10_amplicon
+module load qiime2/2024.10_amplicon #what exactly is happening here?
 ```
 
 ## 2. Import raw reads -> output as Qiime2 readable format   (qza)
