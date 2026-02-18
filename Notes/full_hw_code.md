@@ -7,7 +7,7 @@ ainteractive --ntasks=6 --time=02:00:00
 
 #activate qiime.
 module purge  
-module load qiime2/2024.10_amplicon #what exactly is happening here?
+module load qiime2/2024.10_amplicon #what exactly is happening here? Modifying shell to use QIIME2 v 2024.10?
 ```
 
 ## 2. Import raw reads -> output as Qiime2 readable format   (qza)
@@ -54,7 +54,7 @@ script runs from script file in slurm directory (generated in first step of demu
 cd /scratch/alpine/$USER/cow/slurm #make sure ur in slurm folder
 dos2unix demux.sh #PC users; converts file to unix format
 #demux.sh is the file in slurm folder with our script
-sbatch demux.sh
+sbatch demux.sh #tells slurm (which CURC uses) to run everything in this script (demux.sh) on a compute node using the requested resources. Slurm will put the job in a que and run it when the resources are available (itll pop output into slurm-<jobid>.out file)
 ```
 - outputs batch job id that can be used to kill job or check its status. Can also use on demand portal to check
 	- ex output:  Submitted batch job 23996208
