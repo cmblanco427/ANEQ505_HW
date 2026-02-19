@@ -21,6 +21,16 @@ top -u $USER
 htop
 ```
 
+## Check SLURM output file
+
+```r
+cd /scratch/alpine/$USER/cow/slurm
+ls -lh
+
+#Look at your file
+tail -50 slurm-24093944.out
+
+```
 
 ## Canceling jobs
 ```r
