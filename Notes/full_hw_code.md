@@ -28,6 +28,7 @@ levels:
         - 5b Visualize Denoised Tables
             - Denoising Stats
             - Denoised Table
+            - Sequences Table
             - DADA2 Info
 ```
 # HW1
@@ -135,14 +136,15 @@ qiime metadata tabulate \
 qiime feature-table summarize \ #generates summary of ASV table (includes total seqs per sample, total ASVs, freq distibution, sampling depth suggestions)
 --i-table cow_table_dada2.qza \ #feature table from dada2
 --m-sample-metadata-file ../metadata/cow_metadata.txt \ #adds sample metadata to visualization (helps sort by tx group, check seq depth by category, see patterns)
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv  #output file
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv  #output file w/ ASVs
+#gives mean/median and total reads per sample
 ```
-
+#### Sequences Table
 ```r	
 	#View the actual sequence
 qiime feature-table tabulate-seqs \ #Creates table w/ ASV ID, DNA seq, length
 --i-data cow_seqs_dada2.qza \ #representative seqs file (has unique denoised ASVs)
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #output
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #output, gives sequence length distribution in "sequence length histogram"
 ```
 truncate at 250bp because bp#251 has a middle of the box quality score of 13, well below the recommendation of 30
 
