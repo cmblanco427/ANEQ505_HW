@@ -19,6 +19,8 @@ qiime tools import \
 ```
 ## 3. Demultiplex by submitting a job
 ### 3.a make demux.sh file in slurm directory to demultiplex sequences quicker. Add following shebang followed by batch commands to the file
+	- lets u send data to alpine to work -> job
+	- DONT need to put into command line
 ```r
 #!/bin/bash
 #SBATCH --job-name=demux
@@ -39,11 +41,11 @@ pwd
 cd /scratch/alpine/$USER/cow/demux
 
 #Demultiplexing code
-qiime demux emp-paired \
+qiime demux emp-paired \ #so qiime knows its paired reads
 --m-barcodes-file ../metadata/cow_barcodes.txt \ #metadata
 --m-barcodes-column barcode \--p-rev-comp-mapping-barcodes \ #metadata column
---p-rev-comp-barcodes \ #barcode sequence reads will be reverse complemented prior to demultiplexing????
---i-seqs ../cow_reads.qza \ #Artifact: paired end sequences to be demultiplexed from previously generated qza file???
+--p-rev-comp-barcodes \ #barcode sequence reads will be reverse complemented prior to demultiplexing???? During seq can seq barcodes, wnat to get reverse complement of barcode. If we go R->L in F +R in primers, if we seq thru direction, need reverse complement so we can remove it later. To get rid of sequencing artifacts so no primers in seq files. 
+--i-seqs ../cow_reads.qza \ #Artifact: paired end sequences to be demultiplexed from previously generated qza file??? F+ R reads
 --o-per-sample-sequences demux_cow.qza \ #output resulting demultiplexed sequences
 --o-error-correction-details cow_demux_error.qza #generates details about barcode error corrections
 ```
@@ -54,7 +56,7 @@ script runs from script file in slurm directory (generated in first step of demu
 cd /scratch/alpine/$USER/cow/slurm #make sure ur in slurm folder
 dos2unix demux.sh #PC users; converts file to unix format
 #demux.sh is the file in slurm folder with our script
-sbatch demux.sh #tells slurm (which CURC uses) to run everything in this script (demux.sh) on a compute node using the requested resources. Slurm will put the job in a que and run it when the resources are available (itll pop output into slurm-<jobid>.out file)
+sbatch demux.sh #tells slurm (which CURC uses) to run everything in this script (demux.sh) on a compute node using the requested resources. Slurm will put the job in a que and run it when the resources are available (itll pop output into slurm-<jobid>.out file). #sends everything to slurm scheduler to put into que
 ```
 - outputs batch job id that can be used to kill job or check its status. Can also use on demand portal to check
 	- ex output:  Submitted batch job 23996208
