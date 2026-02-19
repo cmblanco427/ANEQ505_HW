@@ -29,7 +29,7 @@ levels:
             - Denoising Stats
             - Denoised Table
             - Sequences Table
-            - DADA2 Info
+    - DADA2 Info
 ```
 # HW1
 ## 1. Launch interactive session, load Qiime2 w/in cow directory
@@ -87,7 +87,7 @@ qiime demux emp-paired \ #so qiime knows its paired reads
 ```r
 qiime demux summarize \
 --i-data demux_cow.qza \
---o-visualization demux_cow.qzv #Shows Q scores so you know where to trim and/or truncate. 
+--o-visualization demux_cow.qzv #Shows Q scores so you know where to trim and/or truncate. Also shows read length
 ```
 
 ## 4. Run script from slurm directory as a job
@@ -128,7 +128,7 @@ qiime dada2 denoise-paired \ #runs dada2 algorithm for paired end reads
 	#Visualize denoising stats
 qiime metadata tabulate \
 --m-input-file cow_dada2_stats.qza \ #input qza stats file that has stats from dada2 (ie. input reads, filtered reads, denoised reads, merged reads, non-chimeric reads)
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file 
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file Shows reads retained vs lost per sample. (EC files are controls, ignore em)
 ```
 #### Denoised Table
 ```r	
@@ -144,11 +144,11 @@ qiime feature-table summarize \ #generates summary of ASV table (includes total 
 	#View the actual sequence
 qiime feature-table tabulate-seqs \ #Creates table w/ ASV ID, DNA seq, length
 --i-data cow_seqs_dada2.qza \ #representative seqs file (has unique denoised ASVs)
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #output, gives sequence length distribution in "sequence length histogram"
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #output, gives sequence length distribution in "sequence length histogram", max length of sequences
 ```
 truncate at 250bp because bp#251 has a middle of the box quality score of 13, well below the recommendation of 30
 
-#### DADA2 Info
+## DADA2 Info
 - Filters low quality reads
 - trims primers and adapters
 - corrects sequencing errors
