@@ -55,7 +55,7 @@ levels:
     - Important notes about denoising:
     - DADA 2
         - 1. DADA2 STATS FILE:
-        - 2. DADA2 TABLE FILE:
+        - 2. DADA2 TABLE FILE (Feature Table):
         - 3. DADA2 SEQS FILE:
         - Running jobs on Alpine
         - Summary
@@ -1014,7 +1014,7 @@ Columns: 
 
 On this visualization, you are checking to see if there are any samples where a large portion of the reads are removed. Having a few samples like this is ok, but if all of your samples have a large portion of reads removed, then there may be an issue with your data. 
 
-### **2. DADA2 TABLE FILE:** 
+### **2. DADA2 TABLE FILE (Feature Table):** 
 **Merge denoised tables - required when you have samples from multiple sequencing runs like we have here. Then visualize the merged table so all samples are in one place.**
 
 ![[Recording 20260213120609.m4a]]

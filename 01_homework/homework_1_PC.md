@@ -126,7 +126,7 @@ cd /scratch/alpine/$USER/cow/dada2
 qiime dada2 denoise-paired --i-demultiplexed-seqs ../demux/demux_cow.qza --p-trim-left-f 0 --p-trim-left-r 0 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 6 --o-representative-sequences cow_seqs_dada2.qza --o-denoising-stats cow_dada2_stats.qza --o-table cow_table_dada2.qza
 
 
-#Visualize the denoising results:
+#Visualize the denoising stats:
 qiime metadata tabulate --m-input-file cow_dada2_stats.qza--o-visualization denoise_cow.qzv
 
 #ASV Feature Table
@@ -148,9 +148,11 @@ Briefly **describe** the key information from each denoising output file:
 2. Denoising Stats
 	1. This table helps us with quality control to  determine if any samples have a large portion of removed reads. Generated data includes number of reads per sample, number and percent of reads that passed filtering, number of reads kept after denoising, number of reads merged if using paired end data, number and percent of non-chimeric reads. 
 3. Denoised Table
+	1. The feature table contains ASVs and when visualized will show an overview of summary statistics. It includes a table summary with the number of samples, number of ASVs, and total feature frequency. It also includes the frequency per sample that shows the frequency of features observed within a specific sample and frequency per feature that shows statistics on how often an ASV observed. 
 
 **Answer the following questions:**  
 1. Where does the median Q-score begin to dip below Q30 for the forward reads and the reverse reads?
+	1. For forward reads, none showed a median Q score below 30. For the reverse reads, read 251 (the last one) showed a median Q score of 13, the rest were at or above 30/
 2. What is the mean reads per sample?
 3. How long are the reads?
 4. What is the maximum length of all your sequences?
