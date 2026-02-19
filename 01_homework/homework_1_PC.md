@@ -88,8 +88,6 @@ a.    Go into your slurm directory using OnDemand. Create a new file named **
 
 #What needs to go here in order to “turn on” qiime2? Hint: we do these 2 commands every time we activate qiime2!
 
-
-#######Why am I running this twice?#####################
 module purge  
 module load qiime2/2024.10_amplicon
 
@@ -177,6 +175,7 @@ qiime feature-table tabulate-seqs \
 	
 Briefly **describe** the key information from each denoising output file:
 1. Representative Sequences
+	1. This table has the ASV feature ID and gives you their corresponding sequence
 2. Denoising Stats
 3. Denoised Table
 
