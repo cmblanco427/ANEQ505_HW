@@ -1,3 +1,30 @@
+```insta-toc
+---
+title:
+  name: Table of Contents
+  level: 1
+  center: false
+exclude: ""
+style:
+  listType: dash
+omit: []
+levels:
+  min: 1
+  max: 6
+---
+
+# Table of Contents
+
+- HW1
+    - 1. Launch interactive session, load Qiime2 w/in cow directory
+    - 2. Import raw reads -> output as Qiime2 readable format   (qza)
+    - 3. Demultiplex by submitting a job
+        - 3.a make demux.sh file in slurm directory to demultiplex sequences quicker. Add following shebang followed by batch commands to the file
+        - 3.b Demultiplex
+    - 4. Run script from slurm directory as a job
+    - 5. Denoise
+        - DADA2 Info
+```
 # HW1
 ## 1. Launch interactive session, load Qiime2 w/in cow directory
 
@@ -63,6 +90,7 @@ sbatch demux.sh #tells slurm (which CURC uses) to run everything in this script 
 ## 5. Denoise
 - denoise samples based on what should be <span style="color:rgb(0, 112, 192)">trimmed </span>(front of reads) or <span style="color:rgb(0, 112, 192)">truncated</span> (ends of reads). Use the demux_cow.qzv file. This can be done in the terminal or as a job. 
 - This is a dada2 analog step
+- **Can run in terminal**
 ```r
 cd /scratch/alpine/$USER/cow/dada2
 

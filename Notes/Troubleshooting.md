@@ -1,3 +1,27 @@
+```insta-toc
+```
+```insta-toc
+---
+title:
+  name: Table of Contents
+  level: 1
+  center: false
+exclude: ""
+style:
+  listType: dash
+omit: []
+levels:
+  min: 1
+  max: 6
+---
+
+# Table of Contents
+
+- Monitor real time resource usage
+- Check CPU Usage of SLURM Job
+- Check SLURM output file
+- Canceling jobs
+```
 ## Monitor real time resource usage
 ```r
 top
