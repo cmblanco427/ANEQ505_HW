@@ -123,55 +123,19 @@ Fill in the blank to denoise your samples based on what you think should be trim
 ```
 cd /scratch/alpine/$USER/cow/dada2
 
-qiime dada2 denoise-paired \
---i-demultiplexed-seqs ../demux/demux_cow.qza \
---p-trim-left-f 0 \
---p-trim-left-r 0 \
---p-trunc-len-f 150 \
---p-trunc-len-r 250 \
---o-representative-sequences cow_seqs_dada2.qza \
---o-denoising-stats cow_dada2_stats.qza \
---o-table cow_table_dada2.qza
-
-
-##TOP NOT WORKING TRY THIS
-qiime dada2 denoise-paired \
---i-demultiplexed-seqs ../demux/demux_cow.qza \
---p-trim-left-f 0 \
---p-trim-left-r 0 \
---p-trunc-len-f 250 \
---p-trunc-len-r 250 \
---p-n-threads 6 \
---o-representative-sequences cow_seqs_dada2.qza \
---o-denoising-stats cow_dada2_stats.qza \
---o-table cow_table_dada2.qza
-
-##Still doesnt work, try this###
-qiime dada2 denoise-paired \--i-demultiplexed-seqs ../demux/demux_cow.qza \--p-trim-left-f 0 \--p-trim-left-r 0 \
---p-trunc-len-f 250 \--p-trunc-len-r 250 \--p-n-threads 6 \--o-representative-sequences cow_seqs_dada2.qza \--o-denoising-stats cow_dada2_stats.qza \--o-table cow_table_dada2.qza
-
-##STILL doesnt work, try this###
-qiime dada2 denoise-paired --i-demultiplexed-seqs ../demux/demux_cow.qza --p-trim-left-f 0 --p-trim-left-r 0 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 6 --o-representative-sequences cow_seqs_dada2.qza --o-denoising-stats cow_dada2_stats.qza --o-table cow_table_dada2.qza
-
-##Troubleshooting simple code
 qiime dada2 denoise-paired --i-demultiplexed-seqs ../demux/demux_cow.qza --p-trim-left-f 0 --p-trim-left-r 0 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 6 --o-representative-sequences cow_seqs_dada2.qza --o-denoising-stats cow_dada2_stats.qza --o-table cow_table_dada2.qza
 
 
 #Visualize the denoising results:
-qiime metadata tabulate \
---m-input-file cow_dada2_stats.qza \
---o-visualization denoise_cow.qzv
-
-#retry
 qiime metadata tabulate --m-input-file cow_dada2_stats.qza--o-visualization denoise_cow.qzv
 
-#summarize
+#ASV Feature Table
 qiime feature-table summarize \
 --i-table cow_table_dada2.qza \
 --m-sample-metadata-file ../metadata/cow_metadata.txt \
 --o-visualization sum_table_cow.qzv
 
-#Feature Table
+#Sequences Table
 qiime feature-table tabulate-seqs \
 --i-data cow_seqs_dada2.qza \
 --o-visualization feattable_cow.qzv
@@ -182,6 +146,7 @@ Briefly **describe** the key information from each denoising output file:
 1. Representative Sequences
 	1. This table has the ASV feature ID and gives you their corresponding sequence
 2. Denoising Stats
+	1. This table helps us with quality control to  determine if any samples have a large portion of removed reads. Generated data includes number of reads per sample, number and percent of reads that passed filtering, number of reads kept after denoising, number of reads merged if using paired end data, number and percent of non-chimeric reads. 
 3. Denoised Table
 
 **Answer the following questions:**  
