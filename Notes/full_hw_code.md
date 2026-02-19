@@ -128,7 +128,7 @@ qiime dada2 denoise-paired \ #runs dada2 algorithm for paired end reads
 	#Visualize denoising stats
 qiime metadata tabulate \
 --m-input-file cow_dada2_stats.qza \ #input qza stats file that has stats from dada2 (ie. input reads, filtered reads, denoised reads, merged reads, non-chimeric reads)
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file Shows reads retained vs lost per sample. (EC files are controls, ignore em)
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file Shows reads retained vs lost per sample (% of input non-chimeric reads). (EC files are controls, ignore em)
 ```
 #### Denoised Table
 ```r	

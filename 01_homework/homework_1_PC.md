@@ -151,17 +151,20 @@ Briefly **describe** the key information from each denoising output file:
 	1. The feature table contains ASVs and when visualized will show an overview of summary statistics. It includes a table summary with the number of samples, number of ASVs, and total feature frequency. It also includes the frequency per sample that shows the frequency of features observed within a specific sample and frequency per feature that shows statistics on how often an ASV observed. 
 
 **Answer the following questions:**  
-1. Where does the median Q-score begin to dip below Q30 for the forward reads and the reverse reads?
+1. **Where does the median Q-score begin to dip below Q30 for the forward reads and the reverse reads?
 	1. For forward reads, none showed a median Q score below 30. For the reverse reads, read 251 (the last one) showed a median Q score of 13, the rest were at or above 30.
-2. What is the mean reads per sample?
+
+2. **What is the mean reads per sample?
 	1. 
-3. How long are the reads?
+3. **How long are the reads?
 	1. 
-4. What is the maximum length of all your sequences?
+4. **What is the maximum length of all your sequences?
 	1. The maximum length was 427 nucleotides
-5. Which sample (not including extraction controls starting with EC) lost the highest % of reads?
-	1. 
-6. Why did you chose to trim or truncate where you did?
+	
+5. **Which sample (not including extraction controls starting with EC) lost the highest % of reads?
+	1. Sample 2019.3.14.cow.oral.20 has an 8.76% of input non-chimeric, indicating it lost 91.24% of associated reads. 
+	
+6. **Why did you chose to trim or truncate where you did?
 	1. I chose not to trim any reads as all had a median Q score >30. However I truncated the reverse reads at read 250 because read 251 had a median Q score of 13.
 
 **To submit your homework from this document:**
