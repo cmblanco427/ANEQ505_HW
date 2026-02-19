@@ -130,13 +130,9 @@ qiime metadata tabulate \
 --m-input-file cow_dada2_stats.qza \ #input qza stats file that has stats from dada2 (ie. input reads, filtered reads, denoised reads, merged reads, non-chimeric reads)
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file Shows reads retained vs lost per sample (% of input non-chimeric reads). (EC files are controls, ignore em)
 ```
-- Contains: Reads input, Reads filtered
-    
-- Reads denoised, eads merged
-    
-- Reads non-chimeric
-    
-- Percent retained
+- **Read Processing Performance**
+- **Contains**: Reads input, Reads filtered, Reads denoised, Reads merged, Reads non-chimeric, Percent retained
+- **Answers**: % reads lost per sample, how many read survive filtering, how efficient was merging, retention of chimera removl?
 #### Denoised Table
 ```r	
 	#Summarize feature table
@@ -146,6 +142,8 @@ qiime feature-table summarize \ #generates summary of ASV table (includes total 
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv  #output file w/ ASVs
 #gives mean/median and total reads per sample (frequency= number of reads, mean freq= avg # of reads per sample)
 ```
+- **Contains**: Total/ mean/median, Min/max reads per sample, Total number of ASVs
+- **Answers**: mean reads per sample, total number of reads, how many ASVs detected
 #### Sequences Table
 ```r	
 	#View the actual sequence
@@ -153,6 +151,9 @@ qiime feature-table tabulate-seqs \ #Creates table w/ ASV ID, DNA seq, length
 --i-data cow_seqs_dada2.qza \ #representative seqs file (has unique denoised ASVs)
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #output, gives sequence length distribution in "sequence length histogram", max length of sequences
 ```
+- **Contains**: actual ASV DNA sequences, feature IDs linked to each sequence
+- **Answers**: How long are final ASVs, max sequence length, what do sequences look like?
+
 truncate at 250bp because bp#251 has a middle of the box quality score of 13, well below the recommendation of 30
 
 ## DADA2 Info
