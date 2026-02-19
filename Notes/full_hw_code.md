@@ -21,6 +21,7 @@ levels:
     - 3. Demultiplex by submitting a job
         - 3.a make demux.sh file in slurm directory to demultiplex sequences quicker. Add following shebang followed by batch commands to the file
         - 3.b Demultiplex
+        - 3.C Visualize demultiplexed read quality
     - 4. Run script from slurm directory as a job
     - 5. Denoise
         - DADA2 Info
@@ -46,7 +47,7 @@ qiime tools import \
 ```
 ## 3. Demultiplex by submitting a job
 ### 3.a make demux.sh file in slurm directory to demultiplex sequences quicker. Add following shebang followed by batch commands to the file
-	- lets u send data to alpine to work -> job
+	- lets u send data to alpine to work -> job. Takes a long time, so best to run as a job and not in the terminal
 	- DONT need to put into command line
 ```r
 #!/bin/bash
@@ -77,8 +78,15 @@ qiime demux emp-paired \ #so qiime knows its paired reads
 --o-error-correction-details cow_demux_error.qza #generates details about barcode error corrections
 ```
 
+### 3.C Visualize demultiplexed read quality
+```r
+qiime demux summarize \
+--i-data demux_cow.qza \
+--o-visualization demux_cow.qzv #Shows Q scores so you know where to trim and/or truncate. 
+```
+
 ## 4. Run script from slurm directory as a job
-script runs from script file in slurm directory (generated in first step of demultiplexing by submitting a job step) So must be in slurm directory
+script runs from script file in slurm directory (generated in first step of demultiplexing by submitting a job step) So must be in slurm directory. Submits job to be scheduled in slurm, instead of running in terminal. 
 ```r
 cd /scratch/alpine/$USER/cow/slurm #make sure ur in slurm folder
 dos2unix demux.sh #PC users; converts file to unix format
@@ -105,13 +113,17 @@ qiime dada2 denoise-paired \ #runs dada2 algorithm for paired end reads
 --o-table cow_table_dada2.qza #generates feature table w/ rows=ASVs, columns=samples, values=counts. 
 
 #i=input (qza), p= parameter (instructions), o=output (qza or qzv), m=metadata
+```
 
+```r
+##################
 #Visualize the denoising results; like quality control:
-
+##################
 	#Visualize denoising stats
 qiime metadata tabulate \
 --m-input-file cow_dada2_stats.qza \ #input qza stats file that has stats from dada2 (ie. input reads, filtered reads, denoised reads, merged reads, non-chimeric reads)
---o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file
+--o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file 
+	
 
 	#Summarize feature table
 qiime feature-table summarize \ #generates summary of ASV table (includes total seqs per sample, total ASVs, freq distibution, sampling depth suggestions)
