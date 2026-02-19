@@ -130,14 +130,21 @@ qiime metadata tabulate \
 --m-input-file cow_dada2_stats.qza \ #input qza stats file that has stats from dada2 (ie. input reads, filtered reads, denoised reads, merged reads, non-chimeric reads)
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file Shows reads retained vs lost per sample (% of input non-chimeric reads). (EC files are controls, ignore em)
 ```
+- Contains: Reads input, Reads filtered
+    
+- Reads denoised, eads merged
+    
+- Reads non-chimeric
+    
+- Percent retained
 #### Denoised Table
 ```r	
 	#Summarize feature table
-qiime feature-table summarize \ #generates summary of ASV table (includes total seqs per sample, total ASVs, freq distibution, sampling depth suggestions)
+qiime feature-table summarize \ #generates summary of ASV table (includes total seqs per sample, total ASVs, frequency distibution, sampling depth suggestions)
 --i-table cow_table_dada2.qza \ #feature table from dada2
 --m-sample-metadata-file ../metadata/cow_metadata.txt \ #adds sample metadata to visualization (helps sort by tx group, check seq depth by category, see patterns)
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv  #output file w/ ASVs
-#gives mean/median and total reads per sample
+#gives mean/median and total reads per sample (frequency= number of reads, mean freq= avg # of reads per sample)
 ```
 #### Sequences Table
 ```r	

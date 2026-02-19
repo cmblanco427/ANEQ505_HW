@@ -155,9 +155,11 @@ Briefly **describe** the key information from each denoising output file:
 	1. For forward reads, none showed a median Q score below 30. For the reverse reads, read 251 (the last one) showed a median Q score of 13, the rest were at or above 30.
 
 2. **What is the mean reads per sample?
-	1. 
+	1. 11,115.7
+	
 3. **How long are the reads?
-	1. 
+	1. 251 base pairs
+	
 4. **What is the maximum length of all your sequences?
 	1. The maximum length was 427 nucleotides
 	
