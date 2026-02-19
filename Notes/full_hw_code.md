@@ -24,7 +24,7 @@ levels:
         - 3.C Visualize demultiplexed read quality
     - 4. Run script from slurm directory as a job
     - 5. Denoise
-        - 5a Denoise
+        - 5a Denoise Script
         - 5b Visualize Denoised Tables
             - Denoising Stats
             - Denoised Table
@@ -104,7 +104,7 @@ sbatch demux.sh #tells slurm (which CURC uses) to run everything in this script 
 - denoise samples based on what should be <span style="color:rgb(0, 112, 192)">trimmed </span>(front of reads) or <span style="color:rgb(0, 112, 192)">truncated</span> (ends of reads). Use the demux_cow.qzv file. This can be done in the terminal or as a job. 
 - This is a dada2 analog step
 - **Can run in terminal**
-### 5a Denoise
+### 5a Denoise Script
 ```r
 cd /scratch/alpine/$USER/cow/dada2
 

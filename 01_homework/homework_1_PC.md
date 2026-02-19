@@ -73,8 +73,6 @@ a.    Go into your slurm directory using OnDemand. Create a new file named **
 
 
 ```
-#########################################So we paste the SBATCHs into the slurm demux.sh file and then run the rest in commandl line?########################################
-
 #!/bin/bash
 #SBATCH --job-name=demux
 #SBATCH --nodes=1
