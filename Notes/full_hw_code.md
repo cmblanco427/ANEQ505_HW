@@ -24,7 +24,11 @@ levels:
         - 3.C Visualize demultiplexed read quality
     - 4. Run script from slurm directory as a job
     - 5. Denoise
-        - DADA2 Info
+        - 5a Denoise
+        - 5b Visualize Denoised Tables
+            - Denoising Stats
+            - Denoised Table
+            - DADA2 Info
 ```
 # HW1
 ## 1. Launch interactive session, load Qiime2 w/in cow directory
@@ -99,6 +103,7 @@ sbatch demux.sh #tells slurm (which CURC uses) to run everything in this script 
 - denoise samples based on what should be <span style="color:rgb(0, 112, 192)">trimmed </span>(front of reads) or <span style="color:rgb(0, 112, 192)">truncated</span> (ends of reads). Use the demux_cow.qzv file. This can be done in the terminal or as a job. 
 - This is a dada2 analog step
 - **Can run in terminal**
+### 5a Denoise
 ```r
 cd /scratch/alpine/$USER/cow/dada2
 
@@ -115,22 +120,25 @@ qiime dada2 denoise-paired \ #runs dada2 algorithm for paired end reads
 #i=input (qza), p= parameter (instructions), o=output (qza or qzv), m=metadata
 ```
 
+### 5b Visualize Denoised Tables
+#### Denoising Stats
 ```r
-##################
-#Visualize the denoising results; like quality control:
-##################
+##like quality control:
 	#Visualize denoising stats
 qiime metadata tabulate \
 --m-input-file cow_dada2_stats.qza \ #input qza stats file that has stats from dada2 (ie. input reads, filtered reads, denoised reads, merged reads, non-chimeric reads)
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file 
-	
-
+```
+#### Denoised Table
+```r	
 	#Summarize feature table
 qiime feature-table summarize \ #generates summary of ASV table (includes total seqs per sample, total ASVs, freq distibution, sampling depth suggestions)
 --i-table cow_table_dada2.qza \ #feature table from dada2
 --m-sample-metadata-file ../metadata/cow_metadata.txt \ #adds sample metadata to visualization (helps sort by tx group, check seq depth by category, see patterns)
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv  #output file
-	
+```
+
+```r	
 	#View the actual sequence
 qiime feature-table tabulate-seqs \ #Creates table w/ ASV ID, DNA seq, length
 --i-data cow_seqs_dada2.qza \ #representative seqs file (has unique denoised ASVs)
