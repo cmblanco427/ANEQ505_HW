@@ -152,12 +152,17 @@ Briefly **describe** the key information from each denoising output file:
 
 **Answer the following questions:**  
 1. Where does the median Q-score begin to dip below Q30 for the forward reads and the reverse reads?
-	1. For forward reads, none showed a median Q score below 30. For the reverse reads, read 251 (the last one) showed a median Q score of 13, the rest were at or above 30/
+	1. For forward reads, none showed a median Q score below 30. For the reverse reads, read 251 (the last one) showed a median Q score of 13, the rest were at or above 30.
 2. What is the mean reads per sample?
+	1. 
 3. How long are the reads?
+	1. 
 4. What is the maximum length of all your sequences?
+	1. The maximum length was 427 nucleotides
 5. Which sample (not including extraction controls starting with EC) lost the highest % of reads?
+	1. 
 6. Why did you chose to trim or truncate where you did?
+	1. I chose not to trim any reads as all had a median Q score >30. However I truncated the reverse reads at read 250 because read 251 had a median Q score of 13.
 
 **To submit your homework from this document:**
 write all of your commands here, then use command+P (for mac) or control+P (for windows) and search Git: commit. click it. then search for Git: Push and click it. go to your github online to check that it pushed correctly. we will check your github for homework credit. 
