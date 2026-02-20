@@ -27,7 +27,7 @@ levels:
         - 5a Denoise Script
         - 5b Visualize Denoised Tables
             - Denoising Stats
-            - Denoised Table
+            - Denoised Table (Feature table)
             - Sequences Table
     - DADA2 Info
 ```
@@ -131,10 +131,10 @@ qiime metadata tabulate \
 --m-input-file cow_dada2_stats.qza \ #input qza stats file that has stats from dada2 (ie. input reads, filtered reads, denoised reads, merged reads, non-chimeric reads)
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv #converts metadata like file into visualizable .qzv file Shows reads retained vs lost per sample (% of input non-chimeric reads). (EC files are controls, ignore em)
 ```
-- **Read Processing Performance**
+- **Read Processing Performance & read count removal stats for each sample**
 - **Contains**: Reads input, Reads filtered, Reads denoised, Reads merged, Reads non-chimeric, Percent retained
 - **Answers**: % reads lost per sample, how many read survive filtering, how efficient was merging, retention of chimera removl?
-#### Denoised Table (Feature t)
+#### Denoised Table (Feature table)
 ```r	
 	#Summarize feature table
 qiime feature-table summarize \ #generates summary of ASV table (includes total seqs per sample, total ASVs, frequency distibution, sampling depth suggestions)
@@ -143,6 +143,7 @@ qiime feature-table summarize \ #generates summary of ASV table (includes total 
 --o-visualization YOUR_OUTPUT_FILENAME_HERE.qzv  #output file w/ ASVs
 #gives mean/median and total reads per sample (frequency= number of reads, mean freq= avg # of reads per sample)
 ```
+- Table for which each sample includes relative abundance of features
 - **Contains**: Total/ mean/median, Min/max reads per sample, Total number of ASVs
 - **Answers**: mean reads per sample, total number of reads, how many ASVs detected
 #### Sequences Table
