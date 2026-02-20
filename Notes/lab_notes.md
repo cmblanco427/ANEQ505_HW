@@ -1182,6 +1182,8 @@ Now its time to practice, we will use a new dataset, called the "cow dataset" to
 - Homework 1 review
 - Assign taxonomy using Greengenes2
 - Taxa barplots
+![[Recording 20260220114557.m4a]]
+
 - Filtering the feature table
 - Phylogenetic tree
 
@@ -1207,6 +1209,8 @@ After some internal testing in our lab, we find we get the best, and most, class
 - A reference tree that unifies genomic and 16S rRNA databases into a consistent, integrated source
 - Includes nearly 16K bacterial and archaeal whole genomes, 18K full-length 16S rRNA sequences, 1.7 million near-complete 16S rRNA genes, and over 23 million 16S rRNA V4 region sequences, all compiled from a variety of sources
 - Yields a reference tree covering over 21 million sequences from 31 different types of environments
+
+![[Recording 20260220114904.m4a]]
 
 For the purpose of this class, we will use the pre-trained classifier version of gg2 that was trained on the V4 hypervariable region (corresponding to the 515F-806R primers). 
 

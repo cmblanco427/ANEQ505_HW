@@ -211,19 +211,19 @@ Briefly **describe** the key information from each denoising output file:
 **Answer the following questions:**  
 
 1. **Where does the median Q-score begin to dip below Q30 for the forward reads and the reverse reads?
-	1. For forward reads, none showed a median Q score below 30. For the reverse reads, read 251 (the last one) showed a median Q score of 13, the rest were at or above 30.
+	1. For forward reads, none showed a median Q score below 30. For the reverse reads, read 251 (the last one) showed a median Q score of 13, the rest were at or above 30. If have a low QS in the middle of reads, dont want to cut them out cuz then cant merge things back together. If theyre super low call the sequencing company to see if something happened
 
 2. **What is the mean reads per sample?
 	1. 11,115.7 (From cow_table_dada2_)
 	
 3. **How long are the reads?
-	1. 251 base pairs (from: cow_seqs_dada2) If max length is alot longer than the min length, need to check the file to make sure non-target DNA wasnt targeted. 
+	1. 251 base pairs (from: cow_seqs_dada2) If max length is alot longer than the min length, need to check the file to make sure non-target DNA wasnt targeted. Check in BLAST (ailgn sequences in the amplicon to a database). Can add specific strings into the SBATCH file to be excluded --p exclude, can also add --p include to include things in and below a certain class level.
 	
 4. **What is the maximum length of all your sequences?
 	1. The maximum length was 427 nucleotides
 	
 5. **Which sample (not including extraction controls starting with EC) lost the highest % of reads?
-	1. Sample 2019.3.14.cow.oral.20 has an 8.76% of input non-chimeric, indicating it lost 91.24% of associated reads. 
+	1. Sample 2019.3.14.cow.oral.20 has an 8.76% of input non-chimeric, indicating it lost 91.24% of associated reads. ( could be that it was low biomass, didnt extract well, )
 	
 6. **Why did you chose to trim or truncate where you did?
 	1. I chose not to trim any reads as all had a median Q score >30. However I truncated the reverse reads at read 250 because read 251 had a median Q score of 13.
