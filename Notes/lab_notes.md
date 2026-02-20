@@ -1237,15 +1237,26 @@ module load qiime2/2024.10_amplicon
 ```
 
 **7.  wget the classifier:**
+tells qiime we want to copy and paste this file from this repository. Creater of grreengenes stores all of the classifiers we need on the index. Have different release form so u can go back to diff releases. Make sure versions are compatible with Qiime (sometimes trial and error, usually similar years works well)
 ```r
 wget --no-check-certificate https://ftp.microbio.me/greengenes_release/2024.09/2024.09.backbone.v4.nb.qza
+#Different types
+#Versiosn 2024.09 against backbone but using v4 region. We sequence these and we know we need taxonomic classifier trained on V$ region alone
+#nb- naive baize, a pretrained clasifier, tells qiime what these are
 ```
+
+![[Recording 20260220120138.m4a]]
+
+
 
 the next command, uses the **q2-feature-classifier** plugin to classify the ASVs by its **classify-sklearn method. This** is machine-learning-based classification, in which **classifiers must be** **_trained_**, e.g., to learn which **features best distinguish each taxonomic group**, adding an additional step to the classification process.
 
+![[Recording 20260220120516.m4a]]
+
 Here is how you can visualize a "classifier":
 ![[Pasted image 20260220091003.png|500]]
-
+- data on left is what we give??
+- REference database in green has these two files that have our sequences and its ID and that ID is linked to some known taxonomy. use these files from pre trained classifier to compare unknown ASVs to output some taxonomy to feature ID. 
 we give the **classifier** a **reference database (**with **sequences** and the **associated taxonomic classification**) (green boxes)
 
 And tell the classifier, if you see a sequence like this, you should be returning a taxonomy label like this one (red boxes)
@@ -1253,10 +1264,12 @@ And tell the classifier, if you see a sequence like this, you should be returnin
 **8.  use our representative reads to classify taxonomy, which will give us our taxonomy.qza output. This will take ~2 minutes.**
 ```r
 qiime feature-classifier classify-sklearn \
---i-reads ../dada2/seqs.qza \
---i-classifier 2024.09.backbone.v4.nb.qza \
---o-classification taxonomy_gg2.qza
+--i-reads ../dada2/seqs.qza \ #sequences
+--i-classifier 2024.09.backbone.v4.nb.qza \ #pre trained classifier
+--o-classification taxonomy_gg2.qza #your ASVs
 ```
+
+![[Recording 20260220120605.m4a]]
 
 **9. Let's make our taxonomy into a visualization, transfer to our local computers, and look at it in QIIME2 View.**
 ```r
@@ -1264,6 +1277,7 @@ qiime metadata tabulate \
 --m-input-file taxonomy_gg2.qza \
 --o-visualization taxonomy_gg2.qzv
 ```
+
 Let's take a look at our taxonomy file using [view.qiime2.orgLinks to an external site.](https://view.qiime2.org/ "(opens in a new window)")!
 
 - we can see that we get an output file with each Feature ID, its taxonomy, and the confidence level.
