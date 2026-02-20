@@ -1,7 +1,7 @@
 
 **Due Feb 19th at midnight**
 
-**Name:**
+**Name:** Cristina Blanco
 
 **For complete credit for this assignment, you must answer all questions and include all commands in your obsidian upload.**
 ------------------------------------------------------------------------

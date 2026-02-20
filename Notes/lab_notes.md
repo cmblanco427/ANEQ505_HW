@@ -55,11 +55,12 @@ levels:
     - Important notes about denoising:
     - DADA 2
         - 1. DADA2 STATS FILE:
-        - 2. DADA2 TABLE FILE (AKA Denoised table, Feature Table):
+        - 2. DADA2 TABLE FILE (AKA Denoised Table, Feature Table):
         - 3. DADA2 SEQS FILE:
         - Running jobs on Alpine
         - Summary
             - Cow Dataset for Homework:
+-  Week 5 Tutorial: Taxonomy, Taxa Barplots, Filtering, Phylogenetic Tree
 ```
 ```insta-toc
 ```
@@ -1169,3 +1170,5 @@ Now its time to practice, we will use a new dataset, called the "cow dataset" to
     - you will include the **answers to the questions** in the note as well 
 
 **To start your homework, go to the modules in Canvas, and download the homework_1.md file. this is the template you will follow to submit your homework (due Feb 19th at midnight)..**
+
+# # Week 5 Tutorial: Taxonomy, Taxa Barplots, Filtering, Phylogenetic Tree
