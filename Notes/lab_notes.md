@@ -1384,7 +1384,7 @@ Note: Remember that before submitting a job you need to **exit the interactive 
 ```r
 cd ../slurm
 
-nano sepp_script.sh
+nano sepp_script.sh  ###What??
 
 #!/bin/bash  
 #SBATCH --job-name=sepp  
