@@ -1270,6 +1270,7 @@ qiime feature-classifier classify-sklearn \
 ```
 
 ![[Recording 20260220120605.m4a]]
+- green genes has its own database, can paste ur amplicon and it can do BLAST search. Can also type in species name.  Itll give you great info about where stuff came from and whatnot and you can start there to understand info about microbe and where it originated from. 
 
 **9. Let's make our taxonomy into a visualization, transfer to our local computers, and look at it in QIIME2 View.**
 ```r
@@ -1277,6 +1278,11 @@ qiime metadata tabulate \
 --m-input-file taxonomy_gg2.qza \
 --o-visualization taxonomy_gg2.qzv
 ```
+- always check confidence scores
+- will show taxonomic identification
+![[20260220-1909-54.4751804.mp4]]
+
+![[Recording 20260220122208.m4a]]
 
 Let's take a look at our taxonomy file using [view.qiime2.orgLinks to an external site.](https://view.qiime2.org/ "(opens in a new window)")!
 
@@ -1284,6 +1290,7 @@ Let's take a look at our taxonomy file using [view.qiime2.orgLinks to an extern
 - Helpful QIIME2 forum post on how confidence is calculated (hint: it isn’t simple): [https://forum.qiime2.org/t/how-is-the-confidence-calculated-with-taxa-assignments/179/3](https://forum.qiime2.org/t/how-is-the-confidence-calculated-with-taxa-assignments/179/3 "(opens in a new window)")
 **10. Since there are over 400 samples, we are first going to group by type_days - a metadata column that includes both sample type and days since placement. This will make our results a lot more interpretable**
 ```r
+#creates new metadata column by merging type and days
 qiime feature-table group \
 --i-table ../dada2/table.qza \
 --m-metadata-file ../metadata/metadata.txt \
@@ -1299,16 +1306,20 @@ qiime feature-table group \
 - The reason these show up in our data is due to the endosymbiotic theory, that mitochondria & chloroplasts, likely originating as bacteria, became symbionts in cytoplasm of eukaryotic cells. 
 - note that sp004296775 is another chloroplast, it MUST also be removed. see this forum [post.](https://forum.qiime2.org/t/silva-vs-greengenes2-2024-9-yield-different-taxonomic-classifications-of-chloroplast/31889/7 "(opens in a new window)")
 ```r
+
 qiime taxa filter-table \
 --i-table ../dada2/table_type_days.qza \
 --i-taxonomy taxonomy_gg2.qza \
---p-exclude mitochondria,chloroplast,sp004296775 \
---o-filtered-table ../dada2/table_type_days_nomitochloro.qza
+--p-exclude mitochondria,chloroplast,sp004296775 \ #genomes to exclude
+--o-filtered-table ../dada2/table_type_days_miochloro.qza #trying to filter out hippo gene? Maybe this filters out features?
+../dada2/table_type_days_nomitochloro.qza
 ```
+
+![[Recording 20260220121949.m4a]]
 
 ## **Taxa Barplots**
 Now that we have ASVs classified taxonomically, let's generate a taxa barplot to visualize it, transfer it to our local computers, and look at it in QIIME2 View.
-
+- use files to generate pretty bar plits
 **1. Move to the taxa plots directory**
 ```r
 cd ../taxaplots
@@ -1320,7 +1331,13 @@ qiime taxa barplot \
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \
 --o-visualization taxa_barplot_type_days_nomitochloro.qzv
 ```
+- Make sure you are adjusting the taxonomic level so you know what youre looking at. Level 1- genus, level 7= species
+Fun tree game - metazoa.com. guess an animal and itll show you where we diverge and goal is to guess what the animal of the day is based on phylogenetic tree
+- taxonomic levels = do kinky people come over for good sex
 
+Ignore first 2:45 minutes
+![[20260220-1924-12.1936846.mp4]]
+![[20260220-1928-52.6799869.mp4]]
 A quick way to search for specific taxa is to open your taxa bar plot and use command-F (or ctrl-F for PC) to search for that taxa. Check that chloroplasts and mitochondria were filtered out.
 ...
 Even though these taxa weren't present, it's good practice for you now because it is standard for these things to be filtered out. It's also a good habit to think about taxa you might need to filter out when doing your own analyses.
@@ -1330,11 +1347,13 @@ First, you will need to filter down to just the controls
 First filter samples
 ```r
 qiime feature-table filter-samples \
---i-table ../dada2/table.qza \
---m-metadata-file ../metadata/metadata.txt \
---p-where "[sample_type]='control'" \
---o-filtered-table ../dada2/table_controls.qza
+--i-table ../dada2/table.qza \ #table where column hasnt been combined because were filtering by something in that table where weve altered that column
+--m-metadata-file ../metadata/metadata.txt \ metadata file
+--p-where "[sample_type]='control'" \ #control= sample type. if youre filtering by something in table make sure to check it in combined table. p= flat when youre filtering. control is type of sample were filtering to
+--o-filtered-table ../dada2/table_controls.qza #output of tables with controls in it, so gets rid of every sample that is not a control
 ```
+
+![[Recording 20260220123157.m4a]]
 
 Create a taxa barplot with our table with just controls
 ```r
@@ -1342,28 +1361,40 @@ qiime taxa barplot \
 --i-table ../dada2/table_controls.qza \
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \
 --m-metadata-file ../metadata/metadata.txt \
---o-visualization taxa_barplot_controls.qzv
+--o-visualization taxa_barplot_controls.qzv #outputs taxa barplot with just controls
 ```
 
+![[Recording 20260220123226.m4a]]
+
 Why do we check controls?
-- Contamination
-- Workflow validation
+- Contamination. trying to prep microbiome samples will always have some mild contamination, sometimes reagents can be contaminated. 
+- Workflow validation. Sometimes PCR can be biased. Way that youre doing workflow should be appropriate for samples
+
+![[Recording 20260220123552.m4a]]
 
 Why include positive controls?
 - Positive controls contain known combinations and quantities of microbiomes. This allows you to confirm whether your DNA extraction and library preparation protocol was successful and is suitable for identifying a variety of different organisms.
+- always always always look at positive controls before you move on
+Positive Control Plot
  ![[Pasted image 20260220091427.png|500]]
-
+- this example has known composition from zyme
+- L= two that we sequences, doesnt perfectly match up what was in control but has all the same taxa, has same relative abundance. What u want to look for is that all the taxa in control ar epresnt in the positive control. If taxa in control is missing, something happened during sequences, no good
+- 
 What should you do with taxa found in extraction controls?
 - Report them
 - Remove them statistically with tools designed for contamination removal
 - In most cases, researchers should avoid simplistic removals of taxa , OTUs, or ASVs appearing in negative controls, as many will be microbes from other samples rather than reagent contaminants.
-
+- Will always see something in extractin controls. Shouldnt amplify enough to see them. Can report them. In severe cases can filter the contaminant out, but this is rare. Just report mild contamination. 
+![[20260220-1936-06.7455466.mp4]]
 You've just done your first taxonomic analysis, congratulations!
+
+![[Recording 20260220124243.m4a]]
 
 **Questions:**
 1. Do you see any differences in taxa between sample type? What about facility? 
+	1. yes we do. If we clearly see diff between sample site and facility, need to consider for further analysis. So good to run through metadata to see differences. 
 2. What taxa did you notice in the extraction controls?
-
+![[20260220-1942-19.6184252.mp4]]
 **Pro tips/extra info:**
 
 1. If you ever want to train your own classifier, here is a link to the tutorial on the QIIME2 website; [https://docs.qiime2.org/2021.11/tutorials/feature-classifier/Links to an external site.](https://docs.qiime2.org/2021.11/tutorials/feature-classifier/ "(opens in a new window)")
@@ -1377,6 +1408,11 @@ If you are only interested in a quick and dirty analysis, then you can use a de 
 
 For this course, we will be using the **sepp method** that is available under the **fragment-insertion** plugin in QIIME2. This method uses a backbone tree from a reference database, in this case from Greengenes2, though this can be changed using the --i-reference-database parameter. It attempts to match the representative sequences in our samples with sequences in the tree, and if it cannot it finds the best branch point and adds the unannotated sequences in. This ensures that all the sequences are included in the tree, and that there is valuable structure. This is the recommended method to construct your phylogenetic trees because it is much more accurate and informative.
 
+
+![[Recording 20260220124943.m4a]]
+
+delete below
+![[Recording 20260220125008.m4a]]
 Let's navigate to our tree directory and download the reference tree. You can look at your options at [https://docs.qiime2.org/2021.11/data-resources/Links to an external site.](https://docs.qiime2.org/2021.11/data-resources/ "(opens in a new window)") under the SEPP reference databases heading at the bottom. As mentioned above, we are using the Greengenes2 database today, which can be found at [https://ftp.microbio.me/greengenes_release/2022.10/Links to an external site.](https://ftp.microbio.me/greengenes_release/2022.10/ "(opens in a new window)")
 
 **1. Go to the tree directory**
@@ -1399,11 +1435,17 @@ This job can take a while (especially in real datasets), so we'll submit it as a
 
 Note: Remember that before submitting a job you need to **exit the interactive node first before submitting**.
 
+![[Recording 20260220125330.m4a]]
+
 ```r
 cd ../slurm
+```
 
-nano sepp_script.sh  ###What??
+```r
+nano sepp_script.sh  ###this is a way to create the script in the terminal instead of on demand
+```
 
+```r
 #!/bin/bash  
 #SBATCH --job-name=sepp  
 #SBATCH --nodes=1  
@@ -1414,7 +1456,6 @@ nano sepp_script.sh  ###What??
 #SBATCH --mail-user=c832916267@colostate.edu  
 #SBATCH --output=slurm-%j.out  
 #SBATCH --qos=normal  
-  
   
 #Activate qiime  
   
