@@ -76,7 +76,8 @@ cd /scratch/alpine/$USER/cow/demux
 #Demultiplexing code
 qiime demux emp-paired \ #so qiime knows its paired reads
 --m-barcodes-file ../metadata/cow_barcodes.txt \ #metadata
---m-barcodes-column barcode \--p-rev-comp-mapping-barcodes \ #metadata column
+--m-barcodes-column barcode \
+--p-rev-comp-mapping-barcodes \ #metadata column
 --p-rev-comp-barcodes \ #barcode sequence reads will be reverse complemented prior to demultiplexing???? During seq can seq barcodes, wnat to get reverse complement of barcode. If we go R->L in F +R in primers, if we seq thru direction, need reverse complement so we can remove it later. To get rid of sequencing artifacts so no primers in seq files. 
 --i-seqs ../cow_reads.qza \ #Artifact: paired end sequences to be demultiplexed from previously generated qza file??? F+ R reads
 --o-per-sample-sequences demux_cow.qza \ #output resulting demultiplexed sequences
