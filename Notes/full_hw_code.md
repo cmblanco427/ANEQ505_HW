@@ -134,7 +134,7 @@ qiime metadata tabulate \
 - **Read Processing Performance**
 - **Contains**: Reads input, Reads filtered, Reads denoised, Reads merged, Reads non-chimeric, Percent retained
 - **Answers**: % reads lost per sample, how many read survive filtering, how efficient was merging, retention of chimera removl?
-#### Denoised Table
+#### Denoised Table (Feature t)
 ```r	
 	#Summarize feature table
 qiime feature-table summarize \ #generates summary of ASV table (includes total seqs per sample, total ASVs, frequency distibution, sampling depth suggestions)

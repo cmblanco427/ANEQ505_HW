@@ -1406,14 +1406,18 @@ module load qiime2/2024.10_amplicon
 # go to your decomp directory  
 cd /scratch/alpine/$USER/decomp_tutorial  
   
-#frament insertion sepp  
+#fragment insertion sepp  
 qiime fragment-insertion sepp \
 --i-representative-sequences dada2/seqs.qza \
 --i-reference-database tree/2022.10.backbone.sepp-reference.qza \
 --o-tree tree/tree_gg2.qza \
 --o-placements tree/tree_gg2_placements.qza \
 --p-threads 4
+```
 
+Run in terminal
+```r
+dos2unix sepp_script.sh
 sbatch sepp_script.sh
 ```
 Congratulations! Now you have a tree! QIIME2 doesn't have a real way to visualize these, since a tree is basically a tool for future analyses, but if you get super interested in what it looks like you can plug it into the iTol visualizer here: _[https://itol.embl.de/upload.cgiLinks to an external site.](https://itol.embl.de/upload.cgi "(opens in a new window)")[.Links to an external site.](https://itol.embl.de/upload.cgi "(opens in a new window)")_
