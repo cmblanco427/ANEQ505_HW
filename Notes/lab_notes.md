@@ -1003,7 +1003,7 @@ DADA2 denoising creates three output files:**
 - <mark style="background: #FFF3A3A6;">stats.qza</mark> (denoising statistics)
 	- AKA QC data output
 - <mark style="background: #FFF3A3A6;">table.qza</mark> (ASV feature table)
-	- AKA microbiome count matrix
+	- AKA microbiome count matrix. Use to look at composition of microbiome for samples and do A + B diversity analysis
 - <mark style="background: #FFF3A3A6;">seqs.qza</mark> (sequences associated with ASVs)
 	- No other name?
  You will have a set of files for each denoising command (e.g., one set for run 2 and one set for run 3, so six files total).
