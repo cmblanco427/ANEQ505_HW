@@ -1001,8 +1001,11 @@ qiime metadata tabulate \--m-input-file dada2_stats_run3.qza \--o-visualization 
 ## **DADA 2
 DADA2 denoising creates three output files:**
 - <mark style="background: #FFF3A3A6;">stats.qza</mark> (denoising statistics)
+	- AKA QC data output
 - <mark style="background: #FFF3A3A6;">table.qza</mark> (ASV feature table)
+	- AKA microbiome count matrix
 - <mark style="background: #FFF3A3A6;">seqs.qza</mark> (sequences associated with ASVs)
+	- No other name?
  You will have a set of files for each denoising command (e.g., one set for run 2 and one set for run 3, so six files total).
 
 ### **1. DADA2 STATS FILE:** 
