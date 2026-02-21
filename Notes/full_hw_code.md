@@ -174,7 +174,7 @@ qiime metadata tabulate \
 
 - **Read Processing Performance & read count removal stats for each sample**
 - **Contains**: Reads input, Reads filtered, Reads denoised, Reads merged, Reads non-chimeric, Percent retained
-- **Answers**: % reads lost per sample, how many read survive filtering, how efficient was merging, retention of chimera removl?
+- **Answers**: % reads lost per sample, how many read survive filtering, how efficient was merging, retention of chimera removal?
 #### Denoised Table (Feature table)
 ```r	
 	#Summarize feature table
