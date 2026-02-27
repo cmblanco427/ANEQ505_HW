@@ -92,7 +92,8 @@ ___
 **What is Alpine?** 
 - The University of Colorado's High Performance Cluster (HPC) - they named it Alpine. 
 - Alpine is a supercomputer that is located at CU Boulder and CSU has access to using.
-- Here are the docs on Alpine: [https://curc.readthedocs.io/en/latest/clusters/alpine/index.htmlLinks to an external site.](https://curc.readthedocs.io/en/latest/clusters/alpine/index.html "(opens in a new window)") 
+- Here are the docs on Alpine: [https://curc.readthedocs.io/en/latest/clusters/alpine/index.htmlLinks to an external site.](https://curc.readthedocs.io/en/latest/clusters/alpine/index.html "(opens in a new window)")
+- switch-> login node -> users submitting jobs
 - They also have a help desk: [rc-help@colorado.edu](mailto:rc-help@colorado.edu "(opens in a new window)") 
 - They host tutorial and workshops regularly: https://curc.readthedocs.io/en/latest/getting_started/current-sem-trainings.html# 
 
@@ -113,7 +114,7 @@ Alpine has different kinds of nodes. For the purpose of this class, y**ou can th
 - **1. Login node - THE FRONT DOOR** 
     - This is where you "land" when you login
     - Do not run commands while in login
-    - **Primarily used for script editing and job submissions only**   
+    - **Primarily used for script editing and job submissions only** , just quick stuff
 - **2. Compile node**
     - Translates human-readable source code that we give into computer-executable machine code
     - **Primarily used to install software**
@@ -121,6 +122,7 @@ Alpine has different kinds of nodes. For the purpose of this class, y**ou can th
 -  **3. Compute node**
     - We do not navigate into these
     - **This is where jobs run after submission**
+	    - in the background
     - There are different kinds of compute nodes
     - Here is a list of the compute node resources available on Alpine ([link to more detailed info hereLinks to an external site.](https://curc.readthedocs.io/en/latest/clusters/alpine/alpine-hardware.html "(opens in a new window)") )
     - Use `sbatch` to submit jobs  
@@ -128,6 +130,7 @@ Alpine has different kinds of nodes. For the purpose of this class, y**ou can th
     - **We can navigate here to run jobs and commands interactively** 
     - We will use an interactive node to run our Qiime2 commands
     - Use `ainteractive` to start an interactive session
+    - More computation resources to run jobs
     - **We will primarily use this node!!**
 
 ### **Node Types and Specifications<!-- omit -->**
@@ -144,7 +147,7 @@ Alpine has different kinds of nodes. For the purpose of this class, y**ou can th
 - GPU nodes - name = ami100 and aa100
 
 ![[Pasted image 20260214171902.png]]
-
+- Partitions ar elike worker bees, 1 node= 3.75, so super powerful
 **Directories (fancy word for folders)**
 
 There are also different **storage spaces** within Alpine that are meant for different things. 
@@ -161,6 +164,7 @@ There are also different **storage spaces** within Alpine that are meant for d
     - High performance storage for computation
     - Files are purged after 90 days of inactivity - **Be careful about this!!! files are deleted and are not recoverable. you have to be diligent about saving your files from Alpine when you are done.** 
     - Folders will persist, so it will fool you into thinking your files are safe.    
+    - Where we mostly work. If done w/ proj, need to download all files or put into proj directory, folders remain, all files delete
 - **Project directory**
     - /projects/$USER
     - Mid-level quota (250 GB)
@@ -223,6 +227,9 @@ When doing your microbiome analyses on Alpine, you will need a way to transfer f
 Now we will go over general commands to use on the command line. These will work on MacOS and Linux systems, but not necessarily PCs. Here is the "anatomy" of what a basic command might look like. It is important to know a few basic commands in linux so you can easily navigate the terminal as well as OnDemand. 
 
 ![[Pasted image 20260214172033.png|300]]
+- ls= list files
+- a= all files
+- laG= list all files (G)
 
 - First, you have the **command** itself. `ls` is a command that says to list the files in your current working directory, which you can think of as the "folder" you are currently in. 
 - You can supply **options** to the command.
