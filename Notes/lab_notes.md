@@ -1706,9 +1706,12 @@ Note that the output here is a directory. This is because it generates so many f
 
 **Run Core-Metrics**
 
-- uses the filtered table, we don't want stats on mitochondria or chloroplasts!
+![[Recording 20260227120423.m4a]]
+
+- uses the filtered table, **we don't want stats on mitochondria or chloroplasts!**
 - the tree allows us to use phylogenetic diversity metrics
 - we use the sample depth of 1500 as chosen from the alpha rarefaction plots.
+	- PICK SAMPLING DEPTH
 - a new directory is created for you with all of the results, and files are pre-named for you.
 - This should take about 5 mins
 	- Actually took ~40
@@ -1737,25 +1740,27 @@ pwd # make sure you are back in your decomp_tutorial
 ```
 As you can see, this command generates many outputs for the most common alpha and beta diversity test. Some are QIIME 2 artifacts and others are both the artifacts (.qza) and the visualizations (.qzv).
 
+- qzv files used for qiime view and qza for analyses. 
+
 ## **Alpha Diversity Files**
 
 **Which core-diversity-metric files are alpha diversity and what do they mean? (ordered here from simplest to more complex):**
 
-**1. Observed features:** this is an alpha diversity metric that counts the number of **_present_ features** in your community.
+**1. Observed features:** this is an alpha diversity metric that counts the number of **_present_ features** in your community. Richness. 
 
 ```r
 core-metrics-results/observed_features_vector.qza
 ```
  
 
-**2. Pielou's evenness:** an alpha diversity metric that measures relative **evenness** (a comparison of organism abundance) of species richness
+**2. Pielou's evenness:** an alpha diversity metric that measures relative **evenness** (a comparison of organism abundance) of species richness. If abundance is higher or lower
 
 ```r
 core-metrics-results/evenness_vector.qza
 ```
 
 
-**3. Faith's Phylogenetic Diversity (pd):** this is an alpha diversity metric that uses **phylogenetic information plus richness** (presence/absence of an organism) to determine alpha diversity.
+**3. Faith's Phylogenetic Diversity (pd):** this is an alpha diversity metric that uses **phylogenetic information plus richness** (presence/absence of an organism) to determine alpha diversity. Incorporates phylogeny into it. looks at richness + presence/absence or orgs and looks at phylogeny
 
 ```r
 core-metrics-results/faith_pd_vector.qza
@@ -1767,6 +1772,8 @@ core-metrics-results/faith_pd_vector.qza
 ```r
 core-metrics-results/shannon_vector.qza
 ```
+
+![[Recording 20260227120618.m4a]]
 
 ### **Alpha group significance**[Links to an external site.](https://docs.qiime2.org/jupyterbooks/cancer-microbiome-intervention-tutorial/030-tutorial-downstream/060-alpha-diversity.html#alpha-group-significance "Permalink to this headline (opens in a new window)")
 
@@ -1782,17 +1789,23 @@ qiime diversity alpha-group-significance \
 --m-metadata-file metadata/metadata.txt \
 --o-visualization core-metrics-results/observed_features_statistics.qzv
 ```
-
+![[20260227-1908-07.0770625.mp4]]
 **Is there a significant difference in the number of observed features between any of the categorical data?** 
+	<span style="color:rgb(0, 112, 192)">- No statistically significant difference</span>
 
 We'll go ahead and try using the alpha-group-significance visualizer with the **Shannon** index (looks at richness and evenness) and the **Faith's Phylogenetic Diversity** index (looks at richness while incorporating phylogeny).
 
 ```r
+#Shannon diversity
 qiime diversity alpha-group-significance \
 --i-alpha-diversity core-metrics-results/shannon_vector.qza \
 --m-metadata-file metadata/metadata.txt \
 --o-visualization core-metrics-results/shannon_statistics.qzv  
-  
+```
+
+
+```r
+#Faith's Pd  
 qiime diversity alpha-group-significance \
 --i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
 --m-metadata-file metadata/metadata.txt \
