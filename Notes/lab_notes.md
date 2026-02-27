@@ -1518,18 +1518,31 @@ Remember those long amplicons we saw in the COW dataset? (the ones that were ~42
 
 Even though we have done this tutorial enough times to know that it wont affect the results drastically, the best practice would be to remove those long amplicons. (the technical reason on why we may have missed this in the past is because our lab used to use [DeblurLinks to an external site.](https://journals.asm.org/doi/10.1128/msystems.00191-16 "(opens in a new window)") to denoise our sequences. Deblur uses forward reads only, and that's the type of sequencing we've had in the past. Deblur will automatically filter out any non-16S looking amplicons because of its specific error correcting algorithm).  
 
-With dada2, we use longer reads (2x250 can give you longer reads because technically we have ~500bp of sequences, so thats why we get those longer amplicons- they merge in a different place than 16s v4 region would, and due to the error correcting algorithm from dada2, these longer amplicons are not filtered out because they are technically real biological signal).
+With dada2, we use longer reads (2x250) can give you longer reads because technically we have ~500bp of sequences, so thats why we get those longer amplicons- they merge in a different place than 16s v4 region would, and due to the error correcting algorithm from dada2, these longer amplicons are not filtered out because they are technically real biological signal).
+
+![[Recording 20260227111619.m4a]]
 
 _Removing ASVs based on length:_ 
 
 ## Remove amplicons larger than 300bp
 
+![[Recording 20260227111732.m4a]]
+
+
 ```r
-qiime feature-table filter-seqs \--i-data cow_seqs_dada2.qza \--m-metadata-file cow_seqs_dada2.qza \--p-where 'length(sequence) < 300' \--o-filtered-data cow_seqs_dada2_filtered300.qza
+#filter feature table
+qiime feature-table filter-seqs \
+--i-data cow_seqs_dada2.qza \
+--m-metadata-file cow_seqs_dada2.qza \
+#filter out seq less than 300 bp to filter out 18s
+--p-where 'length(sequence) < 300' \
+--o-filtered-data cow_seqs_dada2_filtered300.qza
 ```
 
 ```r
-qiime feature-table tabulate-seqs \--i-data cow_seqs_dada2_filtered300.qza \--o-visualization cow_seqs_dada2_filtered300.qzv
+qiime feature-table tabulate-seqs \
+--i-data cow_seqs_dada2_filtered300.qza \
+--o-visualization cow_seqs_dada2_filtered300.qzv
 ```
 
 ```r
@@ -1540,6 +1553,7 @@ qiime feature-table filter-features \
 ```
 
 ```r
+#visualize, double check all amplicons are gone
 qiime feature-table summarize \
 --i-table cow_table_dada2_filtered300.qza \
 --m-sample-metadata-file ../metadata/cow_metadata.txt \
@@ -1548,6 +1562,9 @@ qiime feature-table summarize \
 
 ### **2. Using taxonomic classifiers
 add info on using the pre-trained v4 silva and where to find that**
+
+
+![[Recording 20260227111932.m4a]]
 
 For qiime2 versions 2024.10 and later, the qiime2 developers **will not be providing pre-trained naive bayes classifiers for Silva 138 for the 515F/806R region**. See my forum [postLinks to an external site.](https://forum.qiime2.org/t/silva-v4-classifier/32410/2 "(opens in a new window)"). 
 
@@ -1564,6 +1581,8 @@ See example for qiime2 version 2023.7: 
 
 ### **3. How to know if a taxonomic classifier is incompatible with your version of qiime2?** 
 
+![[Recording 20260227112046.m4a]]
+
 if you are using an incompatible version of a classifer / qiime2 combo, you will get an error like this: 
 
 ```r
@@ -1579,16 +1598,20 @@ Lets run the taxa bar plot code for the whole dataset as well & explore**
 sinteractive --reservation=aneq505 --time=02:00:00 --partition=amilan --nodes=1 --ntasks=6 --qos=normal
 ```
 
+![[Recording 20260227112144.m4a]]
+
 ```r
 module purge  
 module load qiime2/2024.10_amplicon  
   
 cd /scratch/alpine/$USER/decomp_tutorial/taxaplots  
   
+#takes the table and removes all the mitochondria, chloroplasts, and extra one. also takes out everything that doesnt have a class or lower. Exports a filter table
 qiime taxa filter-table \
 --i-table ../dada2/table.qza \
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \
---p-exclude mitochondria,chloroplast,sp004296775 \--p-include c__ \
+--p-exclude mitochondria,chloroplast,sp004296775 \
+--p-include c__ \
 --o-filtered-table ../dada2/table_nomitochloro.qza  
   
 #visualize:   
@@ -1597,6 +1620,11 @@ qiime taxa barplot \
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \
 --m-metadata-file ../metadata/metadata.txt \
 --o-visualization taxa_barplot_all_samples.qzv
+```
+
+To determine which versions of qiime were using
+```r
+module spider qiime
 ```
 
 ## **Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
