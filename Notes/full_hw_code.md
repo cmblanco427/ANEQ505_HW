@@ -248,7 +248,7 @@ Briefly **describe** the key information from each denoising output file:
 ----------------------------------
 -----------------------------------
 
-
+# __
 # Homework #2: Practice Qiime2 Workflow**
 
 Due: March 5th 2026 at midnight
@@ -284,6 +284,7 @@ cd /scratch/alpine/$USER/cow/dada2
 qiime feature-table filter-seqs \
 --i-data cow_seqs_dada2.qza \
 --m-metadata-file cow_seqs_dada2.qza \
+#filter out seq less than 300 bp to filter out 18s
 --p-where 'length(sequence) < 300' \
 --o-filtered-data cow_seqs_dada2_filtered300.qza
 
@@ -296,7 +297,10 @@ qiime feature-table filter-features \
 --m-metadata-file cow_seqs_dada2_filtered300.qza \
 --o-filtered-table cow_table_dada2_filtered300.qza
 
-qiime feature-table summarize \--i-table cow_table_dada2_filtered300.qza \--m-sample-metadata-file ../metadata/cow_metadata.txt \
+#visualize, double check all amplicons are gone
+qiime feature-table summarize \
+--i-table cow_table_dada2_filtered300.qza \
+--m-sample-metadata-file ../metadata/cow_metadata.txt \
 --o-visualization cow_table_dada2_filtered300.qzv
 ```
 
