@@ -1582,12 +1582,20 @@ sinteractive --reservation=aneq505 --time=02:00:00 --partition=amilan --nodes=1 
 module purge  
 module load qiime2/2024.10_amplicon  
   
-cd /scratch/alpine/$USER/decompu_tutorial/taxaplots  
+cd /scratch/alpine/$USER/decomp_tutorial/taxaplots  
   
-qiime taxa filter-table \--i-table ../dada2/table.qza \--i-taxonomy ../taxonomy/taxonomy_gg2.qza \--p-exclude mitochondria,chloroplast,sp004296775 \--p-include c__ \--o-filtered-table ../dada2/table_nomitochloro.qza  
+qiime taxa filter-table \
+--i-table ../dada2/table.qza \
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \
+--p-exclude mitochondria,chloroplast,sp004296775 \--p-include c__ \
+--o-filtered-table ../dada2/table_nomitochloro.qza  
   
 #visualize:   
-qiime taxa barplot \--i-table ../dada2/table_nomitochloro.qza \--i-taxonomy ../taxonomy/taxonomy_gg2.qza \--m-metadata-file ../metadata/metadata.txt \--o-visualization taxa_barplot_all_samples.qzv
+qiime taxa barplot \
+--i-table ../dada2/table_nomitochloro.qza \
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \
+--m-metadata-file ../metadata/metadata.txt \
+--o-visualization taxa_barplot_all_samples.qzv
 ```
 
 ## **Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
@@ -1605,7 +1613,11 @@ Before running alpha rarefaction and core metrics we want to filter out the cont
 ```r
 cd ..  
   
-qiime feature-table filter-samples \--i-table dada2/table_nomitochloro.qza \--m-metadata-file metadata/metadata.txt \--p-where "NOT [sample_type] IN ('control') " \--o-filtered-table dada2/table_nomitochloro_nocontrol.qza
+qiime feature-table filter-samples \
+--i-table dada2/table_nomitochloro.qza \
+--m-metadata-file metadata/metadata.txt \
+--p-where "NOT [sample_type] IN ('control') " \
+--o-filtered-table dada2/table_nomitochloro_nocontrol.qza
 ```
 
 Now we run alpha rarefaction
@@ -1614,7 +1626,11 @@ mkdir alpha_rarefaction
   
 cd alpha_rarefaction  
   
-qiime diversity alpha-rarefaction \--i-table ../dada2/table_nomitochloro_nocontrol.qza \--m-metadata-file ../metadata/metadata.txt \--p-max-depth 10000 \--o-visualization alpha_rarefaction_curves.qzv
+qiime diversity alpha-rarefaction \
+--i-table ../dada2/table_nomitochloro_nocontrol.qza \
+--m-metadata-file ../metadata/metadata.txt \
+--p-max-depth 10000 \
+--o-visualization alpha_rarefaction_curves.qzv
 ```
 
 The visualization file will display two plots. The upper plot will display the alpha diversity (observed features or shannon) as a function of the sampling depth. This is used to determine **whether the richness or evenness has saturated based on the sampling depth. The rarefaction curve should “level out” as you approach the maximum sampling depth.**
