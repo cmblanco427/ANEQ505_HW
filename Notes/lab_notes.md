@@ -1670,6 +1670,7 @@ Note that the output here is a directory. This is because it generates so many f
 - we use the sample depth of 1500 as chosen from the alpha rarefaction plots.
 - a new directory is created for you with all of the results, and files are pre-named for you.
 - This should take about 5 mins
+	- Actually took ~40
 
 ```r
 # cd back into the main decomp_tutorial directory  
@@ -1735,7 +1736,10 @@ First we’ll look for **general patterns in alpha diversity across samples** 
 To start with, we’ll examine **‘observed features’:**
 
 ```r
-qiime diversity alpha-group-significance \--i-alpha-diversity core-metrics-results/observed_features_vector.qza \--m-metadata-file metadata/metadata.txt \--o-visualization core-metrics-results/observed_features_statistics.qzv
+qiime diversity alpha-group-significance \
+--i-alpha-diversity core-metrics-results/observed_features_vector.qza \
+--m-metadata-file metadata/metadata.txt \
+--o-visualization core-metrics-results/observed_features_statistics.qzv
 ```
 
 **Is there a significant difference in the number of observed features between any of the categorical data?** 
@@ -1743,9 +1747,15 @@ qiime diversity alpha-group-significance \--i-alpha-diversity core-metrics-resul
 We'll go ahead and try using the alpha-group-significance visualizer with the **Shannon** index (looks at richness and evenness) and the **Faith's Phylogenetic Diversity** index (looks at richness while incorporating phylogeny).
 
 ```r
-qiime diversity alpha-group-significance \--i-alpha-diversity core-metrics-results/shannon_vector.qza \--m-metadata-file metadata/metadata.txt \--o-visualization core-metrics-results/shannon_statistics.qzv  
+qiime diversity alpha-group-significance \
+--i-alpha-diversity core-metrics-results/shannon_vector.qza \
+--m-metadata-file metadata/metadata.txt \
+--o-visualization core-metrics-results/shannon_statistics.qzv  
   
-qiime diversity alpha-group-significance \--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \--m-metadata-file metadata/metadata.txt \--o-visualization core-metrics-results/faiths_pd_statistics.qzv
+qiime diversity alpha-group-significance \
+--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
+--m-metadata-file metadata/metadata.txt \
+--o-visualization core-metrics-results/faiths_pd_statistics.qzv
 ```
 
 **When we consider richness and evenness (Shannon's Diversity), is there a significant difference between sample type? What about the facility?**
