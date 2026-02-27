@@ -1524,11 +1524,7 @@ _Removing ASVs based on length:_ 
 ## Remove amplicons larger than 300bp
 
 ```r
-qiime feature-table filter-seqs \
-```--i-data cow_seqs_dada2.qza \
-``--m-metadata-file cow_seqs_dada2.qza \
-``--p-where 'length(sequence) < 300' \
-``--o-filtered-data cow_seqs_dada2_filtered300.qza
+qiime feature-table filter-seqs \``--i-data cow_seqs_dada2.qza \``--m-metadata-file cow_seqs_dada2.qza \``--p-where 'length(sequence) < 300' \``--o-filtered-data cow_seqs_dada2_filtered300.qza
 ```
 
 ```r
@@ -1756,4 +1752,4 @@ Email us with any questions or problems!
 
 #### **Note about VS Code and Obsidian**
 
-Here is a [link](https://colostate.instructure.com/courses/220471/files/39191108?wrap=1 "VS_code_in_obsidian.md (opens in a new window)") [Download link](https://colostate.instructure.com/courses/220471/files/39191108/download?download_frd=1)[Open this document with ReadSpeaker docReader](https://docreader.readspeaker.com/docreader/?cid=11403&lang=en_us&url=https%3A%2F%2Finst-fs-iad-prod.inscloudgate.net%2Ffiles%2Fdb776124-2cb1-4940-b441-44e9183a9efe%2FVS_code_in_obsidian.md%3Ftoken%3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NzIxNzA4MjgsInVzZXJfaWQiOm51bGwsInJlc291cmNlIjoiL2ZpbGVzL2RiNzc2MTI0LTJjYjEtNDk0MC1iNDQxLTQ0ZTkxODNhOWVmZS9WU19jb2RlX2luX29ic2lkaWFuLm1kIiwiaG9zdCI6bnVsbCwianRpIjoiNjhmZGNlMjMtMjA2ZC00NzhlLTgwMDEtZGE4YTAyODljOTdiIiwiZXhwIjoxNzcyMjU3MjI4fQ.Y_mSbLjWlNYgn9hkaHUxljRC7HjXdWz8itCTQVtuoFe92EhqwNbTozLUUwz9A5ETnsLfrKuvKafTBSRuuSItBw "Open this document with ReadSpeaker docReader (opens in a new window)")to instructions to run VS Code through Obsidian using the VS Code in Obsidian community plugin. You can use this plugin to directly open VS Code in your Obsidian vault and then check your code for hidden spaces. Saving the code in VS Code will automatically save it in Obsidian.
+Here is a [link](https://colostate.instructure.com/courses/220471/files/39191108?wrap=1 "VS_code_in_obsidian.md (opens in a new window)") to instructions to run VS Code through Obsidian using the VS Code in Obsidian community plugin. You can use this plugin to directly open VS Code in your Obsidian vault and then check your code for hidden spaces. Saving the code in VS Code will automatically save it in Obsidian.

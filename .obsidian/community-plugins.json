@@ -7,5 +7,6 @@
   "templater-obsidian",
   "obsidian-image-toolkit",
   "obsidian-plugin-toc",
-  "insta-toc"
+  "insta-toc",
+  "open-vscode"
 ]
