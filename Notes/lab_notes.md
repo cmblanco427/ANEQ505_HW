@@ -1676,8 +1676,11 @@ Note that the output here is a directory. This is because it generates so many f
 cd ../  
   
 qiime diversity core-metrics-phylogenetic \
---i-table dada2/table_nomitochloro_nocontrol.qza \--i-phylogeny tree/tree_gg2.qza \
---m-metadata-file metadata/metadata.txt \--p-sampling-depth 1500 \--output-dir core-metrics-results
+--i-table dada2/table_nomitochloro_nocontrol.qza \
+--i-phylogeny tree/tree_gg2.qza \
+--m-metadata-file metadata/metadata.txt \
+--p-sampling-depth 1500 \
+--output-dir core-metrics-results
 ```
 
 After this completes (~2mins), explore your output to see what files QIIME2 generated.
