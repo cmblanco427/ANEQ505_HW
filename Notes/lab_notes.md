@@ -73,6 +73,7 @@ levels:
         - 4. Back to the decomp tutorial!
     - Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
         - Alpha Rarefaction
+            - Discussing table.qzv
         - Alpha Diversity Review
         - Running the Diversity Pipeline (Core-Metrics) to Generate Alpha and Beta Diversity
     - Alpha Diversity Files
@@ -1626,14 +1627,20 @@ To determine which versions of qiime were using
 ```r
 module spider qiime
 ```
-
+![[20260227-1827-32.5747103.mp4]]
 ## **Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
 
 ### **Alpha Rarefaction**
 
-Now that we have our tree and we are ready to start looking at the diversity of our samples, we need to normalize first. In our last lecture, you learned about rarefying as an option for normalizing your data. As a reminder, we do this because the number of reads differs between samples and this can be unfair when you are doing any statistical analysis. For example, say you have sample 1 with 100 reads and sample 2 with 10,000 reads. Then, say you want to compare how much E. coli is in sample 1 versus sample 2. It's likely that sample 2 will have more E. coli compared to sample 1. Is this because the environment that sample 2 was collected from has a biological relevant reason for having more E. coli, or is this because sample 2 happened to have more reads sequenced in that sample and having more E. coli is just an artifact of the PCR and sequencing chemistry? The answer is that we really don't know. This makes comparing samples that have different numbers of reads in them unfair and this results in invalid statistical analyses. So, before we can compare our samples to each other, we have to subsample (without replacement) the same number of reads from each sample - this is called rarefying. How do we know how many reads to pull from each sample?
+Now that we have our tree and we are ready to start looking at the diversity of our samples, we need to normalize first. In our last lecture, you learned about rarefying as an option for normalizing your data. As a reminder, we do this because the number of reads differs between samples and this can be unfair when you are doing any statistical analysis. For example, say you have sample 1 with 100 reads and sample 2 with 10,000 reads. Then, say you want to compare how much E. coli is in sample 1 versus sample 2. (**this is a relative abundance comparison, not an absolute abundance comparison. To do absolute comparison can do qPCR or metagenomics**) It's likely that sample 2 will have more E. coli compared to sample 1. Is this because the environment that sample 2 was collected from has a biological relevant reason for having more E. coli, or is this because sample 2 happened to have more reads sequenced in that sample and having more E. coli is just an artifact of the PCR and sequencing chemistry? The answer is that we really don't know. This makes comparing samples that have different numbers of reads in them <span style="color:rgb(0, 112, 192)">unfair and this results in invalid statistical analyses</span>. So, before we can compare our samples to each other, we have to subsample (without replacement) the same number of reads from each sample - this is called rarefying. How do we know how many reads to pull from each sample?
 
 The command below shows one tool we can use to determine where to rarefy. The plot we are generating subsamples our feature table at different depths and calculates the alpha diversity at each of these. We are looking for the point when the graphs level off, which suggests that at that point we are not gaining any more diversity by adding more sequences. Ideally, we would rarefy at a level where all of the samples have leveled off, though this is not always possible.
+
+#### Discussing table.qzv
+	 can move around sampling depth to see where sample depth is retained and lost. Just a visualization to see where to rarify
+	 
+![[Recording 20260227113329.m4a]]
+
 
 We chose 10000 for the max depth because the sample with the most features has 26204 sequences and when we look at the table.qzv we see that we start losing samples around 11000 sequences, and we want to capture all possibilities. By default, 10 rarefied tables are calculated at each sampling depth to provide an error estimate. 
 
@@ -1641,7 +1648,8 @@ Before running alpha rarefaction and core metrics we want to filter out the cont
 
 ```r
 cd ..  
-  
+  #Need to remove control samples. probably removed when rarified but this is good practice.
+  #want to be in regular decomp tutorial
 qiime feature-table filter-samples \
 --i-table dada2/table_nomitochloro.qza \
 --m-metadata-file metadata/metadata.txt \
@@ -1651,6 +1659,7 @@ qiime feature-table filter-samples \
 
 Now we run alpha rarefaction
 ```r
+#Make directory for alpha rarefraction
 mkdir alpha_rarefaction  
   
 cd alpha_rarefaction  
@@ -1658,16 +1667,16 @@ cd alpha_rarefaction
 qiime diversity alpha-rarefaction \
 --i-table ../dada2/table_nomitochloro_nocontrol.qza \
 --m-metadata-file ../metadata/metadata.txt \
---p-max-depth 10000 \
+--p-max-depth 10000 \ #Made because victoria saw lots of drop off around 10000. must be less than the feature with the highest sequencing depth (most reads).
 --o-visualization alpha_rarefaction_curves.qzv
 ```
-
+![[20260227-1835-41.0325271.mp4]]
 The visualization file will display two plots. The upper plot will display the alpha diversity (observed features or shannon) as a function of the sampling depth. This is used to determine **whether the richness or evenness has saturated based on the sampling depth. The rarefaction curve should “level out” as you approach the maximum sampling depth.**
 
 The second plot shows the number of samples in each metadata category group at each sampling depth. This is useful to determine the sampling depth where samples are lost, and whether this may be biased by metadata column group values.
 
 After we have this visualization, we can use the rarefaction curves and the visualization of our DADA2 feature table to decide where to rarefy. Looking at these two visualizations, where would you rarefy?
-
+![[20260227-1842-34.7406510.mp4]]
 ### **Alpha Diversity Review**
 
 **_What are we measuring with alpha diversity?_**
@@ -1678,7 +1687,7 @@ After we have this visualization, we can use the rarefaction curves and the visu
 
 Alpha diversity is measuring your **richness** (or presence and absence of organisms), the **evenness** (the abundance of the organisms) and we can also add in the **phylogeny** to "weight" our alpha/within sample diversity based on shared evolutionary history.
 
-Thus, alpha diversity uses the **metadata,** **feature table**, and a **phylogenetic tree,** which describes the evolutionary relationship between your organisms, to determine the within sample diversity.
+Thus, alpha diversity uses the **metadata,** **feature table**, and a **phylogenetic tree,** which describes the evolutionary relationship between your organisms, to determine the within sample diversity. Reminder: aphad
 
 ### **Running the Diversity Pipeline (Core-Metrics) to Generate Alpha and Beta Diversity**
 
