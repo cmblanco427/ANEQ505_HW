@@ -195,3 +195,7 @@ When working with numbered lists, you may need to escape the period after the nu
 ```
 
 1. This won't be a list item.
+|Command|Function|
+|---|---|
+|`cd *directory\_name*`|Changes to a subdirectory within your current location (e.g., `cd Documents`).|
+|`cd ..`|Moves you one directory level up (to the parent directory).|
