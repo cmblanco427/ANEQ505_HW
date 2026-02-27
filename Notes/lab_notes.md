@@ -1812,6 +1812,10 @@ qiime diversity alpha-group-significance \
 --o-visualization core-metrics-results/faiths_pd_statistics.qzv
 ```
 
+![[20260227-1914-25.1372778.mp4]]
+![[Recording 20260227121651.m4a]]
+
+
 **When we consider richness and evenness (Shannon's Diversity), is there a significant difference between sample type? What about the facility?**
 
 **Is there a difference in phylogenetic diversity (so Faith's PD) between sample type? facility?**
@@ -1819,7 +1823,11 @@ qiime diversity alpha-group-significance \
 For continuous covariates that we think could be associated with alpha diversity, we can use the alpha-correlation visualizer. In this study, a couple of variables we could look at include add_0c and days since placement.
 ```r
 qiime diversity alpha-correlation \--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \--m-metadata-file metadata/metadata.txt \--o-visualization core-metrics-results/faith_pd_correlation_statistics.qzv
+#doesnt take into acount other variables that may affect results. Here looking at faiths pd. WE can look at it over any continuous variables, but if theres any individual variation that affects the results, this wont take that into account. Its only interpereting how it changes over time with one variable. 
 ```
+- each dot tells u about diveristy of samples, and you can see results
+
+![[Recording 20260227121916.m4a]]
 
 Since most of our experiments are slightly more complex than just comparing across one categorical or continuous variable, there is the [QIIME2 longitudinal plugin.    Links to an external site..](https://docs.qiime2.org/2021.11/plugins/available/longitudinal/ "(opens in a new window)") We will explore longitudinal analysis of alpha diversity metrics more in-depth during the longitudinal tutorial.
 
