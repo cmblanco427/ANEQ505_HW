@@ -1676,7 +1676,10 @@ The visualization file will display two plots. The upper plot will display the a
 The second plot shows the number of samples in each metadata category group at each sampling depth. This is useful to determine the sampling depth where samples are lost, and whether this may be biased by metadata column group values.
 
 After we have this visualization, we can use the rarefaction curves and the visualization of our DADA2 feature table to decide where to rarefy. Looking at these two visualizations, where would you rarefy?
+
 ![[20260227-1842-34.7406510.mp4]]
+
+![[20260227-1845-38.3161386.mp4]]
 ### **Alpha Diversity Review**
 
 **_What are we measuring with alpha diversity?_**
@@ -1687,7 +1690,7 @@ After we have this visualization, we can use the rarefaction curves and the visu
 
 Alpha diversity is measuring your **richness** (or presence and absence of organisms), the **evenness** (the abundance of the organisms) and we can also add in the **phylogeny** to "weight" our alpha/within sample diversity based on shared evolutionary history.
 
-Thus, alpha diversity uses the **metadata,** **feature table**, and a **phylogenetic tree,** which describes the evolutionary relationship between your organisms, to determine the within sample diversity. Reminder: aphad
+Thus, alpha diversity uses the **metadata,** **feature table**, and a **phylogenetic tree,** which describes the evolutionary relationship between your organisms, to determine the within sample diversity. Reminder: alpha diversity is within one organism. Beta diversity is comparing across hosts.
 
 ### **Running the Diversity Pipeline (Core-Metrics) to Generate Alpha and Beta Diversity**
 
@@ -1828,3 +1831,9 @@ Email us with any questions or problems!
 #### **Note about VS Code and Obsidian**
 
 Here is a [link](https://colostate.instructure.com/courses/220471/files/39191108?wrap=1 "VS_code_in_obsidian.md (opens in a new window)") to instructions to run VS Code through Obsidian using the VS Code in Obsidian community plugin. You can use this plugin to directly open VS Code in your Obsidian vault and then check your code for hidden spaces. Saving the code in VS Code will automatically save it in Obsidian.
+
+- In your files, should see "open in VS code". when that happens, youll get an pop up. can change language to powershell and edit the code, then itll update obsidian code
+![[Recording 20260227115302.m4a]]
+
+
+-open in obsidian, see markdown, change language so itll open in powershell. see stuff??? if you scroll through will see if there are any hidden spaces that cause errors. If you make any changes, just hit save and itll automatically update your files. CAn also do collaborative coding through this. 
