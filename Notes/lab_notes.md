@@ -1508,6 +1508,7 @@ Green = File(s), Yellow = Qiime2 actions, Blue = Visualization
 
 
 ---------
+-------------------
 
 # Week 6: # Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
 Val's follow ups from last week... 

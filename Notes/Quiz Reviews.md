@@ -14,6 +14,29 @@
 	- Insertion tree. trees hard to build, so well match our reads to the main tree and insert things. Either exact matches or insert to most closely related one so we retain that robust phylogenetic tree. IF try to build denovo tree from short reads of 16s wont get good tree
 
 ## Quiz 2
+
+![[Recording 20260227111257.m4a]]
+
+1. Amplicon insertion tree
+2. 3 file types
+	1. feature table, representative seqs, stats
+- samples most likely to have high alpha diversity
+	- extreme temps and UV prolly kill alot of life, abx kills stuff, clean rooms kill everything
+- High faiths phylogenetic
+	- Bacteria and archea- 2 different domains of life, so as far apart as u can get, so high phylogenetic diversity in that community. If u have 10 types of bacteria but sample two and all in same order, wont cover as much branch length in TOL as sample 1
+- A and B diversity
+		- have both
+- Dataset w/ following files from sequencing facility
+	- forward, reverse, and barcodes
+	- these are straight off sequencer, contains all forward, all reverse so you can demultiplex. need to import reads without a manifest, then demultiplex reads using barcode file. 
+	- ONLY need manifest if youre given demultiplexed data by sequencing facilities. This is common, but not what were doing in this class. 
+- Identical trimming/truncating parameters needed
+	- HAve to have same truncation but not trimming. 
+	- when u merge sequence data, the sequences have to be the same length. have to overlap 100% because if they dont, will get completely different ASVs for one run vs the other. 
+	- Ex. in 1 run, get ASV1 (150bp), in run 2 its 148bp, these could match exactly but would be called different ASVs, so MUST be same length so you can get appropriate ASVs.
+	- Matters less if you trim (3'), ALWAYS matters if you truncate (5'). Truncate changes length
+	- For one proj where u have sequences for differnet runs, the trunk length needs to be the same, but all of your data in diff projects DOESNT need to match unless youre merging them.
+	- If youre just using forward reads need to trim and truncate the same. 
 ## Quiz 3
 ## Quiz 4
 ## Quiz 5
