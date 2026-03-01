@@ -65,7 +65,7 @@ levels:
     - Taxa Barplots
     - Phylogenetic Trees
     - Summary
-- Week 6:  Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
+- Week 6: Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
     - 1. Long Amplicons
     - Remove amplicons larger than 300bp
         - 1. Filter sequences by length
@@ -1542,7 +1542,7 @@ Green = File(s), Yellow = Qiime2 actions, Blue = Visualization
 ---------
 -------------------
 
-# Week 6: # Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
+# Week 6: Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
 Val's follow ups from last week... 
 
 ###  **1. Long Amplicons**
