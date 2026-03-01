@@ -88,10 +88,10 @@ qiime taxa filter-table \--i-table ../dada2/<YourDenoisedTable.qza> \--i-taxonom
 
 ```r
 qiime taxa filter-table \
---i-table ../dada2/<YourDenoisedTable.qza> \
+--i-table ../dada2/<cow_table_dada2_filtered300.qza> \
 --i-taxonomy taxonomy_gg2.qza \
 --p-exclude mitochondria,chloroplast,sp004296775 \
---p-include WHAT TO INCLUDE HERE \
+--p-include c__ \
 --o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
 ```
 
