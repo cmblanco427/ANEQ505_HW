@@ -16,12 +16,8 @@ Due: March 5th 2026 at midnight
 Load qiime2 in a terminal session after you go into the taxonomy folder 
 
 ```
-ainteractive --ntasks=6 --time=02:00:00
-
 # Insert the two commands to activate qiime2
 
-module purge
-module load qiime2/2024.10_amplicon
 
 ```
 
@@ -58,27 +54,9 @@ Classify taxonomy using GreenGenes2 classify the ASVs (takes about 5 mins). ~={r
 qiime feature-classifier classify-sklearn \--i-reads ../dada2/cow_seqs_dada2_filtered300.qza \--i-classifier NAME OF CLASSIFIER HERE.qza \--o-classification taxonomy_gg2_filtered.qza
 ```
 
-```r
-
-qiime feature-classifier classify-sklearn \
---i-reads ../dada2/cow_seqs_dada2_filtered300.qza \
---i-classifier 2024.09.backbone.v4.nb.qza \ #classifier
---o-classification taxonomy_gg2_filtered.qza
-
-```
-
-
 Visualize the taxonomy of your ASVs: (~={red}1point)=~
 ```
-qiime metadata tabulate \
---m-input-file NAME OF TAXONOMY FILE.qza \
---o-visualization taxonomy_gg2_filtered.qzv
-```
-
-```r
-qiime metadata tabulate \
---m-input-file taxonomy_gg2_filtered.qza \ #generated in last codeblock
---o-visualization taxonomy_gg2_filtered.qzv
+qiime metadata tabulate \--m-input-file NAME OF TAXONOMY FILE.qza \--o-visualization taxonomy_gg2_filtered.qzv
 ```
 
 - Filter mitochondria and chloroplast out to generate a filtered feature table, keep only ASVs with a class or lower taxonomy. fill in the blank (--p-exclude) to exclude these DNA. Fill in the blank to include only class level or below classifications. ~={red}(1point)=~
@@ -86,28 +64,10 @@ qiime metadata tabulate \
 qiime taxa filter-table \--i-table ../dada2/<YourDenoisedTable.qza> \--i-taxonomy taxonomy_gg2.qza \--p-exclude WHAT TO EXCLUDE HERE \--p-include WHAT TO INCLUDE HERE \--o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
 ```
 
-```r
-qiime taxa filter-table \
---i-table dada2/cow_table_dada2_filtered300.qza \
---i-taxonomy taxonomy/taxonomy_gg2_filtered.qza \
---p-exclude mitochondria,chloroplast,sp004296775 \
---p-include c__ \
---o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
-```
-
 - Visualize the taxa bar plot
 ```
 qiime taxa barplot \--i-table ../dada2/table_nomitochloro_gg2_filtered300.qza \--i-taxonomy taxonomy_gg2_filtered.qza \--m-metadata-file ../metadata/cow_metadata.txt \--o-visualization ../taxaplots/taxa_barplot_nomitochloro_gg2_filtered300.qzv
 ```
-
-```r
-qiime taxa barplot \
---i-table ../dada2/table_nomitochloro_gg2_filtered300.qza \
---i-taxonomy taxonomy_gg2_filtered.qza \
---m-metadata-file ../metadata/cow_metadata.txt \
---o-visualization ../taxaplots/taxa_barplot_nomitochloro_gg2_filtered300.qzv
-```
-
 
 ## Filtered Taxa Bar Plot Questions ~={red}(10 points)=~
 
