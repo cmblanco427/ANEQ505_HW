@@ -93,7 +93,15 @@ levels:
     - Alpha Diversity Files
         - Alpha group significance[Links to an external site.](https://docs.qiime2.org/jupyterbooks/cancer-microbiome-intervention-tutorial/030-tutorial-downstream/060-alpha-diversity.htmlalpha-group-significance "Permalink to this headline (opens in a new window)")
             - Statistical testing on alpha diversity metrics
-            - Alpha group significance (categorical comparisons)
+            - 1. Alpha group significance (categorical comparisons)
+            - 2. Faiths Pd- Phylogenetic comparisons
+            - 3. Alpha Correlation (Continuous vars)
+        - Conceptual Differences
+        - What You Are Testing Biologically
+            - Observed Features:
+            - Shannon:
+            - Faith PD:
+            - Correlation:
             - Note about VS Code and Obsidian
 ```
 ```insta-toc
@@ -1877,14 +1885,15 @@ For categorical data, we use the **alpha-group-significance visualizer**. Each 
 First we’ll look for **general patterns in alpha diversity across samples** by comparing different **categorical groupings** of samples to see if there is some relationship to richness. This uses a **Kruskal-Wallis H test** which is a rank-based nonparametric test that can be used to determine if there are **statistically significant differences between two or more groups**. 
 
 To start with, we’ll examine **‘observed features’:**
-#### Alpha group significance (categorical comparisons)
+#### 1. Alpha group significance (categorical comparisons)
 ```r
 qiime diversity alpha-group-significance \ #calls alpha group significance method, performs stat testing & generates boxplots
 --i-alpha-diversity core-metrics-results/observed_features_vector.qza \ #input alpha diversity vector that contains one richness value per sample (generated during core metrics)
---m-metadata-file metadata/metadata.txt \ #
---o-visualization core-metrics-results/observed_features_statistics.qzv
+--m-metadata-file metadata/metadata.txt \ #metadata w/ group variables. QIIME tests richness across all categorical columns in this file
+--o-visualization core-metrics-results/observed_features_statistics.qzv #output w/ boxplots of richness per group, Kruskal wallis results, p vals, pairwise comparisons
 ```
-- Tests wether alpha diversity differs between categorical metadata groups (ie. tx, diet timepoint)
+-<span style="color:rgb(238, 170, 170)"> Tests wether alpha diversity differs between categorical metadata groups (ie. tx, diet timepoint)<br>- Kruskal-wallis:<br>	- nonparamtric ANOVA. Used because Alpha diversitys rarely normally distribution and its robust to non normal data</span>
+
 ![[20260227-1908-07.0770625.mp4]]
 **Is there a significant difference in the number of observed features between any of the categorical data?** 
 	<span style="color:rgb(0, 112, 192)">- No statistically significant difference</span>
@@ -1893,19 +1902,19 @@ We'll go ahead and try using the alpha-group-significance visualizer with the *
 
 ```r
 #Shannon diversity
-qiime diversity alpha-group-significance \
---i-alpha-diversity core-metrics-results/shannon_vector.qza \
+qiime diversity alpha-group-significance \ #calls alpha group significance method, performs stat testing & generates boxplots
+--i-alpha-diversity core-metrics-results/shannon_vector.qza \ #input shannon index vals. Tests if overall diversity (richness+ eveness) difers between groups
 --m-metadata-file metadata/metadata.txt \
---o-visualization core-metrics-results/shannon_statistics.qzv  
+--o-visualization core-metrics-results/shannon_statistics.qzv  #output file w/ boxplots + kruskal wallis
 ```
 
-
+#### 2. Faiths Pd- Phylogenetic comparisons
 ```r
 #Faith's Pd  
-qiime diversity alpha-group-significance \
---i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
+qiime diversity alpha-group-significance \ #calls alpha group significance method, performs stat testing & generates boxplots
+--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \ #inputs faith pd vals
 --m-metadata-file metadata/metadata.txt \
---o-visualization core-metrics-results/faiths_pd_statistics.qzv
+--o-visualization core-metrics-results/faiths_pd_statistics.qzv #output file w/ boxplots + kruskal wallis
 ```
 
 ![[20260227-1914-25.1372778.mp4]]
@@ -1917,13 +1926,37 @@ qiime diversity alpha-group-significance \
 **Is there a difference in phylogenetic diversity (so Faith's PD) between sample type? facility?**
 
 For continuous covariates that we think could be associated with alpha diversity, we can use the alpha-correlation visualizer. In this study, a couple of variables we could look at include add_0c and days since placement.
+#### **3. Alpha Correlation (Continuous vars)
+- <span style="color:rgb(238, 170, 170)">Tests correlation w/ numeric variables</span>
 ```r
-qiime diversity alpha-correlation \--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \--m-metadata-file metadata/metadata.txt \--o-visualization core-metrics-results/faith_pd_correlation_statistics.qzv
+qiime diversity alpha-correlation \ #Tests association btwn alpha diveristy & continuous metadatvariables
+--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \ #input faith Pd values
+--m-metadata-file metadata/metadata.txt \ #metadata file w/ numeric columns
+--o-visualization core-metrics-results/faith_pd_correlation_statistics.qzv #output w/ scatterplots, correlation coefficients, P-vals
+
 #doesnt take into acount other variables that may affect results. Here looking at faiths pd. WE can look at it over any continuous variables, but if theres any individual variation that affects the results, this wont take that into account. Its only interpereting how it changes over time with one variable. 
 ```
 - each dot tells u about diversity of samples, and you can see results
+<span style="color:rgb(238, 170, 170)">For numeric variables:<br>- Spearman rank correlation (default)<br>- Pearson (if appropriate)<br>Spearman is:<br>- Non-parametric, Robust to non-normal data</span>
 
 ![[Recording 20260227121916.m4a]]
+
+### Conceptual Differences
+
+| Command                  | Tests                | Metadata Type | Statistical Test |
+| ------------------------ | -------------------- | ------------- | ---------------- |
+| alpha-group-significance | Group differences    | Categorical   | Kruskal–Wallis   |
+| alpha-correlation        | Association strength | Continuous    | Spearman         |
+
+### What You Are Testing Biologically
+#### Observed Features:
+Are some treatments richer in taxa?
+#### Shannon:
+Are some treatments more diverse and evenly distributed?
+#### Faith PD:
+Are some treatments more evolutionarily diverse?
+#### Correlation:
+Does diversity increase with a continuous variable (e.g., methane output)?
 
 Since most of our experiments are slightly more complex than just comparing across one categorical or continuous variable, there is the [QIIME2 longitudinal plugin.    Links to an external site..](https://docs.qiime2.org/2021.11/plugins/available/longitudinal/ "(opens in a new window)") We will explore longitudinal analysis of alpha diversity metrics more in-depth during the longitudinal tutorial.
 
