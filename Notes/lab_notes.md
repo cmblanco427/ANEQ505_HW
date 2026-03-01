@@ -76,9 +76,13 @@ levels:
         - 3. How to know if a taxonomic classifier is incompatible with your version of qiime2?
         - 4. Back to the decomp tutorial!
             - 1. Remove unwanted taxa from feature table
+            - 2. Generate Taxa barplot
     - Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
         - Alpha Rarefaction
             - Discussing table.qzv
+            - 1. Remove controls
+            - 2. Create Alpha rarefaction directory
+            - 3. Run Alpha Rarefaction
         - Alpha Diversity Review
         - Running the Diversity Pipeline (Core-Metrics) to Generate Alpha and Beta Diversity
     - Alpha Diversity Files
@@ -1630,8 +1634,10 @@ qiime taxa filter-table \ # calls taxa filter-table method in QIIME 2, filters A
 --i-table ../dada2/table.qza \ #input feature table (ASV counts per sample) produced from dada2 denoising (has counts but no taxonomy yet)
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \ #input taxonomy assignments coresponding to each ASV. the gg2 indicates its classified against Greengenes2 (generated in last lab). It links each ASV to its taxonomix lineage
 --p-exclude mitochondria,chloroplast,sp004296775 \ #removes any ASV w/ taxonomy containing any of these terms (ie. mitochondria, chloroplast and specific reference genome sp004...)
---p-include c__ \ #keeps taxa to at least class level (greengenes command, see below for more). removes unassigned levels and anything only classified above class level
---o-filtered-table ../dada2/table_nomitochloro.qza  
+--p-include c__ \ #keeps taxa to at least class level (greengenes command, see below for more). removes unassigned levels and anything only classified above class level (at phylum or kingdom)
+--o-filtered-table ../dada2/table_nomitochloro.qza  #new filter table output with extras removed and only classified bacterial ASVs 
+
+#This step is removing crap we dont want ie, non-bacteria, poorly classified sequences and creates a cleaned dataset
 ```
 Greengenes-style taxonomy:
 - `k__` = kingdom
@@ -1641,13 +1647,14 @@ Greengenes-style taxonomy:
 - `f__` = family
 - `g__` = genus
 
+#### **2. Generate Taxa barplot**
 ```r  
 #visualize:   
-qiime taxa barplot \
---i-table ../dada2/table_nomitochloro.qza \
---i-taxonomy ../taxonomy/taxonomy_gg2.qza \
---m-metadata-file ../metadata/metadata.txt \
---o-visualization taxa_barplot_all_samples.qzv
+qiime taxa barplot \ #calls barplot function
+--i-table ../dada2/table_nomitochloro.qza \ #input newly filtered feature table from last step
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \ #uses same taxonomy file to label taxa in plot (even though we have filtered table, still gotta provide full taxonomy file so QIIME can match retained ASVs)
+--m-metadata-file ../metadata/metadata.txt \ #sample metadata file so samples can be grouped by categories
+--o-visualization taxa_barplot_all_samples.qzv #output file
 ```
 
 To determine which versions of qiime were using
@@ -1672,31 +1679,49 @@ The command below shows one tool we can use to determine where to rarefy. The pl
 We chose 10000 for the max depth because the sample with the most features has 26204 sequences and when we look at the table.qzv we see that we start losing samples around 11000 sequences, and we want to capture all possibilities. By default, 10 rarefied tables are calculated at each sampling depth to provide an error estimate. 
 
 Before running alpha rarefaction and core metrics we want to filter out the controls from our table.
-
+#### **1. Remove controls**
 ```r
 cd ..  
-  #Need to remove control samples. probably removed when rarified but this is good practice.
+  #Need to remove control samples (blank extractions, PCR controls etc.). probably removed when rarified but this is good practice.
   #want to be in regular decomp tutorial
-qiime feature-table filter-samples \
---i-table dada2/table_nomitochloro.qza \
---m-metadata-file metadata/metadata.txt \
---p-where "NOT [sample_type] IN ('control') " \
---o-filtered-table dada2/table_nomitochloro_nocontrol.qza
+qiime feature-table filter-samples \ #call filter samples function to remove entire samples (Not ASVs) from feature table
+--i-table dada2/table_nomitochloro.qza \ #input filtered feature table that was generated to remove unwanted taxa
+--m-metadata-file metadata/metadata.txt \ #use sample metadata file
+--p-where "NOT [sample_type] IN ('control') " \ #metadata query that keeps samples where the "sample type" DOES NOT equal "control". This removes any samples called control and keeps biological samples only
+--o-filtered-table dada2/table_nomitochloro_nocontrol.qza #output new feature table with control samples removed and is a good dataset for analysis
 ```
 
 Now we run alpha rarefaction
+
+#### **2. Create Alpha rarefaction directory**
 ```r
 #Make directory for alpha rarefraction
-mkdir alpha_rarefaction  
+mkdir alpha_rarefaction  #new folder to store rarefaction results
   
-cd alpha_rarefaction  
-  
-qiime diversity alpha-rarefaction \
---i-table ../dada2/table_nomitochloro_nocontrol.qza \
---m-metadata-file ../metadata/metadata.txt \
---p-max-depth 10000 \ #Made because victoria saw lots of drop off around 10000. must be less than the feature with the highest sequencing depth (most reads).
---o-visualization alpha_rarefaction_curves.qzv
+cd alpha_rarefaction   #move to newly built directory
 ```
+
+#### **3. Run Alpha Rarefaction**
+```r  
+qiime diversity alpha-rarefaction \ #calls the alpha rarefaction function from diversity plugin to generate rarefaction curves for multiple alpha diversity metrics
+--i-table ../dada2/table_nomitochloro_nocontrol.qza \ #input feature table thats had extra crap and controls removed (from last few steps)
+--m-metadata-file ../metadata/metadata.txt \ #metadata for grouping samples in plots
+--p-max-depth 10000 \ #sets max rarefaction depth to 10,000 reads
+#Made because victoria saw lots of drop off around 10000. Max depth must be less than the feature with the highest sequencing depth (most reads) before drop off [or < smallest high quality sample you want retained].
+--o-visualization alpha_rarefaction_curves.qzv #output file
+```
+- Alpha rarefaction (qzv output) shows us the following:
+**For each sample:**
+- Observed Features (richness)
+- Shannon diversity
+- Faith’s PD (if phylogeny available)
+- Evenness
+
+**Curves show:**
+- X-axis → sequencing depth
+- Y-axis → diversity metric
+- Lines → individual samples
+
 ![[20260227-1835-41.0325271.mp4]]
 The visualization file will display two plots. The upper plot will display the alpha diversity (observed features or shannon) as a function of the sampling depth. This is used to determine **whether the richness or evenness has saturated based on the sampling depth. The rarefaction curve should “level out” as you approach the maximum sampling depth.**
 
