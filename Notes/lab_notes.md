@@ -68,9 +68,14 @@ levels:
 - Week 6:  Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
     - 1. Long Amplicons
     - Remove amplicons larger than 300bp
+        - 1. Filter sequences by length
+        - 2. Visualize filtered sequences
+        - 3. Filter the feature table & remove corresponding ASVs
+        - 4. Summarize filtered feature table
         - 2. Using taxonomic classifiers
         - 3. How to know if a taxonomic classifier is incompatible with your version of qiime2?
         - 4. Back to the decomp tutorial!
+            - 1. Remove unwanted taxa from feature table
     - Alpha Rarefaction, Core Metrics, Alpha Diversity Plots
         - Alpha Rarefaction
             - Discussing table.qzv
@@ -1537,35 +1542,38 @@ _Removing ASVs based on length:_ 
 ![[Recording 20260227111732.m4a]]
 
 - Removes amplicons larger than 300bp that are likely from 18s contamination while keeping 16s bacterial sequences. 
+#### **1. Filter sequences by length
 ```r
 #filter feature table
 qiime feature-table filter-seqs \ #calls the filter-seqs action from QIIME2 feature table plugin to filter sequences
---i-data cow_seqs_dada2.qza \
---m-metadata-file cow_seqs_dada2.qza \
-#filter out seq less than 300 bp to filter out 18s
---p-where 'length(sequence) < 300' \
---o-filtered-data cow_seqs_dada2_filtered300.qza
+--i-data cow_seqs_dada2.qza \ #input file artifact with representative sequences that were generated from dada2 denoising. Each sequence corresponds to an ASV
+--m-metadata-file cow_seqs_dada2.qza \ #uses same sequence artifact as "metadata". Works cuz WIIME2 can treat sequence properties (like length) as metadata fields
+--p-where 'length(sequence) < 300' \ #filter out seq less than 300 bp to filter out 18s. This command keeps sequences shorter than 300bp
+--o-filtered-data cow_seqs_dada2_filtered300.qza #output file with sequences less than 300bp
 ```
 
+#### **2. Visualize filtered sequences**
 ```r
-qiime feature-table tabulate-seqs \
---i-data cow_seqs_dada2_filtered300.qza \
---o-visualization cow_seqs_dada2_filtered300.qzv
+qiime feature-table tabulate-seqs \ #generates visualization of rep sequences
+--i-data cow_seqs_dada2_filtered300.qza \ #use filtered sequence file generated from the first codeblock
+--o-visualization cow_seqs_dada2_filtered300.qzv #visualization file that can be viewed to confirm sequence lengths
 ```
 
+#### **3. Filter the feature table & remove corresponding ASVs**
 ```r
-qiime feature-table filter-features \
---i-table cow_table_dada2.qza \
---m-metadata-file cow_seqs_dada2_filtered300.qza \
---o-filtered-table cow_table_dada2_filtered300.qza
+qiime feature-table filter-features \ #Filters features (ASVs) in feature table
+--i-table cow_table_dada2.qza \ #input feature table (ASV counts per sample)
+--m-metadata-file cow_seqs_dada2_filtered300.qza \ #Uses the filtered sequence file as metadata, only ASVs in this file will be kept
+--o-filtered-table cow_table_dada2_filtered300.qza # output feature table with ONLY ASVs that pass the length filter
 ```
 
+#### **4. Summarize filtered feature table
 ```r
 #visualize, double check all amplicons are gone
-qiime feature-table summarize \
---i-table cow_table_dada2_filtered300.qza \
---m-sample-metadata-file ../metadata/cow_metadata.txt \
---o-visualization cow_table_dada2_filtered300.qzv
+qiime feature-table summarize \ #Summary of feature table
+--i-table cow_table_dada2_filtered300.qza \ #input new filtered feature table from last step
+--m-sample-metadata-file ../metadata/cow_metadata.txt \ #Adds metadata, enablind per group visual summaries
+--o-visualization cow_table_dada2_filtered300.qzv #output visualization file
 ```
 
 ### **2. Using taxonomic classifiers
@@ -1613,15 +1621,27 @@ module purge
 module load qiime2/2024.10_amplicon  
   
 cd /scratch/alpine/$USER/decomp_tutorial/taxaplots  
-  
+```
+
+#### **1. Remove unwanted taxa from feature table
+```r  
 #takes the table and removes all the mitochondria, chloroplasts, and extra one. also takes out everything that doesnt have a class or lower. Exports a filter table
-qiime taxa filter-table \ # calls taxa filter-table method in QIIME 2
---i-table ../dada2/table.qza \
---i-taxonomy ../taxonomy/taxonomy_gg2.qza \
---p-exclude mitochondria,chloroplast,sp004296775 \
---p-include c__ \
+qiime taxa filter-table \ # calls taxa filter-table method in QIIME 2, filters ASVs in feature table based on taxonomic assignments
+--i-table ../dada2/table.qza \ #input feature table (ASV counts per sample) produced from dada2 denoising (has counts but no taxonomy yet)
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \ #input taxonomy assignments coresponding to each ASV. the gg2 indicates its classified against Greengenes2 (generated in last lab). It links each ASV to its taxonomix lineage
+--p-exclude mitochondria,chloroplast,sp004296775 \ #removes any ASV w/ taxonomy containing any of these terms (ie. mitochondria, chloroplast and specific reference genome sp004...)
+--p-include c__ \ #keeps taxa to at least class level (greengenes command, see below for more). removes unassigned levels and anything only classified above class level
 --o-filtered-table ../dada2/table_nomitochloro.qza  
-  
+```
+Greengenes-style taxonomy:
+- `k__` = kingdom
+- `p__` = phylum
+- `c__` = class
+- `o__` = order
+- `f__` = family
+- `g__` = genus
+
+```r  
 #visualize:   
 qiime taxa barplot \
 --i-table ../dada2/table_nomitochloro.qza \
