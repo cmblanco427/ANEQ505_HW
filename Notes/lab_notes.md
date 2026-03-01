@@ -85,6 +85,11 @@ levels:
             - 3. Run Alpha Rarefaction
         - Alpha Diversity Review
         - Running the Diversity Pipeline (Core-Metrics) to Generate Alpha and Beta Diversity
+        - Run Core-Metrics
+            - Calculate standard alpha and beta diversity using phylogenetic tree
+        - Core-metrics-phylogenetic Pipeline
+            - Automatically computes:
+            - Outputs generated
     - Alpha Diversity Files
         - Alpha group significance[Links to an external site.](https://docs.qiime2.org/jupyterbooks/cancer-microbiome-intervention-tutorial/030-tutorial-downstream/060-alpha-diversity.htmlalpha-group-significance "Permalink to this headline (opens in a new window)")
             - Note about VS Code and Obsidian
@@ -1756,7 +1761,7 @@ Today we will run the **core-metrics-phylogenetic pipeline** because we are go
 
 Note that the output here is a directory. This is because it generates so many files that it would be ridiculous to ask you to name all of them. So, QIIME2 has standard diversity output names, and you just choose the name of the directory where you want them to go.
 
-**Run Core-Metrics**
+### **Run Core-Metrics**
 
 ![[Recording 20260227120423.m4a]]
 
@@ -1768,20 +1773,54 @@ Note that the output here is a directory. This is because it generates so many f
 - This should take about 5 mins
 	- Actually took ~40
 
+#### **Calculate standard alpha and beta diversity using phylogenetic tree**
 ```r
 # cd back into the main decomp_tutorial directory  
 cd ../  
   
-qiime diversity core-metrics-phylogenetic \
---i-table dada2/table_nomitochloro_nocontrol.qza \
---i-phylogeny tree/tree_gg2.qza \
---m-metadata-file metadata/metadata.txt \
---p-sampling-depth 1500 \
---output-dir core-metrics-results
+qiime diversity core-metrics-phylogenetic \ #calls core-metrics-phylogenetic pipeline. Wrapper command that runs multiple diversity analyses at once
+--i-table dada2/table_nomitochloro_nocontrol.qza \ #input cleaned feature table
+--i-phylogeny tree/tree_gg2.qza \ #input phylogenetic tree artifact req for phylogenetic metrics (ie. Faiths PD, UniFrac Distances)
+--m-metadata-file metadata/metadata.txt \ #Sample metadata file allowing stats comparisons across groups
+--p-sampling-depth 1500 \ #rarefaction depth. Each sample randomly subsampled to 1500 reads, anything with less than 1500 will be excluded
+--output-dir core-metrics-results #output directory for all artifacts and visualizations generated
 ```
+### **Core-metrics-phylogenetic Pipeline
+#### Automatically computes:
+Alpha diversity:
+- Observed Features
+- Shannon diversity
+- Evenness
+- Faith’s Phylogenetic Diversity
+ **Beta diversity:**
+- Bray–Curtis
+ - Jaccard
+- Weighted UniFrac
+- Unweighted UniFrac
+**Generates:**
+- Distance matrices
+- PCoA plots
+- Emperor visualizations
+
+#### **Outputs generated
+ Alpha diversity artifacts
+- `faith_pd_vector.qza`
+- `shannon_vector.qza`
+- `observed_features_vector.qza`
+- `evenness_vector.qza`
+**Beta diversity distance matrices:**
+- `bray_curtis_distance_matrix.qza`
+- `jaccard_distance_matrix.qza`
+- `weighted_unifrac_distance_matrix.qza
+- `unweighted_unifrac_distance_matrix.qza`
+**PCoA results:**
+- `*_pcoa_results.qza`
+**Emperor plots (interactive ordinations):**
+- `*_emperor.qzv`
 
 After this completes (~2mins), explore your output to see what files QIIME2 generated.
 ```r
+#Exploring output directory
 cd core-metrics-results  
   
 ls core-metrics-results  
