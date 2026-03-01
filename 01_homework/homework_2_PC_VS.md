@@ -16,6 +16,8 @@ Due: March 5th 2026 at midnight
 Load qiime2 in a terminal session after you go into the taxonomy folder 
 
 ```
+ainteractive --ntasks=6 --time=02:00:00
+
 # Insert the two commands to activate qiime2
 
 module purge
@@ -56,9 +58,27 @@ Classify taxonomy using GreenGenes2 classify the ASVs (takes about 5 mins). ~={r
 qiime feature-classifier classify-sklearn \--i-reads ../dada2/cow_seqs_dada2_filtered300.qza \--i-classifier NAME OF CLASSIFIER HERE.qza \--o-classification taxonomy_gg2_filtered.qza
 ```
 
+```r
+
+qiime feature-classifier classify-sklearn \
+--i-reads ../dada2/cow_seqs_dada2_filtered300.qza \
+--i-classifier 2024.09.backbone.v4.nb.qza \
+--o-classification taxonomy_gg2_filtered.qza
+
+```
+
+
 Visualize the taxonomy of your ASVs: (~={red}1point)=~
 ```
-qiime metadata tabulate \--m-input-file NAME OF TAXONOMY FILE.qza \--o-visualization taxonomy_gg2_filtered.qzv
+qiime metadata tabulate \
+--m-input-file NAME OF TAXONOMY FILE.qza \
+--o-visualization taxonomy_gg2_filtered.qzv
+```
+
+```r
+qiime metadata tabulate \
+--m-input-file NAME OF TAXONOMY FILE.qza \
+--o-visualization taxonomy_gg2_filtered.qzv
 ```
 
 - Filter mitochondria and chloroplast out to generate a filtered feature table, keep only ASVs with a class or lower taxonomy. fill in the blank (--p-exclude) to exclude these DNA. Fill in the blank to include only class level or below classifications. ~={red}(1point)=~
