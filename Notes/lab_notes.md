@@ -92,6 +92,8 @@ levels:
             - Outputs generated
     - Alpha Diversity Files
         - Alpha group significance[Links to an external site.](https://docs.qiime2.org/jupyterbooks/cancer-microbiome-intervention-tutorial/030-tutorial-downstream/060-alpha-diversity.htmlalpha-group-significance "Permalink to this headline (opens in a new window)")
+            - Statistical testing on alpha diversity metrics
+            - Alpha group significance (categorical comparisons)
             - Note about VS Code and Obsidian
 ```
 ```insta-toc
@@ -1842,20 +1844,21 @@ As you can see, this command generates many outputs for the most common alpha an
 ```r
 core-metrics-results/observed_features_vector.qza
 ```
- 
+- <span style="color:rgb(217, 129, 129)">Richness: number of unique ASVs in each sample after rarefaction (ie. how many diff taxa are present?) Sensitive to sequencing depth but DOES NOT consider sequencing depth. Higher= More taxa detected.</span>
 
 **2. Pielou's evenness:** an alpha diversity metric that measures relative **evenness** (a comparison of organism abundance) of species richness. If abundance is higher or lower
 
 ```r
 core-metrics-results/evenness_vector.qza
 ```
-
+<span style="color:rgb(238, 170, 170)">- Evenness: Are taxa equally abundant?<br>- Scale:  <br>		0 → one taxon dominates  <br>		1 → perfectly even distribution</span>
 
 **3. Faith's Phylogenetic Diversity (pd):** this is an alpha diversity metric that uses **phylogenetic information plus richness** (presence/absence of an organism) to determine alpha diversity. Incorporates phylogeny into it. looks at richness + presence/absence or orgs and looks at phylogeny
 
 ```r
 core-metrics-results/faith_pd_vector.qza
 ```
+- <span style="color:rgb(238, 170, 170)">Faiths: Sums total branch length of phylogenetic tree represented in a sample. Essentially, how evolutionary diverse is this sample?Very informative for ecological interpretation.<br>Two samples with same richness can differ:<br>- If taxa are closely related → low PD<br>- If taxa span distant clades → high PD</span>
 
 
 **4. Shannon's Diversity:** this is an alpha diversity metric that uses **richness** (presence/absence of an organism) _and_ **evenness** (organism relative abundance), but does **not** use phylogeny. 
@@ -1863,23 +1866,25 @@ core-metrics-results/faith_pd_vector.qza
 ```r
 core-metrics-results/shannon_vector.qza
 ```
-
+-<span style="color:rgb(238, 170, 170)"> Shannons diversity index: formula considers richness, evenness (how evenly taxa are distributed. Essentially, how diverse and balanced is the community? <br>- Lower shannon= one taxon dominates. <br>- Higher shannon= taxa are evenly distributed</span>
 ![[Recording 20260227120618.m4a]]
 
 ### **Alpha group significance**[Links to an external site.](https://docs.qiime2.org/jupyterbooks/cancer-microbiome-intervention-tutorial/030-tutorial-downstream/060-alpha-diversity.html#alpha-group-significance "Permalink to this headline (opens in a new window)")
+#### Statistical testing on alpha diversity metrics
 
 For categorical data, we use the **alpha-group-significance visualizer**. Each sample gets one alpha diversity metric because, unlike beta diversity, the math is independent of other samples- more on that later! For now, just remember that **alpha diversity is within-sample diversity**. So, we don't have to input the group of interest here, the only decision we need to make is which diversity metric we're interested in.
 
 First we’ll look for **general patterns in alpha diversity across samples** by comparing different **categorical groupings** of samples to see if there is some relationship to richness. This uses a **Kruskal-Wallis H test** which is a rank-based nonparametric test that can be used to determine if there are **statistically significant differences between two or more groups**. 
 
 To start with, we’ll examine **‘observed features’:**
-
+#### Alpha group significance (categorical comparisons)
 ```r
-qiime diversity alpha-group-significance \
---i-alpha-diversity core-metrics-results/observed_features_vector.qza \
---m-metadata-file metadata/metadata.txt \
+qiime diversity alpha-group-significance \ #calls alpha group significance method, performs stat testing & generates boxplots
+--i-alpha-diversity core-metrics-results/observed_features_vector.qza \ #input alpha diversity vector that contains one richness value per sample (generated during core metrics)
+--m-metadata-file metadata/metadata.txt \ #
 --o-visualization core-metrics-results/observed_features_statistics.qzv
 ```
+- Tests wether alpha diversity differs between categorical metadata groups (ie. tx, diet timepoint)
 ![[20260227-1908-07.0770625.mp4]]
 **Is there a significant difference in the number of observed features between any of the categorical data?** 
 	<span style="color:rgb(0, 112, 192)">- No statistically significant difference</span>
@@ -1916,7 +1921,7 @@ For continuous covariates that we think could be associated with alpha diversity
 qiime diversity alpha-correlation \--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \--m-metadata-file metadata/metadata.txt \--o-visualization core-metrics-results/faith_pd_correlation_statistics.qzv
 #doesnt take into acount other variables that may affect results. Here looking at faiths pd. WE can look at it over any continuous variables, but if theres any individual variation that affects the results, this wont take that into account. Its only interpereting how it changes over time with one variable. 
 ```
-- each dot tells u about diveristy of samples, and you can see results
+- each dot tells u about diversity of samples, and you can see results
 
 ![[Recording 20260227121916.m4a]]
 
