@@ -62,7 +62,7 @@ qiime feature-classifier classify-sklearn \--i-reads ../dada2/cow_seqs_dada2_fil
 
 qiime feature-classifier classify-sklearn \
 --i-reads ../dada2/cow_seqs_dada2_filtered300.qza \
---i-classifier 2024.09.backbone.v4.nb.qza \
+--i-classifier 2024.09.backbone.v4.nb.qza \ #classifier
 --o-classification taxonomy_gg2_filtered.qza
 
 ```
@@ -77,7 +77,7 @@ qiime metadata tabulate \
 
 ```r
 qiime metadata tabulate \
---m-input-file NAME OF TAXONOMY FILE.qza \
+--m-input-file taxonomy_gg2_filtered.qza \ #generated in last codeblock
 --o-visualization taxonomy_gg2_filtered.qzv
 ```
 
@@ -86,9 +86,23 @@ qiime metadata tabulate \
 qiime taxa filter-table \--i-table ../dada2/<YourDenoisedTable.qza> \--i-taxonomy taxonomy_gg2.qza \--p-exclude WHAT TO EXCLUDE HERE \--p-include WHAT TO INCLUDE HERE \--o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
 ```
 
+```r
+qiime taxa filter-table \
+--i-table ../dada2/<YourDenoisedTable.qza> \
+--i-taxonomy taxonomy_gg2.qza \
+--p-exclude mitochondria,chloroplast,sp004296775 \
+--p-include WHAT TO INCLUDE HERE \
+--o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
+```
+
+
 - Visualize the taxa bar plot
 ```
 qiime taxa barplot \--i-table ../dada2/table_nomitochloro_gg2_filtered300.qza \--i-taxonomy taxonomy_gg2_filtered.qza \--m-metadata-file ../metadata/cow_metadata.txt \--o-visualization ../taxaplots/taxa_barplot_nomitochloro_gg2_filtered300.qzv
+```
+
+```r
+
 ```
 
 ## Filtered Taxa Bar Plot Questions ~={red}(10 points)=~

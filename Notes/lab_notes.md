@@ -1615,7 +1615,7 @@ module load qiime2/2024.10_amplicon
 cd /scratch/alpine/$USER/decomp_tutorial/taxaplots  
   
 #takes the table and removes all the mitochondria, chloroplasts, and extra one. also takes out everything that doesnt have a class or lower. Exports a filter table
-qiime taxa filter-table \
+qiime taxa filter-table \ # calls taxa filter-table method in QIIME 2
 --i-table ../dada2/table.qza \
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \
 --p-exclude mitochondria,chloroplast,sp004296775 \
