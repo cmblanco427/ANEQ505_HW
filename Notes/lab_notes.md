@@ -1536,10 +1536,10 @@ _Removing ASVs based on length:_ 
 
 ![[Recording 20260227111732.m4a]]
 
-
+- Removes amplicons larger than 300bp that are likely from 18s contamination while keeping 16s bacterial sequences. 
 ```r
 #filter feature table
-qiime feature-table filter-seqs \
+qiime feature-table filter-seqs \ #calls the filter-seqs action from QIIME2 feature table plugin to filter sequences
 --i-data cow_seqs_dada2.qza \
 --m-metadata-file cow_seqs_dada2.qza \
 #filter out seq less than 300 bp to filter out 18s
