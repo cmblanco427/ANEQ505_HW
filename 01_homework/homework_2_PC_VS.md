@@ -108,6 +108,13 @@ qiime taxa barplot \
 --o-visualization ../taxaplots/taxa_barplot_nomitochloro_gg2_filtered300.qzv
 ```
 
+```r
+qiime taxa barplot \
+--i-table dada2/table_nomitochloro_gg2_filtered300.qza \
+--i-taxonomy taxonomy/taxonomy_gg2_filtered.qza \
+--m-metadata-file metadata/cow_metadata.txt \
+--o-visualization taxaplots/taxa_barplot_nomitochloro_gg2_filtered300.qzv
+```
 
 ## Filtered Taxa Bar Plot Questions ~={red}(10 points)=~
 
@@ -138,7 +145,9 @@ Create a job script to run the phylogenetic tree building. Remember you must sta
 
 Go to OnDemand and create a new text file for your job script
 ```
-nano <YourJobName.sh>
+cd slurm
+
+nano cow_tree.sh
 ```
 
 ```
@@ -149,27 +158,35 @@ nano <YourJobName.sh>
 #SBATCH --partition=amilan
 #SBATCH --time=04:00:00
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=YOUR_EMAIL_HERE@colostate.edu
+#SBATCH --mail-user=c832916267@colostate.edu
 #SBATCH --output=slurm-%j.out
 #SBATCH --qos=normal
 
 #Activate qiime
 #Insert the two commands you need to load qiime2
-
+module purge
+module load qiime2/2024.10_amplicon
 
 #Get reference
 wget --no-check-certificate -P ../tree https://ftp.microbio.me/greengenes_release/2022.10/2022.10.backbone.sepp-reference.qza
 
 
 #Command
-qiime fragment-insertion sepp \--i-representative-sequences ../dada2/Your_FILTERED_RepresentativeSequencesFile.qza \--i-reference-database ../tree/2022.10.backbone.sepp-reference.qza \--o-tree ../tree/tree_gg2.qza \--o-placements ../tree/tree_placements_gg2.qza
+qiime fragment-insertion sepp \
+--i-representative-sequences ../dada2/cow_seqs_dada2_filtered300.qza \
+--i-reference-database ../tree/2022.10.backbone.sepp-reference.qza \
+--o-tree ../tree/tree_gg2.qza \
+--o-placements ../tree/tree_placements_gg2.qza
 ```
+#####GO OVER THIS SECTION AGAIN#####
 
+
+table_nomitochloro_gg2_filtered300.qza
 - submit the job from the terminal
 ```
 #submit the job
-dos2unix YourJobName.sh
-sbatch YourJobName.sh
+dos2unix cow_tree.sh
+sbatch cow_tree.sh
 ```
 We will use this file in the next homework!
 
