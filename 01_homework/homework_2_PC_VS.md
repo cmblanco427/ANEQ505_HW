@@ -107,12 +107,14 @@ qiime taxa barplot \
 **Question 5: do all samples contain archaea as well?**
 
 **Question 6: why do we filter out sp004296775?**
+- This is a chloroplast genome that is a suppressed RefSeq record, so isnt filtered out by using the term "chloroplast". Since its not a bacteria, we do not want it retained for analysis.
 
 **Question 7: what is the difference between these two flags? 
 --p-exclude mitochondria,chloroplast,sp004296775 \
 --p-include c__ \
 
-- The p-exclude command is excluding unwantred
+- The p-exclude command is excluding unwanted ASVs with taxonomic identification of the listed terms. For example, this command is excluding mitochondria, chloroplast and the specific reference genome of sp004296775 (chloroplast)
+- The p-include is a greengenes command that retains all taxa identified to the class level and removes all unassigned taxa and those only identified to phylum or kingdom. 
 
 **Question 8: do the positive controls look the same as each other? Yes or No?
 
