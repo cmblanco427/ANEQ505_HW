@@ -100,9 +100,9 @@ qiime taxa barplot \
 **_Question 2: What are the top 2 most abundant bacterial classes in the fecal samples?**
 - The two most abundant bacterial classes in the fecal samples are clostridia and bacterioidia
 
-**_Question 3: What highly abundant ASV is shared between both the udder and skin samples?**
+<mark style="background: #FFF3A3A6;">**_Question 3: What highly abundant ASV is shared between both the udder and skin samples?**</mark>
 
-**_Question 4: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?**
+<mark style="background: #FFF3A3A6;">**_Question 4: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?**</mark>
 
 **Question 5: do all samples contain archaea as well?**
 It appears that all samples contain archea, although at low levels
@@ -117,14 +117,14 @@ It appears that all samples contain archea, although at low levels
 - The p-exclude command is excluding unwanted ASVs with taxonomic identification of the listed terms. For example, this command is excluding mitochondria, chloroplast and the specific reference genome of sp004296775 (chloroplast)
 - The p-include is a greengenes command that retains all taxa identified to the class level and removes all unassigned taxa and those only identified to phylum or kingdom. 
 
-**Question 8: do the positive controls look the same as each other? Yes or No?
+<mark style="background: #FFF3A3A6;">**Question 8: do the positive controls look the same as each other? Yes or No?
+</mark>
+<mark style="background: #FFF3A3A6;">**Question 9: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? </mark>
 
-**Question 9: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? 
-
-**Question 10: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?
+<mark style="background: #FFF3A3A6;">**Question 10: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?</mark>
 
 ## Phylogenetic tree ~={red}(1 point)=~
-Create a job script to run the phylogenetic tree building. Remember you must start a new terminal session, navigate to your slurm directory, and then submit the job. You do NOT need to start any other interactive sessions.This job will take about an hour. 
+Create a job script to run the phylogenetic tree building. Remember you must start a new terminal session, navigate to your slurm directory, and then submit the job. You do NOT need to start any other interactive sessions. This job will take about an hour. 
 
 Go to OnDemand and create a new text file for your job script
 ```
