@@ -55,39 +55,23 @@ wget --no-check-certificate https://ftp.microbio.me/greengenes_release/2024.09/2
 
 Classify taxonomy using GreenGenes2 classify the ASVs (takes about 5 mins). ~={red}(1point)=~
 ```
-qiime feature-classifier classify-sklearn \--i-reads ../dada2/cow_seqs_dada2_filtered300.qza \--i-classifier NAME OF CLASSIFIER HERE.qza \--o-classification taxonomy_gg2_filtered.qza
-```
-
-```r
-
 qiime feature-classifier classify-sklearn \
 --i-reads ../dada2/cow_seqs_dada2_filtered300.qza \
---i-classifier 2024.09.backbone.v4.nb.qza \ #classifier
+--i-classifier 2024.09.backbone.v4.nb.qza \ 
 --o-classification taxonomy_gg2_filtered.qza
-
 ```
 
 
 Visualize the taxonomy of your ASVs: (~={red}1point)=~
 ```
 qiime metadata tabulate \
---m-input-file NAME OF TAXONOMY FILE.qza \
+--m-input-file taxonomy_gg2_filtered.qza 
 --o-visualization taxonomy_gg2_filtered.qzv
 ```
 
-```r
-qiime metadata tabulate \
---m-input-file taxonomy_gg2_filtered.qza \ #generated in last codeblock
---o-visualization taxonomy_gg2_filtered.qzv
+Filter mitochondria and chloroplast out to generate a filtered feature table, keep only ASVs with a class or lower taxonomy. fill in the blank (--p-exclude) to exclude these DNA. Fill in the blank to include only class level or below classifications. ~={red}(1point)=~
 ```
-
-- Filter mitochondria and chloroplast out to generate a filtered feature table, keep only ASVs with a class or lower taxonomy. fill in the blank (--p-exclude) to exclude these DNA. Fill in the blank to include only class level or below classifications. ~={red}(1point)=~
-```
-qiime taxa filter-table \--i-table ../dada2/<YourDenoisedTable.qza> \--i-taxonomy taxonomy_gg2.qza \--p-exclude WHAT TO EXCLUDE HERE \--p-include WHAT TO INCLUDE HERE \--o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
-```
-
-```r
-qiime taxa filter-table \
+iime taxa filter-table \
 --i-table dada2/cow_table_dada2_filtered300.qza \
 --i-taxonomy taxonomy/taxonomy_gg2_filtered.qza \
 --p-exclude mitochondria,chloroplast,sp004296775 \
@@ -95,20 +79,9 @@ qiime taxa filter-table \
 --o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
 ```
 
+
 - Visualize the taxa bar plot
 ```
-qiime taxa barplot \--i-table ../dada2/table_nomitochloro_gg2_filtered300.qza \--i-taxonomy taxonomy_gg2_filtered.qza \--m-metadata-file ../metadata/cow_metadata.txt \--o-visualization ../taxaplots/taxa_barplot_nomitochloro_gg2_filtered300.qzv
-```
-
-```r
-qiime taxa barplot \
---i-table ../dada2/table_nomitochloro_gg2_filtered300.qza \
---i-taxonomy taxonomy_gg2_filtered.qza \
---m-metadata-file ../metadata/cow_metadata.txt \
---o-visualization ../taxaplots/taxa_barplot_nomitochloro_gg2_filtered300.qzv
-```
-
-```r
 qiime taxa barplot \
 --i-table dada2/table_nomitochloro_gg2_filtered300.qza \
 --i-taxonomy taxonomy/taxonomy_gg2_filtered.qza \
@@ -119,6 +92,9 @@ qiime taxa barplot \
 ## Filtered Taxa Bar Plot Questions ~={red}(10 points)=~
 
 **Question 1**: Attach a picture of your taxa bar plot, organized by cow sampling location (body_site) at the level 7 taxonomic level. What general trends do you notice? 
+
+- There appear to be different bacterial communities represented based on the anatomical location sampled (ie. udder, skin, oral, nasal, fecal)
+![[Pasted image 20260302095300.png|637]]
 
 **_Question 2**: What are the top 2 most abundant bacterial **classes** in the fecal samples? 
 
