@@ -91,30 +91,34 @@ qiime taxa barplot \
 
 ## Filtered Taxa Bar Plot Questions ~={red}(10 points)=~
 
-**Question 1**: Attach a picture of your taxa bar plot, organized by cow sampling location (body_site) at the level 7 taxonomic level. What general trends do you notice? 
+**Question 1: Attach a picture of your taxa bar plot, organized by cow sampling location (body_site) at the level 7 taxonomic level. What general trends do you notice? 
 
-- There appear to be different bacterial communities represented based on the anatomical location sampled (ie. udder, skin, oral, nasal, fecal)
+- There appear to be different bacterial communities represented based on the anatomical location sampled (ie. udder, skin, oral, nasal, fecal). For example, there is more Moraxellaaceae represented in the nasal and oral samples. There also appears to be significantly more species diversity in the udder, skin, and feces compared to oral and nasal samples. 
+
 ![[Pasted image 20260302095300.png|637]]
 
-**_Question 2**: What are the top 2 most abundant bacterial **classes** in the fecal samples? 
+**_Question 2: What are the top 2 most abundant bacterial classes in the fecal samples?**
+- The two most abundant bacterial classes in the fecal samples are clostridia and bacterioidia
 
-**_Question 3**: What highly abundant ASV is shared between both the udder and skin samples?
+**_Question 3: What highly abundant ASV is shared between both the udder and skin samples?**
 
-**_Question 4**: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?
+**_Question 4: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?**
 
-**Question 5**: do all samples contain archaea as well?
+**Question 5: do all samples contain archaea as well?**
 
-**Question 6**: why do we filter out sp004296775?
+**Question 6: why do we filter out sp004296775?**
 
-**Question 7**: what is the difference between these two flags? 
+**Question 7: what is the difference between these two flags? 
 --p-exclude mitochondria,chloroplast,sp004296775 \
 --p-include c__ \
 
-**Question 8**: do the positive controls look the same as each other? Yes or No?
+- The p-exclude command is excluding unwantred
 
-**Question 9**: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? 
+**Question 8: do the positive controls look the same as each other? Yes or No?
 
-**Question 10**: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?
+**Question 9: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? 
+
+**Question 10: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?
 
 ## Phylogenetic tree ~={red}(1 point)=~
 Create a job script to run the phylogenetic tree building. Remember you must start a new terminal session, navigate to your slurm directory, and then submit the job. You do NOT need to start any other interactive sessions.This job will take about an hour. 
