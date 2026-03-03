@@ -104,6 +104,7 @@ qiime taxa barplot \
 Clostridia
 
 <mark style="background: #FFF3A3A6;">**_Question 4: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?**</mark>
+The Skin
 
 **Question 5: do all samples contain archaea as well?**
 It appears that all samples contain archea, although at low levels
@@ -120,9 +121,14 @@ It appears that all samples contain archea, although at low levels
 
 <mark style="background: #FFF3A3A6;">**Question 8: do the positive controls look the same as each other? Yes or No?
 </mark>
+They're not identical, but they're very similar. 
+
+
 <mark style="background: #FFF3A3A6;">**Question 9: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? </mark>
+Two of the negative/extraction controls look similar to the positive controls, however the rest look very different, so no.
 
 <mark style="background: #FFF3A3A6;">**Question 10: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?</mark>
+No
 
 ## Phylogenetic tree ~={red}(1 point)=~
 Create a job script to run the phylogenetic tree building. Remember you must start a new terminal session, navigate to your slurm directory, and then submit the job. You do NOT need to start any other interactive sessions. This job will take about an hour. 
