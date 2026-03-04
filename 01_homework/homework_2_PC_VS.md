@@ -100,10 +100,10 @@ qiime taxa barplot \
 **_Question 2: What are the top 2 most abundant bacterial classes in the fecal samples?**
 - The two most abundant bacterial classes in the fecal samples are clostridia and bacterioidia
 
-<mark style="background: #FFF3A3A6;">**_Question 3: What highly abundant ASV is shared between both the udder and skin samples?**</mark>
+**Question 3: What highly abundant ASV is shared between both the udder and skin samples?**
 Clostridia
 
-<mark style="background: #FFF3A3A6;">**_Question 4: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?**</mark>
+**_Question 4: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?_**
 The Skin
 
 **Question 5: do all samples contain archaea as well?**
@@ -119,15 +119,15 @@ It appears that all samples contain archea, although at low levels
 - The p-exclude command is excluding unwanted ASVs with taxonomic identification of the listed terms. For example, this command is excluding mitochondria, chloroplast and the specific reference genome of sp004296775 (chloroplast)
 - The p-include is a greengenes command that retains all taxa identified to the class level and removes all unassigned taxa and those only identified to phylum or kingdom. 
 
-<mark style="background: #FFF3A3A6;">**Question 8: do the positive controls look the same as each other? Yes or No?
-</mark>
+**Question 8: do the positive controls look the same as each other? Yes or No?
+
 They're not identical, but they're very similar. 
 
 
-<mark style="background: #FFF3A3A6;">**Question 9: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? </mark>
+**Question 9: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? 
 Two of the negative/extraction controls look similar to the positive controls, however the rest look very different, so no.
 
-<mark style="background: #FFF3A3A6;">**Question 10: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?</mark>
+**Question 10: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?
 No
 
 ## Phylogenetic tree ~={red}(1 point)=~
