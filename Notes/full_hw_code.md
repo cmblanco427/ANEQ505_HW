@@ -36,6 +36,7 @@ levels:
     - Classify taxonomy using GreenGenes2
     - Filtered Taxa Bar Plot Questions red(10 points)
     - Phylogenetic tree red(1 point)
+        - How we troubleshoot slurm parameters
         - Once this job finishes, copy and paste what the slurm email says here red(1 point):
 ```
 # Homework_1
@@ -304,6 +305,8 @@ First get the Greengenes2 database:
 cd /scratch/alpine/$USER/cow/taxonomy
 ```
 
+![[Recording 20260306113214.m4a]]
+
 ```r
 wget --no-check-certificate https://ftp.microbio.me/greengenes_release/2024.09/2024.09.backbone.v4.nb.qza
 #download classifier comamnd
@@ -315,28 +318,38 @@ qiime feature-classifier classify-sklearn \
 --i-reads ../dada2/cow_seqs_dada2_filtered300.qza \
 --i-classifier 2024.09.backbone.v4.nb.qza \ 
 --o-classification taxonomy_gg2_filtered.qza
+#output IDs
 ```
 
+
+![[Recording 20260306113250.m4a]]
 
 Visualize the taxonomy of your ASVs: (~={red}1point)=~
-```
+```r
 qiime metadata tabulate \
---m-input-file taxonomy_gg2_filtered.qza 
+--m-input-file taxonomy_gg2_filtered.qza #name of newly generated taxonomy file
 --o-visualization taxonomy_gg2_filtered.qzv
+#often name input file and output files the same
 ```
 
 Filter mitochondria and chloroplast out to generate a filtered feature table, keep only ASVs with a class or lower taxonomy. fill in the blank (--p-exclude) to exclude these DNA. Fill in the blank to include only class level or below classifications. ~={red}(1point)=~
-```
-iime taxa filter-table \
---i-table dada2/cow_table_dada2_filtered300.qza \
+
+![[Recording 20260306113421.m4a]]
+
+```r
+iime taxa filter-table \ 
+--i-table dada2/cow_table_dada2_filtered300.qza \ #correct denoised table
 --i-taxonomy taxonomy/taxonomy_gg2_filtered.qza \
---p-exclude mitochondria,chloroplast,sp004296775 \
---p-include c__ \
---o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
+--p-exclude mitochondria,chloroplast,sp004296775 \ #remove crap u dont want
+--p-include c__ \ #only include any taxonomy lower than the class level
+--o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza #new table output
 ```
 
 
 - Visualize the taxa bar plot
+
+![[Recording 20260306113438.m4a]]
+
 ```
 qiime taxa barplot \
 --i-table dada2/table_nomitochloro_gg2_filtered300.qza \
@@ -350,38 +363,52 @@ qiime taxa barplot \
 **Question 1: Attach a picture of your taxa bar plot, organized by cow sampling location (body_site) at the level 7 taxonomic level. What general trends do you notice? 
 
 - There appear to be different bacterial communities represented based on the anatomical location sampled (ie. udder, skin, oral, nasal, fecal). For example, there is more Moraxellaaceae represented in the nasal and oral samples. There also appears to be significantly more species diversity in the udder, skin, and feces compared to oral and nasal samples. 
+- <span style="color:rgb(238, 170, 170)">uploaded taxa plot and go down to lvl 7</span>. <span style="color:rgb(238, 170, 170)">Then sort by body site, hover over diff colored stacked bars. So general trends, sites are different. fecal samples super diverse. as u scroll from L to right, oral samples are more similiar to nasal samples and as we keep scrolling over, skin and udder samples are very diverse. SO lots diversity between diff sites. </span>
+![[Recording 20260306113644.m4a]]
+
 
 ![[Pasted image 20260302095300.png|637]]
 
 **_Question 2: What are the top 2 most abundant bacterial classes in the fecal samples?**
 - The two most abundant bacterial classes in the fecal samples are clostridia and bacterioidia
+<span style="color:rgb(238, 170, 170)">- When u go to class level all grouped and collapsed on class lvel and see that clostridia and bacteriodia are main classes specifically within fecal samples</span>
+![[Recording 20260306113753.m4a]]
 
 **Question 3: What highly abundant ASV is shared between both the udder and skin samples?**
 Clostridia
-
+<span style="color:rgb(238, 170, 170)">- The green one is the main one to focus on. Should have been Faecousia</span>
+![[Recording 20260306113838.m4a]]
 **_Question 4: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?_**
 The Skin
+<span style="color:rgb(238, 170, 170)">SHOULD HAVE BEEN FECAL</span>
 
 **Question 5: do all samples contain archaea as well?**
 It appears that all samples contain archea, although at low levels
+<span style="color:rgb(238, 170, 170)">NO</span>
+
+![[Recording 20260306113950.m4a]]
 
 **Question 6: why do we filter out sp004296775?**
 - This is a chloroplast genome that is a suppressed RefSeq record, so isnt filtered out by using the term "chloroplast". Since its not a bacteria, we do not want it retained for analysis.
+- too fast?????
 
 **Question 7: what is the difference between these two flags? 
 --p-exclude mitochondria,chloroplast,sp004296775 \
 --p-include c__ \
 
+![[Recording 20260306114013.m4a]]
+
 - The p-exclude command is excluding unwanted ASVs with taxonomic identification of the listed terms. For example, this command is excluding mitochondria, chloroplast and the specific reference genome of sp004296775 (chloroplast)
 - The p-include is a greengenes command that retains all taxa identified to the class level and removes all unassigned taxa and those only identified to phylum or kingdom. 
 
-**Question 8: do the positive controls look the same as each other? Yes or No?
-
+**Question 8: do the positive controls look the same as each other? Yes or No?**
 They're not identical, but they're very similar. 
-
 
 **Question 9: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? 
 Two of the negative/extraction controls look similar to the positive controls, however the rest look very different, so no.
+
+![[Recording 20260306114107.m4a]]
+
 
 **Question 10: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?
 No
@@ -423,8 +450,20 @@ qiime fragment-insertion sepp \
 --i-reference-database ../tree/2022.10.backbone.sepp-reference.qza \
 --o-tree ../tree/tree_gg2.qza \
 --o-placements ../tree/tree_placements_gg2.qza
+#tree file is what we use for core metrics for upcoming homework
 ```
 
+#### How we troubleshoot slurm parameters
+- sbatch: what we tell alpine we need.
+- Email tells us what we need/ what happened
+- if u get the timeout errors just go in and add time (up to 24hrs)
+- give us cores per node and amount of efficiency
+	- memory efficiency: how many GB per core by how many requested
+	- So if we requested 8 nodes per core, but use 21% then we could have used less cores. 
+	- USE MEMORY EFFICIENTLY
+	- primary edit number of nodes u use and time
+
+![[Recording 20260306114629.m4a]]
 
 
 table_nomitochloro_gg2_filtered300.qza
