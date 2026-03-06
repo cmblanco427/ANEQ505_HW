@@ -31,13 +31,12 @@ levels:
             - Denoised Table (Feature table)
             - Sequences Table
     - DADA2 Info
-- Homework 2: Practice Qiime2 Workflow
+- ANEQ Class Assignment 2: Practice Qiime2 Workflow REVIEW
     - Remove long (300+ base pair) amplicons from the representative sequences file and the feature table
     - Classify taxonomy using GreenGenes2
     - Filtered Taxa Bar Plot Questions red(10 points)
     - Phylogenetic tree red(1 point)
         - Once this job finishes, copy and paste what the slurm email says here red(1 point):
-            - for example:
 ```
 # Homework_1
 ## 1. Launch interactive session, load Qiime2 w/in cow directory
@@ -249,7 +248,7 @@ Briefly **describe** the key information from each denoising output file:
 -----------------------------------
 
 # __
-# Homework #2: Practice Qiime2 Workflow**
+# **ANEQ Class Assignment #2: Practice Qiime2 Workflow REVIEW**
 
 Due: March 5th 2026 at midnight
 
@@ -267,43 +266,35 @@ Due: March 5th 2026 at midnight
 Load qiime2 in a terminal session after you go into the taxonomy folder 
 
 ```
+ainteractive --ntasks=6 --time=02:00:00
+
 # Insert the two commands to activate qiime2
 
 module purge
 module load qiime2/2024.10_amplicon
 
 ```
+**ALWAYS CHECK DATA, WE FOUND AN ARTIFACT THAT ATTACHED TO 18s SEQS
+
+![[Recording 20260306113102.m4a]]
 
 ### Remove long (300+ base pair) amplicons from the representative sequences file and the feature table
-```r
+```
 # filter out any large amplicons from the seqs and table (because they are contaminates)
 
 cd /scratch/alpine/$USER/cow/dada2
 
-#Filter feature table
-qiime feature-table filter-seqs \
---i-data cow_seqs_dada2.qza \
---m-metadata-file cow_seqs_dada2.qza \
-#filter out seq less than 300 bp to filter out 18s
---p-where 'length(sequence) < 300' \
---o-filtered-data cow_seqs_dada2_filtered300.qza
+qiime feature-table filter-seqs \--i-data cow_seqs_dada2.qza \--m-metadata-file cow_seqs_dada2.qza \--p-where 'length(sequence) < 300' \--o-filtered-data cow_seqs_dada2_filtered300.qza
 
-qiime feature-table tabulate-seqs \
---i-data cow_seqs_dada2_filtered300.qza \
---o-visualization cow_seqs_dada2_filtered300.qzv
+qiime feature-table tabulate-seqs \--i-data cow_seqs_dada2_filtered300.qza \--o-visualization cow_seqs_dada2_filtered300.qzv
 
-qiime feature-table filter-features \
---i-table cow_table_dada2.qza \
---m-metadata-file cow_seqs_dada2_filtered300.qza \
---o-filtered-table cow_table_dada2_filtered300.qza
+qiime feature-table filter-features \--i-table cow_table_dada2.qza \--m-metadata-file cow_seqs_dada2_filtered300.qza \--o-filtered-table cow_table_dada2_filtered300.qza
 
-#visualize, double check all amplicons are gone
-qiime feature-table summarize \
---i-table cow_table_dada2_filtered300.qza \
---m-sample-metadata-file ../metadata/cow_metadata.txt \
---o-visualization cow_table_dada2_filtered300.qzv
+qiime feature-table summarize \--i-table cow_table_dada2_filtered300.qza \--m-sample-metadata-file ../metadata/cow_metadata.txt \--o-visualization cow_table_dada2_filtered300.qzv
 ```
 
+
+![[Recording 20260306113132.m4a]]
 
 ### Classify taxonomy using GreenGenes2
 
@@ -313,60 +304,96 @@ First get the Greengenes2 database:
 cd /scratch/alpine/$USER/cow/taxonomy
 ```
 
-```
+```r
 wget --no-check-certificate https://ftp.microbio.me/greengenes_release/2024.09/2024.09.backbone.v4.nb.qza
+#download classifier comamnd
 ```
 
 Classify taxonomy using GreenGenes2 classify the ASVs (takes about 5 mins). ~={red}(1point)=~
+```r
+qiime feature-classifier classify-sklearn \
+--i-reads ../dada2/cow_seqs_dada2_filtered300.qza \
+--i-classifier 2024.09.backbone.v4.nb.qza \ 
+--o-classification taxonomy_gg2_filtered.qza
 ```
-qiime feature-classifier classify-sklearn \--i-reads ../dada2/cow_seqs_dada2_filtered300.qza \--i-classifier NAME OF CLASSIFIER HERE.qza \--o-classification taxonomy_gg2_filtered.qza
-```
+
 
 Visualize the taxonomy of your ASVs: (~={red}1point)=~
 ```
-qiime metadata tabulate \--m-input-file NAME OF TAXONOMY FILE.qza \--o-visualization taxonomy_gg2_filtered.qzv
+qiime metadata tabulate \
+--m-input-file taxonomy_gg2_filtered.qza 
+--o-visualization taxonomy_gg2_filtered.qzv
 ```
 
-- Filter mitochondria and chloroplast out to generate a filtered feature table, keep only ASVs with a class or lower taxonomy. fill in the blank (--p-exclude) to exclude these DNA. Fill in the blank to include only class level or below classifications. ~={red}(1point)=~
+Filter mitochondria and chloroplast out to generate a filtered feature table, keep only ASVs with a class or lower taxonomy. fill in the blank (--p-exclude) to exclude these DNA. Fill in the blank to include only class level or below classifications. ~={red}(1point)=~
 ```
-qiime taxa filter-table \--i-table ../dada2/<YourDenoisedTable.qza> \--i-taxonomy taxonomy_gg2.qza \--p-exclude WHAT TO EXCLUDE HERE \--p-include WHAT TO INCLUDE HERE \--o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
+iime taxa filter-table \
+--i-table dada2/cow_table_dada2_filtered300.qza \
+--i-taxonomy taxonomy/taxonomy_gg2_filtered.qza \
+--p-exclude mitochondria,chloroplast,sp004296775 \
+--p-include c__ \
+--o-filtered-table ../dada2/table_nomitochloro_gg2_filtered300.qza
 ```
+
 
 - Visualize the taxa bar plot
 ```
-qiime taxa barplot \--i-table ../dada2/table_nomitochloro_gg2_filtered300.qza \--i-taxonomy taxonomy_gg2_filtered.qza \--m-metadata-file ../metadata/cow_metadata.txt \--o-visualization ../taxaplots/taxa_barplot_nomitochloro_gg2_filtered300.qzv
+qiime taxa barplot \
+--i-table dada2/table_nomitochloro_gg2_filtered300.qza \
+--i-taxonomy taxonomy/taxonomy_gg2_filtered.qza \
+--m-metadata-file metadata/cow_metadata.txt \
+--o-visualization taxaplots/taxa_barplot_nomitochloro_gg2_filtered300.qzv
 ```
 
 ## Filtered Taxa Bar Plot Questions ~={red}(10 points)=~
 
-**Question 1**: Attach a picture of your taxa bar plot, organized by cow sampling location (body_site) at the level 7 taxonomic level. What general trends do you notice? 
+**Question 1: Attach a picture of your taxa bar plot, organized by cow sampling location (body_site) at the level 7 taxonomic level. What general trends do you notice? 
 
-**_Question 2**: What are the top 2 most abundant bacterial **classes** in the fecal samples? 
+- There appear to be different bacterial communities represented based on the anatomical location sampled (ie. udder, skin, oral, nasal, fecal). For example, there is more Moraxellaaceae represented in the nasal and oral samples. There also appears to be significantly more species diversity in the udder, skin, and feces compared to oral and nasal samples. 
 
-**_Question 3**: What highly abundant ASV is shared between both the udder and skin samples?
+![[Pasted image 20260302095300.png|637]]
 
-**_Question 4**: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?
+**_Question 2: What are the top 2 most abundant bacterial classes in the fecal samples?**
+- The two most abundant bacterial classes in the fecal samples are clostridia and bacterioidia
 
-**Question 5**: do all samples contain archaea as well?
+**Question 3: What highly abundant ASV is shared between both the udder and skin samples?**
+Clostridia
 
-**Question 6**: why do we filter out sp004296775?
+**_Question 4: Which samples (still sorted by body_site) have higher alpha diversity in terms of observed features?_**
+The Skin
 
-**Question 7**: what is the difference between these two flags? 
+**Question 5: do all samples contain archaea as well?**
+It appears that all samples contain archea, although at low levels
+
+**Question 6: why do we filter out sp004296775?**
+- This is a chloroplast genome that is a suppressed RefSeq record, so isnt filtered out by using the term "chloroplast". Since its not a bacteria, we do not want it retained for analysis.
+
+**Question 7: what is the difference between these two flags? 
 --p-exclude mitochondria,chloroplast,sp004296775 \
 --p-include c__ \
 
-**Question 8**: do the positive controls look the same as each other? Yes or No?
+- The p-exclude command is excluding unwanted ASVs with taxonomic identification of the listed terms. For example, this command is excluding mitochondria, chloroplast and the specific reference genome of sp004296775 (chloroplast)
+- The p-include is a greengenes command that retains all taxa identified to the class level and removes all unassigned taxa and those only identified to phylum or kingdom. 
 
-**Question 9**: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? 
+**Question 8: do the positive controls look the same as each other? Yes or No?
 
-**Question 10**: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?
+They're not identical, but they're very similar. 
+
+
+**Question 9: Do the negative/extraction controls (Samples labeled as EC), look like the positive controls? Yes or no? 
+Two of the negative/extraction controls look similar to the positive controls, however the rest look very different, so no.
+
+**Question 10: do the negative/extraction controls (Samples labeled as EC), look like the real samples? Yes or no?
+No
 
 ## Phylogenetic tree ~={red}(1 point)=~
-Create a job script to run the phylogenetic tree building. Remember you must start a new terminal session, navigate to your slurm directory, and then submit the job. You do NOT need to start any other interactive sessions.This job will take about an hour. 
+Create a job script to run the phylogenetic tree building. Remember you must start a new terminal session, navigate to your slurm directory, and then submit the job. You do NOT need to start any other interactive sessions. This job will take about an hour. 
 
 Go to OnDemand and create a new text file for your job script
 ```
-nano <YourJobName.sh>
+cd slurm
+
+nano cow_tree.sh
 ```
 
 ```
@@ -377,41 +404,48 @@ nano <YourJobName.sh>
 #SBATCH --partition=amilan
 #SBATCH --time=04:00:00
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=YOUR_EMAIL_HERE@colostate.edu
+#SBATCH --mail-user=c832916267@colostate.edu
 #SBATCH --output=slurm-%j.out
 #SBATCH --qos=normal
 
 #Activate qiime
 #Insert the two commands you need to load qiime2
-
+module purge
+module load qiime2/2024.10_amplicon
 
 #Get reference
 wget --no-check-certificate -P ../tree https://ftp.microbio.me/greengenes_release/2022.10/2022.10.backbone.sepp-reference.qza
 
 
 #Command
-qiime fragment-insertion sepp \--i-representative-sequences ../dada2/Your_FILTERED_RepresentativeSequencesFile.qza \--i-reference-database ../tree/2022.10.backbone.sepp-reference.qza \--o-tree ../tree/tree_gg2.qza \--o-placements ../tree/tree_placements_gg2.qza
+qiime fragment-insertion sepp \
+--i-representative-sequences ../dada2/cow_seqs_dada2_filtered300.qza \
+--i-reference-database ../tree/2022.10.backbone.sepp-reference.qza \
+--o-tree ../tree/tree_gg2.qza \
+--o-placements ../tree/tree_placements_gg2.qza
 ```
 
+
+
+table_nomitochloro_gg2_filtered300.qza
 - submit the job from the terminal
 ```
 #submit the job
-dos2unix YourJobName.sh
-sbatch YourJobName.sh
+dos2unix cow_tree.sh
+sbatch cow_tree.sh
 ```
 We will use this file in the next homework!
 
 ### Once this job finishes, copy and paste what the slurm email says here ~={red}(1 point)=~: 
 
-#### for example: 
-Job ID: 24289371  
+Job ID: 24408776  
 Cluster: alpine  
-User/Group: [lindsval@colostate.edu](mailto:lindsval@colostate.edu)/[lindsvalpgrp@colostate.edu](mailto:lindsvalpgrp@colostate.edu)  
-State: TIMEOUT (exit code 0)  
+User/Group: c832916267@colostate.edu/c832916267pgrp@colostate.edu  
+State: COMPLETED (exit code 0)  
 Nodes: 1  
 Cores per node: 8  
-CPU Utilized: 03:57:54  
-CPU Efficiency: 12.37% of 1-08:03:52 core-walltime  
-Job Wall-clock time: 04:00:29  
-Memory Utilized: 6.55 GB  
-Memory Efficiency: 21.83% of 30.00 GB (3.75 GB/core)
+CPU Utilized: 03:08:49  
+CPU Efficiency: 12.35% of 1-01:28:56 core-walltime  
+Job Wall-clock time: 03:11:07  
+Memory Utilized: 7.90 GB  
+Memory Efficiency: 26.32% of 30.00 GB (3.75 GB/core)
