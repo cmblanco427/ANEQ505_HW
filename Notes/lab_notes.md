@@ -2109,6 +2109,8 @@ PERMANOVA assumes independence of samples. In longitudinal microbiome data, that
 ## **Beta diversity stats (part 1)**
 
 **Alpine On-Demand: [ondemand-rmacc.rc.colorado.edu](http://ondemand-rmacc.rc.colorado.edu/ "(opens in a new window)")**
+
+- Using decomp_tutorial data
 ```r
 sinteractive --reservation=aneq505 --time=02:00:00 --partition=amilan --nodes=1 --ntasks=6 --qos=normal
 
@@ -2124,13 +2126,20 @@ Here, we are specifying **"body_site"** to determine whether it is associated 
 # unweighted unifrac significance  
   
 qiime diversity beta-group-significance \
---i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza \--m-metadata-file metadata/metadata.txt \--m-metadata-column body_site \--o-visualization core-metrics-results/unweighted_unifrac_distance_matrix.qzv
+--i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza \
+--m-metadata-file metadata/metadata.txt \
+--m-metadata-column body_site \
+--o-visualization core-metrics-results/unweighted_unifrac_distance_matrix.qzv
 ```
 
 ```r
 # bray curtis significance  
   
-qiime diversity beta-group-significance \--i-distance-matrix core-metrics-results/bray_curtis_distance_matrix.qza \--m-metadata-file metadata/metadata.txt \--m-metadata-column body_site \--o-visualization core-metrics-results/bray_curtis_distance_matrix.qzv
+qiime diversity beta-group-significance \
+--i-distance-matrix core-metrics-results/bray_curtis_distance_matrix.qza \
+--m-metadata-file metadata/metadata.txt \
+--m-metadata-column body_site \
+--o-visualization core-metrics-results/bray_curtis_distance_matrix.qzv
 ```
 
 Let's explore these plots in QIIME2 View.
@@ -2167,7 +2176,13 @@ cd longitudinal
   
 # construct a volatility plot  
   
-qiime longitudinal volatility \--m-metadata-file ../metadata/metadata.txt \--m-metadata-file ../core-metrics-results/weighted_unifrac_pcoa_results.qza \--p-state-column add_0c \--p-individual-id-column host_subject_id \--p-default-group-column 'sample_type' \--p-default-metric 'Axis 2' \--o-visualization pc_vol_sample_type.qzv
+qiime longitudinal volatility \
+--m-metadata-file ../metadata/metadata.txt \
+--m-metadata-file ../core-metrics-results/weighted_unifrac_pcoa_results.qza \
+--p-state-column add_0c \--p-individual-id-column host_subject_id \
+--p-default-group-column 'sample_type' \
+--p-default-metric 'Axis 2' \
+--o-visualization pc_vol_sample_type.qzv
 ```
 Let's explore this output in q2view. Using the control bars to the right, look at variation in sample_type and facility along PCs 1, 2, and 3. **What kind of patterns do you see with time along each axis?**
 
@@ -2184,14 +2199,27 @@ The `state` column (`add_0c`) represents accumulated degree days (time), and t
 ```r
 # evaluate using first distances  
   
-qiime longitudinal first-distances \--i-distance-matrix ../core-metrics-results/weighted_unifrac_distance_matrix.qza \--m-metadata-file ../metadata/metadata.txt \--p-state-column add_0c \--p-individual-id-column host_subject_id_sample_type \--p-baseline 0 \--o-first-distances from_first_wunifrac.qza
+qiime longitudinal first-distances \
+--i-distance-matrix ../core-metrics-results/weighted_unifrac_distance_matrix.qza \
+--m-metadata-file ../metadata/metadata.txt \
+--p-state-column add_0c \
+--p-individual-id-column host_subject_id_sample_type \
+--p-baseline 0 \
+--o-first-distances from_first_wunifrac.qza
 ```
 
 We can again use a volatility analysis to visualize the change in beta diversity based on distance.
 ```r
 # visualize volatility  
   
-qiime longitudinal volatility \--m-metadata-file ../metadata/metadata.txt \--m-metadata-file from_first_wunifrac.qza \--p-state-column add_0c \--p-individual-id-column host_subject_id \--p-default-metric Distance \--p-default-group-column 'sample_type' \--o-visualization from_first_wunifrac_vol.qzv
+qiime longitudinal volatility \
+--m-metadata-file ../metadata/metadata.txt \
+--m-metadata-file from_first_wunifrac.qza \
+--p-state-column add_0c \
+--p-individual-id-column host_subject_id \
+--p-default-metric Distance \
+--p-default-group-column 'sample_type' \
+--o-visualization from_first_wunifrac_vol.qzv
 ```
 
 **Looking at this plot, does one soil type change more over time than the other? What about by facility?**
@@ -2205,7 +2233,13 @@ Since we are interested in the change in distance from the initial time point, w
 ```r
 # run LME   
   
-qiime longitudinal linear-mixed-effects \--m-metadata-file ../metadata/metadata.txt \--m-metadata-file from_first_wunifrac.qza \--p-state-column add_0c \--p-individual-id-column host_subject_id \--p-formula "Distance ~ add_0c + facility + sample_type" \--o-visualization from_first_wunifrac_lme_formula.qzv
+qiime longitudinal linear-mixed-effects \
+--m-metadata-file ../metadata/metadata.txt \
+--m-metadata-file from_first_wunifrac.qza \
+--p-state-column add_0c \
+--p-individual-id-column host_subject_id \
+--p-formula "Distance ~ add_0c + facility + sample_type" \
+--o-visualization from_first_wunifrac_lme_formula.qzv
 ```
 
 There is a new line here, --p-group-columns. While our main question centers around whether accumulated degree day and facility affects the longitudinal change in the microbial community, we also know that sample type plays a large role in shaping the microbial community as well. By including this line, we can account for **all** of these things "**to test whether microbial communities diverge from baseline over accumulated degree days, while controlling for variation due to facility and sample type."**
@@ -2291,6 +2325,7 @@ ls
 Move back into the decomp_tutorial directory
 ```r
 cd ../../../../
+#puts us back into the decomp_tutorial folder
 ```
 
 Run the unzip commands for each diversity metric
