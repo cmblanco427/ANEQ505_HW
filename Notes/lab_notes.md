@@ -2014,15 +2014,13 @@ Here is a [link](https://colostate.instructure.com/courses/220471/files/3919110
 
 **_What are we measuring with beta diversity?_** 
 
-![[Pasted image 20260305202900.png]]
-
 ****Here we are comparing the entire community of each sample (flower color/type) to each other. Based on this, there aren't many shared flower types between these two pictures, suggesting the beta diversity would be large (closer to 1) and the communities are therefore dissimilar.** 
 
 **Distance Matrices:**
 
 You may recall from **alpha diversity that each sample has its own alpha diversity measure**. If you want, you can add alpha diversity as a column to your metadata because no matter what comparison you're making the alpha diversity for a sample is the same as any other value in the metadata (e.g., day you took the sample). In **beta diversity**, however, it is very dependent on which two samples we’re comparing. So we end up with a matrix like this because **we are comparing the samples to one another**:
 
- **![image.png](https://colostate.instructure.com/courses/220471/files/39278455/preview)**
+![[Pasted image 20260305202900.png]]
 
 Notice the sample names at the top are repeated in each row. 
 

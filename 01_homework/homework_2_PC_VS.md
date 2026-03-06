@@ -168,7 +168,7 @@ qiime fragment-insertion sepp \
 --o-tree ../tree/tree_gg2.qza \
 --o-placements ../tree/tree_placements_gg2.qza
 ```
-#####GO OVER THIS SECTION AGAIN#####
+
 
 
 table_nomitochloro_gg2_filtered300.qza
