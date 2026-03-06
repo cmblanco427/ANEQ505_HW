@@ -103,6 +103,9 @@ levels:
             - Faith PD:
             - Correlation:
             - Note about VS Code and Obsidian
+- Week 7 Tutorial: Beta Diversity, Longitudinal Analysis, Exporting Qiime2 Data
+    - Beta diversity metrics, PCoA plots, and significance testing
+    - Beta Diversity Files
 ```
 ```insta-toc
 ```
@@ -1987,3 +1990,55 @@ Here is a [link](https://colostate.instructure.com/courses/220471/files/3919110
 
 
 -open in obsidian, see markdown, change language so itll open in powershell. see stuff??? if you scroll through will see if there are any hidden spaces that cause errors. If you make any changes, just hit save and itll automatically update your files. CAn also do collaborative coding through this. 
+
+# Week 7 Tutorial: Beta Diversity, Longitudinal Analysis, Exporting Qiime2 Data 
+
+**Last week on tutorial Fridays:**
+
+- How to deal with 18S contamination 
+- Alpha rarefaction
+- Running core metrics
+- Alpha diversity visualizations
+
+**This week:**
+
+- Homework 2 review
+- Beta diversity, beta diversity stats (part 1) on location
+- Beta diversity stats (part 2) on longitudinal. repeated measures, longitudinal data, Linear Mixed Effects (LME) models
+- exporting qiime2 data for R
+- get started on homework 3
+
+---
+
+### **Beta diversity metrics, PCoA plots, and significance testing**
+
+**_What are we measuring with beta diversity?_** 
+
+![[Pasted image 20260305202900.png]]
+
+****Here we are comparing the entire community of each sample (flower color/type) to each other. Based on this, there aren't many shared flower types between these two pictures, suggesting the beta diversity would be large (closer to 1) and the communities are therefore dissimilar.** 
+
+**Distance Matrices:**
+
+You may recall from **alpha diversity that each sample has its own alpha diversity measure**. If you want, you can add alpha diversity as a column to your metadata because no matter what comparison you're making the alpha diversity for a sample is the same as any other value in the metadata (e.g., day you took the sample). In **beta diversity**, however, it is very dependent on which two samples we’re comparing. So we end up with a matrix like this because **we are comparing the samples to one another**:
+
+ **![image.png](https://colostate.instructure.com/courses/220471/files/39278455/preview)**
+
+Notice the sample names at the top are repeated in each row. 
+
+So what we're looking at is the **distance those two samples are from each other _and_ how different they are**. These are usually **calculated on a scale from 0 to 1, with 0 being exactly the same, and 1 being more "distant" or more "dissimilar" and 0 being "closer" or "more similar".** So, these two samples in this top left hand corner are exactly the same (so you'll see that the distance is 0 because they're the same sample- so there's no difference between them).
+
+But! If the samples are somewhat different (**Highlighted red box)**, we see a distance of ~0.6. So again what we're looking at is a **direct comparison** between every single sample in your entire data set to determine how similar or different the microbial communities are. 
+
+**Because of the complexity/size,** we don't usually look at the distance matrices themselves but rather we visualize them with ordination plots like Principal Coordinates Analysis (PCoA)/umaps/NMDS/etc. 
+
+### **Beta Diversity Files**
+
+**Which core-diversity-metric files are beta diversity and what do they mean? Plus, let's check them out in Emperor**
+
+- **Weighted =** considers ASV abundance
+- **Unweighted =** does not consider ASV abundance, but rather presence or absence.
+- **Phylogenetic** **=** measures the degree to which species are phylogenetically related
+- **Non-phylogenetic =** does not account for phylogenetic relatedness.
+
+**Unweighted UniFrac:** Unweighted, phylogenetic. Measures the richness of the species and the number of shared branches in the phylogenetic tree. Unweighted UniFrac is **more sensitive to differences in low-abundance features**. May overrepresent rare features because everything that is present is counted as 1.
