@@ -105,6 +105,7 @@ levels:
             - Note about VS Code and Obsidian
 - Week 7 Tutorial: Beta Diversity, Longitudinal Analysis, Exporting Qiime2 Data
     - Beta diversity metrics, PCoA plots, and significance testing
+    - Distance Matrices:
     - Beta Diversity Files
         - Unweighted UniFrac:
         - Weighted Unifrac:
@@ -2005,14 +2006,12 @@ Here is a [link](https://colostate.instructure.com/courses/220471/files/3919110
 # Week 7 Tutorial: Beta Diversity, Longitudinal Analysis, Exporting Qiime2 Data 
 
 **Last week on tutorial Fridays:**
-
 - How to deal with 18S contamination 
 - Alpha rarefaction
 - Running core metrics
 - Alpha diversity visualizations
 
 **This week:**
-
 - Homework 2 review
 - Beta diversity, beta diversity stats (part 1) on location
 - Beta diversity stats (part 2) on longitudinal. repeated measures, longitudinal data, Linear Mixed Effects (LME) models
@@ -2026,13 +2025,18 @@ Here is a [link](https://colostate.instructure.com/courses/220471/files/3919110
 **_What are we measuring with beta diversity?_** 
 
 ****Here we are comparing the entire community of each sample (flower color/type) to each other. Based on this, there aren't many shared flower types between these two pictures, suggesting the beta diversity would be large (closer to 1) and the communities are therefore dissimilar.** 
+*image of two gardens that are super different*
+- closer=0
+- further apart=1
 
-**Distance Matrices:**
+## **Distance Matrices:**
 
 You may recall from **alpha diversity that each sample has its own alpha diversity measure**. If you want, you can add alpha diversity as a column to your metadata because no matter what comparison you're making the alpha diversity for a sample is the same as any other value in the metadata (e.g., day you took the sample). In **beta diversity**, however, it is very dependent on which two samples we’re comparing. So we end up with a matrix like this because **we are comparing the samples to one another**:
 
 ![[Pasted image 20260305202900.png]]
-
+- Compare row to column sample.
+- 0.201= not that similiar
+![[Recording 20260306115008.m4a]]
 Notice the sample names at the top are repeated in each row. 
 
 So what we're looking at is the **distance those two samples are from each other _and_ how different they are**. These are usually **calculated on a scale from 0 to 1, with 0 being exactly the same, and 1 being more "distant" or more "dissimilar" and 0 being "closer" or "more similar".** So, these two samples in this top left hand corner are exactly the same (so you'll see that the distance is 0 because they're the same sample- so there's no difference between them).
@@ -2051,30 +2055,38 @@ But! If the samples are somewhat different (**Highlighted red box)**, we see a 
 - **Non-phylogenetic =** does not account for phylogenetic relatedness.
 
 #### **Unweighted UniFrac:** 
-Unweighted, phylogenetic. Measures the richness of the species and the number of shared branches in the phylogenetic tree. Unweighted UniFrac is **more sensitive to differences in low-abundance features**. May overrepresent rare features because everything that is present is counted as 1.
+Unweighted,<span style="color:rgb(238, 170, 170)"> phylogenetic</span>. Measures the richness of the species and the number of shared branches in the phylogenetic tree. Unweighted UniFrac is **more sensitive to differences in low-abundance features**. May overrepresent rare features because everything that is present is counted as 1.
 `core-metrics-results/unweighted_unifrac_emperor.qzv`
 
 #### **Weighted Unifrac:** 
-Weighted, phylogenetic. Measures the **richness** and **evenness** of the species _and_ the **number of shared branches** in the phylogenetic tree. Weighted UniFrac is useful for **examining differences in community structure.** You may see less separation in this visualization compared to the unweighted, that is because the most prominent features are present similarly in both groups. So taxa abundance is accounted for.
-- `   core-metrics-results/weighted_unifrac_emperor.qzv` 
+Weighted, <span style="color:rgb(238, 170, 170)">phylogenetic.</span> Measures the **richness** and **evenness** of the species _and_ the **number of shared branches** in the phylogenetic tree. Weighted UniFrac is useful for **examining differences in community structure.** You may see less separation in this visualization compared to the unweighted, that is because the most prominent features are present similarly in both groups. So taxa abundance is accounted for.
+`core-metrics-results/weighted_unifrac_emperor.qzv` 
 
 #### **Jaccard:** 
-Unweighted, non-phylogenetic. Measures how many shared microbes there are between the samples. So the fraction of unique features, regardless of abundance. 
+Unweighted, <span style="color:rgb(238, 170, 170)">non-phylogenetic</span>. Measures how many shared microbes there are between the samples. So the fraction of unique features, regardless of abundance. 
 - `core-metrics-results/jaccard_emperor.qzv` 
 
 #### **Bray Curtis:** 
-Weighted, non-phylogenetic. Uses richness and evenness to measure how many features are shared and the abundance of those features. Good when you have highly abundant species!
-
+Weighted, <span style="color:rgb(238, 170, 170)">non-phylogenetic</span>. Uses richness and evenness to measure how many features are shared and the abundance of those features. Good when you have highly abundant species!
 - `core-metrics-results/bray_curtis_emperor.qzv`
-- 
-Let's explore the following files: 
 
+Let's explore the following files: 
 - `core-metrics-results/unweighted_unifrac_emperor.qzv` 
 - `core-metrics-results/bray_curtis_emperor.qzv` 
 
 **As you click through different metadata colorings, are you seeing any separation between the data points? What metadata category best describes this separation?** 
+- Pico A plot. each dot is a smpale
+- 3 axes. each axis presents similarities and disimilarities and diff clusters of organisms, depending n B diversity metric
+- On R side column can pick btwn diff metadata categories we have.
+- Here were looking at body sites, skin vs soil
+	- see seperation and clustering of the blue (soil). Seems like another subclustering between soil
+- No stats here, just good for visualizing data
+- ![[20260306-1853-51.7450582.mp4]]
 
 **Are there any visual differences between unweighted unifrac and bray curtis?**
+- Show similar separation, but there is a difference since looking at different aprts of beta diversity
+
+![[Recording 20260306115948.m4a]]
 
 Note that these visualizations are just highlighting the qualitative differences (things we can see that looks like real differences), we need stats to tell us about the actual quantitative differences (what is statistically different).
 
@@ -2084,7 +2096,9 @@ Note that these visualizations are just highlighting the qualitative differences
 
 Beta Group Significance will determine whether groups of samples are significantly different from one another using a permutation-based (PERMANOVA) statistical test.
 
-We are testing the hypothesis that samples within a group are more similar to each other than they are in samples to another group. In other words, it tests whether the within-group distances from each group are different from the between-group distance. Samples that are similar to each other will have smaller distances from each other. Read [this paperLinks to an external site.](https://onlinelibrary.wiley.com/doi/full/10.1111/j.1442-9993.2001.01070.pp.x "(opens in a new window)") for more about PERMANOVA. 
+We are testing the hypothesis that <span style="color:rgb(238, 170, 170)">samples within a group are more similar to each other than they are in samples to another group</span>. In other words, it tests whether the within-group distances from each group are different from the between-group distance. Samples that are similar to each other will have smaller distances from each other. Read [this paperLinks to an external site.](https://onlinelibrary.wiley.com/doi/full/10.1111/j.1442-9993.2001.01070.pp.x "(opens in a new window)") for more about PERMANOVA. 
+
+<span style="color:rgb(238, 170, 170)">ASSUMES ALL SAMPLES ARE INDEPENDENT</span>
 
 Use <span style="color:rgb(186, 186, 130)"><b>PERMANOVA</b></span> when:
 - You want to test whether **overall community composition differs between groups**
@@ -2101,10 +2115,15 @@ Use <span style="color:rgb(186, 186, 130)"><b>PERMANOVA</b></span> when:
 - You have **repeated measures** (longitudinal data), this is because samples from the same subject are **not independent**
 - You want to model **continuous predictors** (e.g., time)
 - You want to include **multiple covariates with complex structure**
+- Longitudinal, studies over time
+- Were just using permanova on this dataset for purpose of teaching, wouldnt normally use it for this dataset
+- Good for cow dataset
 
 PERMANOVA assumes independence of samples. In longitudinal microbiome data, that assumption is violated because samples from the same subject over time are correlated.
 
 <span style="color:rgb(238, 170, 170)"><b>PERMANOVA is not appropriate for this study; however, we want to demonstrate how to run PERMANOVA so you can use it for your homework assignment, where it is appropriate.</b></span> 
+
+![[Recording 20260306120230.m4a]]
 
 ## **Beta diversity stats (part 1)**
 
@@ -2124,17 +2143,16 @@ Here, we are specifying **"body_site"** to determine whether it is associated 
 
 ```r
 # unweighted unifrac significance  
-  
 qiime diversity beta-group-significance \
---i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza \
+--i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza \ #specify which beta diversity metric were looking at
 --m-metadata-file metadata/metadata.txt \
---m-metadata-column body_site \
---o-visualization core-metrics-results/unweighted_unifrac_distance_matrix.qzv
+--m-metadata-column body_site \ #specify which column to look at (body site in this case)
+--o-visualization core-metrics-results/unweighted_unifrac_distance_matrix.qzv #name of output and location
 ```
 
 ```r
 # bray curtis significance  
-  
+#similiar to last codeblock, but bray curtis
 qiime diversity beta-group-significance \
 --i-distance-matrix core-metrics-results/bray_curtis_distance_matrix.qza \
 --m-metadata-file metadata/metadata.txt \
@@ -2148,19 +2166,46 @@ We are looking at what's called a "distance plot", and they can be kind of confu
 
 Now that we understand these distance plots, let's try to interpret them.
 
-**Does body site contribute to a significant difference in beta diversity?**
+- comparing first group to second group??? Relisten
 
+**Does body site contribute to a significant difference in beta diversity?**
+- Yes, the p-value is 0.001
+- This is overall p value between 2. IF you wanted to compare more, need to add `--p-pairwise` to commands so you can do that. So would just need to change code to indicate multiple comparisons
+![[20260306-1905-10.5933673.mp4]]
 **After reviewing the PCoA plots again, which other metadata variable would you test with beta group significance (PERMANOVA)?**
 
+![[20260306-1907-14.7512312.mp4]]
+
+![[Recording 20260306120825.m4a]]
+
 ---
+
+![[Recording 20260306120947.m4a]]
 
 ## **Longitudinal Analysis with Qiime2**
 
 There's a lot you can do:![[Pasted image 20260306083120.png]]
+- can make longitudinal volaitility plots - whats happening to alpha diversity over time, but no stats with this. 
+- can do linear mixed effects ( show stats for volatility plot)
+- First differences RELISTEN
+- Distance matrix
+	- beta diversity
+	- longitudinal first distances
+- Linear mixed effects models also an option
+
+![[Recording 20260306122103.m4a]]
+- for this lecture will focus on some things but everything for beta can be used for alpha
 
 Here, we will analyze the time-series data associated with this experiment. To use the **longitudinal** plugin, you need a repeated measures sample in which the same site or individual is sampled over time. In the decomp tutorial, **samples from each donor were collected over accumulated degree days**, so we can use this tool to **understand how the microbiome changed during these periods.** Much of these analyses can be done with alpha or beta diversity. For the sake of time, we will focus on just beta diversity. 
 
 Let's open up our **unweighted UniFrac emperor plot** again to help visualize the analysis that we are about to do. **Color the samples by host_subject_id.** Click on the animations tab and select days add_0c for the gradient and **host_subject_id** as the trajectory. Then, click the play button and observe. You can adjust the speed to observe changes in beta diversity at a slower pace.
+
+THIS IS WEIGHTED UniFrac EXAMPLE
+- axis 1 almost always time
+- axis 1 clustering would be time
+- axis 2 other variable. 
+- in LMEM in R need to consider all three axes.
+![[20260306-1923-00.7454255.mp4]]
 
 We can see visual changes in beta diversity over time, but this wouldn't be very useful for reporting in a manuscript. **Let's look at longitudinal differences with beta diversity so we can start associating numbers and p-values with what we see.**
 
@@ -2179,16 +2224,27 @@ cd longitudinal
 qiime longitudinal volatility \
 --m-metadata-file ../metadata/metadata.txt \
 --m-metadata-file ../core-metrics-results/weighted_unifrac_pcoa_results.qza \
---p-state-column add_0c \--p-individual-id-column host_subject_id \
---p-default-group-column 'sample_type' \
---p-default-metric 'Axis 2' \
+--p-state-column add_0c \
+--p-individual-id-column host_subject_id \ #how it accounts for each subject/ repeated sample. Just participants sampling over time
+--p-default-group-column 'sample_type' \ #column in metadata to look at over time
+--p-default-metric 'Axis 2' \ #time is huge factor on axis 1, but want to know whats on axis 2
 --o-visualization pc_vol_sample_type.qzv
 ```
+
+![[Recording 20260306122805.m4a]]
+
 Let's explore this output in q2view. Using the control bars to the right, look at variation in sample_type and facility along PCs 1, 2, and 3. **What kind of patterns do you see with time along each axis?**
+- thick line = mean
+- started with sample type. looking at change in axis 2 over time
+- most variance in first 3 axes
+
+![[20260306-1929-26.7912624.mp4]]
 
 ***Once you have an overview of each axis, you can do linear mixed effects models with the axis of interest as the response variable in R. I will usually test the first 3 axes in R for my variables of interest.** 
 
 Another method is to do a **distance-based analysis using the first-distances method**. We'll use this to test the **hypothesis that sample type affects the magnitude of change in the distance from the first sample collected.** This baseline parameter is used to specify a static time point against which all other time points are compared - if we were to remove this, we would instead look at the rate of change for each individual between each time point. 
+ - <span style="color:rgb(238, 170, 170)">can do first differences for alpha diversity</span>
+ -<span style="color:rgb(238, 170, 170)"> baseline can be whatever you want</span>
 
 Here, the state column designates the time component in the metadata in this case, add_0c, and the individual id column is used to designate the host subject id sample type. 
 
@@ -2221,6 +2277,11 @@ qiime longitudinal volatility \
 --p-default-group-column 'sample_type' \
 --o-visualization from_first_wunifrac_vol.qzv
 ```
+- coordinates with stats in R.???????
+- These are visualizations. Always look at these before stats and to gudie what you want to test
+- skin compared to day 0 hasnt changed in composition too much. If you look in middle left chunk, theres a good slope. 
+
+![[20260306-1934-14.9261593.mp4]]
 
 **Looking at this plot, does one soil type change more over time than the other? What about by facility?**
 
@@ -2231,23 +2292,33 @@ Next, we can do a statistical test with a Linear Mixed Effects model. This will 
 Since we are interested in the change in distance from the initial time point, we use Distance for --p-metric.
 
 ```r
-# run LME   
+# run LME - linear mixed effects model
+# this code is for QIIME2, but its so much easier in R
   
 qiime longitudinal linear-mixed-effects \
 --m-metadata-file ../metadata/metadata.txt \
 --m-metadata-file from_first_wunifrac.qza \
 --p-state-column add_0c \
---p-individual-id-column host_subject_id \
---p-formula "Distance ~ add_0c + facility + sample_type" \
+--p-individual-id-column host_subject_id \ #random effects in individual ID column
+--p-formula "Distance ~ add_0c + facility + sample_type" \ #linear mixed effects model formula. distance= dependent, 0=time,??????) model only additive. IF u need to do interactive model MUST be done in R. QIIME cant run interactive models
 --o-visualization from_first_wunifrac_lme_formula.qzv
 ```
+- can be done on any of the diversity metrics
+
+![[Recording 20260306124004.m4a]]
+
 
 There is a new line here, --p-group-columns. While our main question centers around whether accumulated degree day and facility affects the longitudinal change in the microbial community, we also know that sample type plays a large role in shaping the microbial community as well. By including this line, we can account for **all** of these things "**to test whether microbial communities diverge from baseline over accumulated degree days, while controlling for variation due to facility and sample type."**
 
+![[20260306-1938-15.6018810.mp4]]
+
 Let's look at this output in q2view now. **Here, is there a significant association between the sample type and temporal change? What about facility?**  If you need a review from a statistics class to understand what the model outputs mean, the table below may help, but [this videoLinks to an external site.](https://www.youtube.com/watch?v=NIGbYdGErLw&list=PLbVDKwGpb3XmvnTrU40zHRT7NZWWVNUpt&index=23 "(opens in a new window)") may also help (play from about 14 min to 20 min):
+
+
 ![[Pasted image 20260306083303.png]]
 
 ### **When is it time to move your longitudinal analysis outside of Qiime2?**
+- before u do linear effects models
 
 Here are some R packages that are useful for downstream longitudinal analysis. 
 
@@ -2262,8 +2333,12 @@ Here are some R packages that are useful for downstream longitudinal analysis. 
     - Generate adjusted pairwise comparisons with multiple-testing correction
 - **ANCOM-BC2**
     - Adjust for covariates (like age)
+    - great for longitudinal studies
+    - can include linear effects model in this in R
 - **MaAsLin2**
     - Enables multivariable association testing with fixed and random effects
+
+![[Recording 20260306124755.m4a]]
 
 ## **Exporting Qiime2 data** 
 
@@ -2293,6 +2368,8 @@ unzip core-metrics-results/shannon_vector.qza -d export/shannon
 ```
  After unzipping, you’ll notice a UUID-named folder inside `export/shannon/`. QIIME 2 stores each artifact inside a uniquely identified directory for provenance tracking. Within that folder, the `data/` directory contains the actual Shannon diversity values (`alpha-diversity.tsv`), which is the file we will use for downstream analysis.
 
+![[Recording 20260306124948.m4a]]
+
 **Let's explore the file structure of the unzipped directory**
 
 **Navigate into the export directory and take a look around.**
@@ -2315,7 +2392,7 @@ What do you see? You should see a directory with a bunch of random characters; t
 
 **Take a look at the data directory**
 ```r
-cd */data  
+cd */data  #cd into this folder specifically
   
 ls
 ```
@@ -2371,10 +2448,10 @@ mkdir alpha_div
 
 Copy the tsv files into the alpha_div directory
 ```r
-# define alpha metrics  
+# define alpha metrics  (directory name for each metrics)
 metrics=("shannon" "evenness" "faith_pd" "observed_features")  
   
-# copy their tsv files into alpha_div/  
+# copy their tsv files into alpha_div/. copies tsv into alpha diversity file
 for metric in "${metrics[@]}"; do  
  cp $metric/*/data/alpha-diversity.tsv alpha_div/${metric}.tsv  
 done

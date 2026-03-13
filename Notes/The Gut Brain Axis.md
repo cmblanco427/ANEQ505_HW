@@ -1,0 +1,101 @@
+
+
+- GI tract considered outside environment
+- bacteria affect behavior
+	- stress
+	- feeding
+	- mating
+	- anything that involves interaction with external environment
+- Individual composition highly variable
+- Main Functions - gut microbiome
+	- digestion
+		- ex. we dont digest fibers, bacteria do
+	- Bile acids
+		- fat absorption - emulsified from bile
+	- Vitamins
+		- vitamin K produced in gut
+			- Used for coagulation
+	- innate/acquired immunity
+		- innate - receptors on enterocytes w/ pattern recognition that bind to pathogens for immune response
+- Microbiota and immunity
+	- innate immunity - microbes can affect innate receptors
+		- TLR
+		- NLR
+		- Ex. TLR4
+- Gut microbiota main functions
+	- barrier protection
+	- SCFAs- main source of energy for enterocytes
+		- can maintain intestinal epithelial barrier properly
+		- W/out = leaky gut
+	- Signaling molecules
+		- neurotransmitters
+		- Most serotonin in gut
+		- dopamine, gaba
+	- How do we acquire gut microbiota
+		- food, vertical transfer
+- Establishment of Gut Microbiota
+	- birthing= mostly sterile (some debate on this)
+		- first contamination = birth canal
+	- lactation
+	- Diversification W/ INTRO OF SOLID FOODS
+- Feeding practices example
+	- Birth first selection - environment, maternal status, deliver, early feeding practices
+	- Second selection - solids introduction, infections, abx
+- Gut Brain Axis
+	- signal from gut to brain -> vagus nerve
+	- 4 main routes of comm
+		- Neural (vagus), immune, endocrine, microbial metabolites
+		- modulates digestion, immunity, metabolism, and behavior
+- Neural communication
+	- Enteroendocrine cells in gut
+		- detect nutrient presence and hormones
+- Vagal structure and obesity
+	- how gut to brain axis responds to diet Example
+	- NTS - IHC staining.
+		- Chow shows increased neural synapsing and less in high fat.
+		- High fat eats more, has less serotonin.
+		- Essentially lose structure w/ High Fat diets
+		- What happens if we give a germ free rodentshigh fat, chow, or low fat
+			- similiar pattern. less diversity and function at high fat
+- Microbiota and anxiety - role of vagus
+	- if u negatively impact vagus nerve, no impact from microbiome
+	- Forced swim test- if animal doesnt fight as much = depression
+		- Need to look more at this slide?
+	- Need intact vagus nerve to function
+- Enteric Nervous System
+- Immune Communication
+	- strongly influences immune responses
+	- mechanisms
+		- cytokine production
+	- Example
+		- diabetes study
+		- LPS administered to mimic high fat diet?
+		- looking at glucose metabolism. If u infuse anim w/ LPS make em pre-diabetic, cant clear glucose. Also gain more weight
+		- Similar to whats done for human gestational diabetes test
+- Histo slide
+	- showing microglia in different slices
+	- Abnormal amicrobiome composition (Germ free - no microbiome). HAve more microglia in nervous tissue. 
+- Endocrine signaling
+	- HPA axos => cortisol in adrenals
+		- so ability to respond to stressor is microbiome related. 
+		- some correlation w/ addisons and cushings. not necessarily causal
+	- MEasure ACTH or Cortisol w/  movement inhibiton tests
+	- microbial colonization early in life programs stress physiology
+- Microbial metabolites
+	- metabolics can affect both the host and microbiome
+		- immune cells, neurone, endocrine signaling. 
+- Microbiota research
+	- lots of changes in microbiome. But causation doesnt equal correlation
+	- Microbiome changes dont necessarily cause the phenotype
+	- What do we do to isolate the microbiome effect?
+		- transfer
+- GF mouse slide
+	- can colonize germ free animals. These guys arent cognitively appropriate
+		- hippocampal function decreased if lavaged after 5 weeks.
+	- Can use abx depletion instead of GF model. 
+		- but these guys are never truly germ free, even after heavy abx tx protocols.
+	- Transfer model- new bacteria in new feces compete with current in transfer pt gut.
+- Microbiome classics
+	- PApers that are good to read - careful chatgpt generated....
+- 
+	- 
