@@ -1401,7 +1401,10 @@ Fun tree game - metazoa.com. guess an animal and itll show you where we diverge 
 - taxonomic levels = do kinky people come over for good sex
 
 Ignore first 2:45 minutes
+
 ![[20260220-1924-12.1936846.mp4]]
+- Select taxonomic level based on where u want to look. 
+
 ![[20260220-1928-52.6799869.mp4]]
 A quick way to search for specific taxa is to open your taxa bar plot and use command-F (or ctrl-F for PC) to search for that taxa. Check that chloroplasts and mitochondria were filtered out.
 ...
