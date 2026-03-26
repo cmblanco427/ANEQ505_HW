@@ -1406,6 +1406,7 @@ Ignore first 2:45 minutes
 - Select taxonomic level based on where u want to look. 
 
 ![[20260220-1928-52.6799869.mp4]]
+- 
 A quick way to search for specific taxa is to open your taxa bar plot and use command-F (or ctrl-F for PC) to search for that taxa. Check that chloroplasts and mitochondria were filtered out.
 ...
 Even though these taxa weren't present, it's good practice for you now because it is standard for these things to be filtered out. It's also a good habit to think about taxa you might need to filter out when doing your own analyses.
