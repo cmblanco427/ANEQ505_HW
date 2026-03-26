@@ -131,6 +131,10 @@ levels:
         - Diversity metrics
             - Alpha diversity
             - Beta diversity
+    - Tutorial
+        - 1. One more file to export!
+        - 2. Directory Setup for R Analysis
+        - 3. Download data for R analysis
 ```
 ```insta-toc
 ```
@@ -2602,7 +2606,8 @@ We can explore the PCoA plots for each from the core-metrics folder generated
 --
 -**Lets get started on this weeks tutorial:** 
 
-**1. One more file to export!**
+## Tutorial
+### **1. One more file to export!**
 
 OnDemand [https://ondemand-rmacc.rc.colorado.edu/pun/sys/dashboardLinks to an external site.](https://ondemand-rmacc.rc.colorado.edu/pun/sys/dashboard "(opens in a new window)") 
 
@@ -2625,8 +2630,35 @@ qiime metadata tabulate \
 --o-visualization tabulated_results.qzv
 ```
 
-#### **2. Directory Setup for R Analysis**
+### **2. Directory Setup for R Analysis**
 
 It is important when setting up a project to use a clear directory structure. Keeping raw data, processed data, scripts, results, and figures in separate folders helps maintain reproducibility and prevents accidental modification of original data. A well-structured project directory also makes analyses easier to understand, share, and rerun in the future. 
 
 To start, create a new directory on your laptop called **`r_decomp_tutorial`**. If you’d like, you can place this directory inside your Obsidian vault. Next, create the following folders inside this directory so that the final file structure looks like this:
+
+r_decomp_tutorial  
+├── 01_notes  
+├── 02_data  
+├── 03_metadata  
+├── 04_code  
+└── 05_figures
+
+The <span style="color:rgb(238, 170, 170)"><b>01_notes</b></span> directory is where you can store any notes related to your project.  
+The **<span style="color:rgb(238, 170, 170)">02_data</span>** directory should contain raw data (for example, sequencing data, or qiime2 outputs qzvs).  
+The <span style="color:rgb(238, 170, 170)"><b>03_metadata</b></span> directory will store all metadata associated with the project.  
+The <span style="color:rgb(238, 170, 170)"><b>04_code</b></span> directory is where your R scripts will be kept.   
+The <span style="color:rgb(238, 170, 170)"><b>05_figures</b></span> directory will store figures generated from your R analyses.
+
+### **3. Download data for R analysis**
+
+Now that we have our directories set up, we need to download our **alpha and beta diversity metrics and the tabulated_results.tsv file** from Alpine. 
+
+1. Log in to ondemand and navigate into the decomp_tutorial.
+2. Navigate into the export directory and select the alpha_div and beta_div directories we made last week. Once they are selected, go ahead and download them. Move the alpha and beta diversity directories to the 04_code directory on your computer. 
+3. Now open a terminal or PowerShell window and navigate into the 04_code directory. You'll notice that the alpha_div and beta_div directories are zipped, we need to unzip them. 
+4. Unzip the directories
+```r
+for f in *_div.zip; do  
+ unzip "$f" -d "${f%.zip}"  
+done
+```
