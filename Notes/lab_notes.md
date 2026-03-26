@@ -1729,7 +1729,10 @@ The command below shows one tool we can use to determine where to rarefy. The pl
 - can move around sampling depth to see where sample depth is retained and lost. Just a visualization to see where to rarify
 	 
 ![[Recording 20260227113329.m4a]]
-
+- See extraction controls lost immediately, have lowest sequencing depth
+- at ~10000, weve lost most of samples
+- All the way at 26,000 theres only one sample left
+- Could tehcnically put rareifying max depth at 26,00 but want to choose where samples drop off. Just a visualization to help decide where to rareify
 
 We chose 10000 for the max depth because the sample with the most features has 26204 sequences and when we look at the table.qzv we see that we start losing samples around 11000 sequences, and we want to capture all possibilities. By default, 10 rarefied tables are calculated at each sampling depth to provide an error estimate. 
 
