@@ -1726,7 +1726,7 @@ Now that we have our tree and we are ready to start looking at the diversity of 
 The command below shows one tool we can use to determine where to rarefy. The plot we are generating subsamples our feature table at different depths and calculates the alpha diversity at each of these. We are looking for the point when the graphs level off, which suggests that at that point we are not gaining any more diversity by adding more sequences. Ideally, we would rarefy at a level where all of the samples have leveled off, though this is not always possible.
 
 #### Discussing table.qzv
-	 can move around sampling depth to see where sample depth is retained and lost. Just a visualization to see where to rarify
+- can move around sampling depth to see where sample depth is retained and lost. Just a visualization to see where to rarify
 	 
 ![[Recording 20260227113329.m4a]]
 
