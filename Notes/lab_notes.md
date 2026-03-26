@@ -1447,14 +1447,15 @@ Why include positive controls?
 Positive Control Plot
  ![[Pasted image 20260220091427.png|500]]
 - this example has known composition from zyme
-- L= two that we sequences, doesnt perfectly match up what was in control but has all the same taxa, has same relative abundance. What u want to look for is that all the taxa in control ar epresnt in the positive control. If taxa in control is missing, something happened during sequences, no good
+- L= two that we sequences, doesnt perfectly match up what was in control but has all the same taxa, has same relative abundance. What u want to look for is that all the taxa in control arepresnt in the positive control. If taxa in control is missing, something happened during sequences, no good
 - 
 What should you do with taxa found in extraction controls?
 - Report them
 - Remove them statistically with tools designed for contamination removal
 - In most cases, researchers should avoid simplistic removals of taxa , OTUs, or ASVs appearing in negative controls, as many will be microbes from other samples rather than reagent contaminants.
-- Will always see something in extractin controls. Shouldnt amplify enough to see them. Can report them. In severe cases can filter the contaminant out, but this is rare. Just report mild contamination. 
+- Will always see something in extraction controls. Shouldnt amplify enough to see them. Can report them. In severe cases can filter the contaminant out, but this is rare. Just report mild contamination. 
 ![[20260220-1936-06.7455466.mp4]]
+-If your controls look messy look at the table to see how many reads they have and compare that to actual sampl
 You've just done your first taxonomic analysis, congratulations!
 
 ![[Recording 20260220124243.m4a]]
