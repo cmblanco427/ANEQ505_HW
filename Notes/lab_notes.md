@@ -1344,7 +1344,10 @@ qiime metadata tabulate \
 - always check confidence scores
 - will show taxonomic identification
 ![[20260220-1909-54.4751804.mp4]]
-
+- can sort by confidence
+	- So if u find something important ALWAYS check confidence
+- Will classify to the best of its ability, but will put _ for any uncertain classifications
+	- ex. d_bacteria, p_pseudomonodota, c_ alphaproteobacteira, o_ricketsiales, f_mitochondria, g__, s__
 ![[Recording 20260220122208.m4a]]
 
 Let's take a look at our taxonomy file using [view.qiime2.orgLinks to an external site.](https://view.qiime2.org/ "(opens in a new window)")!
