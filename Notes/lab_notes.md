@@ -1455,7 +1455,8 @@ What should you do with taxa found in extraction controls?
 - In most cases, researchers should avoid simplistic removals of taxa , OTUs, or ASVs appearing in negative controls, as many will be microbes from other samples rather than reagent contaminants.
 - Will always see something in extraction controls. Shouldnt amplify enough to see them. Can report them. In severe cases can filter the contaminant out, but this is rare. Just report mild contamination. 
 ![[20260220-1936-06.7455466.mp4]]
--If your controls look messy look at the table to see how many reads they have and compare that to actual sampl
+` -If your controls look messy look at the table to see how many reads they have and compare that to actual samples.
+	- Ex. If your controls have 100 reads, but your samples have 3000 then youre fine. 
 You've just done your first taxonomic analysis, congratulations!
 
 ![[Recording 20260220124243.m4a]]
