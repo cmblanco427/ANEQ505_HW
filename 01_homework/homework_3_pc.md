@@ -44,8 +44,9 @@ qiime diversity alpha-rarefaction \
 --p-max-depth 33000
 ```
 - look at table.qzv and find minimum reads and highest reads, and then round to the nearest 1000.
-- Alpha rarefaction plot- do on observed features- want to know number of ASVs in each sample so we can see if were missing any rare stuff. Sample metadata option should be something that selects every single sample individually. 
-- if u rarefaction level off is too low, will miss some of the ones that are increasing in alpha d
+- 
+
+![[Recording 20260327111705.m4a]]
 
 ### Run Core Metrics ~={red}(1 point)=~
 
@@ -54,9 +55,17 @@ qiime diversity core-metrics-phylogenetic \
 --i-table dada2/cow_table_dada2_filtered300.qza \
 --i-phylogeny tree/tree_gg2.qza \
 --m-metadata-file metadata/cow_metadata.txt \
---p-sampling-depth 1500 \
---output-dir core_metrics_results
+--p-sampling-depth 1500 \ #Switch to 50000
+--output-dir core_metrics_results #make new core_metric result
 ```
+<span style="color:rgb(238, 170, 170)">Alpha rarefaction plot- do on observed features- want to know number of ASVs in each sample so we can see if were missing any rare stuff. Sample metadata option should be something that selects every single sample individually. <br>- if u rarefaction level off is too low, will miss some of the ones that are increasing in alpha diversity. WAnt to follow traces, look globally and make sure all of samples are plateauing for sequences depth. Want to find a value where samples are leveling off but not loosing alot of samples<br>- If ur rarefaction is too high, will loose anything that doesnt have a sequencing depth at that high value.     
+- SUPER SUBJECTIVE
+- <br>- They accepted anything between 4000-6000</span>
+<mark style="background: #FFF3A3A6;">- RERARIFY THIS to 4000-5000</mark>
+- dont want alot of samples below 10,000
+- When looking at table.qzv can lookat sampling depth and all of the sames you loose will show up in red
+![[Recording 20260327112733.m4a]]
+
 
 
 ### Visualize alpha diversity plots
