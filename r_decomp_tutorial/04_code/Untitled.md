@@ -1,13 +1,3 @@
----
-title: "decomp_stats_figures"
-output: pdf_document
-date: "2026-03-27"
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # This script is a general guide for making publication-quality visualizations using QIIME2-generated outputs
 
 ################################################################################
@@ -218,8 +208,10 @@ anova(model_add0_faithpd)
 
 ## add_0c split into 3
 
+![[Recording 20260327123621.m4a]]
+
 Shannon 
-```{r}
+```r
 # Add metadata column 
 metadata <- metadata %>%
   mutate(add0c_split = cut(
@@ -244,8 +236,12 @@ emmeans(model_add0split_shannon, pairwise ~ add0c_split)
 ```
 * From our emmeans we aren't seeing anything in shannon diversity specifically. 
 
+![[Recording 20260327123653.m4a]]
+
+
+
 On your own you can try splitting add_0c in two groups. 
-```{r}
+```r
 metadata <- metadata %>%
   mutate(add0c_split2 = cut(
     add_0c,
@@ -268,9 +264,18 @@ anova(model_add0split2_shannon)
 emmeans(model_add0split2_shannon, pairwise ~ add0c_split2)
 ```
 
-# add_0c figure (voltility plot)
+![[Recording 20260327123844.m4a]]
 
-```{r}
+![[Recording 20260327123916.m4a]]
+
+# add_0c figure (voltility plot)
+- all 4 metrics.
+- saves ggplot in environment.
+- WHen u run chunk get all 4 volatility plots saved into 1 fig
+- 
+![[Recording 20260327123957.m4a]]
+
+```r
 # Shannon
 add0c_shannon <- ggplot(metadata, aes(x = add_0c, y = shannon_entropy, linetype = sample_type)) +
   geom_line(linewidth = 0.7, alpha = 0.8) +
@@ -368,12 +373,12 @@ alpha_div_addOc
 ggsave(alpha_div_addOc, filename = "../05_figures/alpha_div_addOc.jpeg", device = "jpeg", dpi = 300, width = 12, height = 9)
 
 ```
-
+- just tested 1 metric
 
 
 # add_0c 3 group figure
 
-```{r}
+```r
 model_add0split_shannon <- lmer(shannon_entropy ~ add0c_split + (1|host_subject_id), data = metadata)
 
 pvals <- pairs(emmeans(model_add0split_shannon, ~ add0c_split)) |> as.data.frame()
@@ -404,13 +409,17 @@ add_split_shannon
 ggsave(add_split_shannon, filename = "../05_figures/add_split_shannon.jpeg", device = "jpeg", dpi = 300, width = 8, height = 9)
 ```
 
+![[Recording 20260327124038.m4a]]
+
 
 
 ## add0c + facility (question 2)
+
 To make it easier to demonstrate time I am going to continue the analysis with the 3 group add_0c split. 
 In this section, we will test whether microbial community composition changes differently across facilities over accumulated degree days (add_0c). To do this, we included facility as an interaction with add_0c in the model. This allows us to evaluate whether the trajectory of microbial community change over time differs between facilities, rather than simply testing for overall differences between facilities. By modeling the interaction, we can determine whether microbial communities diverge from their baseline at different rates depending on the facility where the samples were collected.
+
 Shannon
-```{r}
+```r
 # Build model
 model_add0_facility_shannon <- lmer(shannon_entropy ~ facility*add0c_split + (1|host_subject_id), data = metadata)  
 
@@ -424,7 +433,7 @@ anova(model_add0_facility_shannon)
 emmeans(model_add0_facility_shannon, pairwise ~ facility|add0c_split)
 ```
 Really quick lets just look when we don't split add_0c
-```{r}
+```r
 # Build model
 model_add0_facility_shannon2 <- lmer(shannon_entropy ~ facility*add_0c + (1|host_subject_id), data = metadata)  
 
@@ -437,9 +446,21 @@ anova(model_add0_facility_shannon2)
 # pairwise comparisons
 emmeans(model_add0_facility_shannon2, pairwise ~ facility)
 ```
+- this part doesnt work in QIIME2
+- repeated measures dont run there, especially if u have repeated groups, need to export in R and include other stats. 
+
+![[Recording 20260327124247.m4a]]
+
+![[Recording 20260327124403.m4a]]
+FIRST-STAFS, not enough info at 300-450 to make a comparison, so got lots NAs
+
+![[Recording 20260327124448.m4a]]
+
+![[Recording 20260327124526.m4a]]
+
 
 Evenness
-```{r}
+```r
 # Build model
 model_add0_facility_evenness <- lmer(pielou_evenness ~ facility*add0c_split + (1|host_subject_id), data = metadata)  
 
@@ -452,9 +473,10 @@ anova(model_add0_facility_evenness)
 # pairwise comparisons
 emmeans(model_add0_facility_evenness, pairwise ~ facility|add0c_split)
 ```
+- all stats should be put into supplementary
 
 Observed Features
-```{r}
+```r
 # Build model
 model_add0_facility_obfeatures <- lmer(observed_features ~ facility*add0c_split + (1|host_subject_id), data = metadata)  
 
