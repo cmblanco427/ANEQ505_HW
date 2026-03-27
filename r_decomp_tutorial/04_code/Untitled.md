@@ -473,7 +473,10 @@ anova(model_add0_facility_evenness)
 # pairwise comparisons
 emmeans(model_add0_facility_evenness, pairwise ~ facility|add0c_split)
 ```
-- all stats should be put into supplementary
+- all stats should be put into supplementary. 
+
+![[Recording 20260327124650.m4a]]
+
 
 Observed Features
 ```r
@@ -490,8 +493,13 @@ anova(model_add0_facility_obfeatures)
 emmeans(model_add0_facility_obfeatures, pairwise ~ facility|add0c_split)
 ```
 
+![[Recording 20260327124714.m4a]]
+
+
+
+
 Faith's PD
-```{r}
+```r
 # Build model
 model_add0_facility_faithpd <- lmer(faith_pd ~ facility*add0c_split + (1|host_subject_id), data = metadata)  
 
@@ -506,8 +514,10 @@ emmeans(model_add0_facility_faithpd, pairwise ~ facility|add0c_split)
 ```
 - We can see that facility is significant at earlier timepoints so when we look at sample_type we will include it in our model. 
 
+![[Recording 20260327124721.m4a]]
+
 # Facilty figure ajusted for time (box plot) (3 timepoint box plot)
-```{r}
+```r
 model_add0_facility_faithpd <- lmer(faith_pd ~ facility*add0c_split + (1|host_subject_id), data = metadata)  
 pvals <- pairs(
   emmeans(model_add0_facility_faithpd, ~ facility | add0c_split)
@@ -576,12 +586,17 @@ ggsave(add_split_faithpd_facility, filename = "../05_figures/add_split_faiths_fa
 
 ```
 
+![[Recording 20260327124925.m4a]]
+
 
 ## add_0c + facility + sample_type (question 3)
+
+![[Recording 20260327124954.m4a]]
+
 We know that facility varies across accumulated degree days (add_0c), but it is not the primary variable addressing our research question in this section. Therefore, we include facility in the model as an additive term rather than as an interaction term. Instead, we include sample_type as an interaction with add_0c, because we want to test whether microbial communities from soil and skin change differently over time. We previously examined the effect of facility in an earlier section, so here it is included only as a covariate to account for background variation. Specifically, we are testing whether the time trajectories differ between soil and skin samples. If we instead wanted to compare soil versus skin while simply accounting for time, rather than testing different time trajectories, add_0c would be included as an additive term rather than in an interaction.
 
 Shannon 
-```{r}
+```r
 # Build model
 model_add0_facility_sampletype_shannon <- lmer(shannon_entropy ~ sample_type*add0c_split + facility + (1|host_subject_id), data = metadata)  
 
