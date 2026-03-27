@@ -2620,7 +2620,7 @@ ainteractive
 module purge
 module load qiime2/2024.10_amplicon
 
-cd /scratch/alpine/[$USER](mailto:lindsval@colostate.edu "(opens in a new window)")/decomp_tutorial/dada2
+cd /scratch/alpine/[$USER/decomp_tutorial/dada2
 
 qiime feature-table transpose \
 --i-table table_nomitochloro.qza \
@@ -2665,3 +2665,10 @@ for f in *_div.zip; do
  unzip "$f" -d "${f%.zip}"  
 done
 ```
+5. In Ondemand, download metadata.txt and move it into the 03_metadata directory. 
+
+6. Open the tabulate_results.qzv in qiime2 view and download the tsv. It will download as metadata.tsv rename it to tabulated_results.tsv. In the 04_code directory, make a new directory named taxonomy. Move the downloaded tabulated_results.tsv into the taxonomy directory.
+
+7. Download the R markdown here and move it into the 04_code directory.  
+
+Now we are ready to work in R.
