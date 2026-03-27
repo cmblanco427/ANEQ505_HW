@@ -38,5 +38,17 @@
 	- For one proj where u have sequences for differnet runs, the trunk length needs to be the same, but all of your data in diff projects DOESNT need to match unless youre merging them.
 	- If youre just using forward reads need to trim and truncate the same. 
 ## Quiz 3
+- you overestimate alpha diversity because it thinks theres more ASVs than there are
+- Birds bats and caterpillars dont really have a resident gut microbiome. Birds n bats have to be super light, so cant carry around the pound of extra microbes so dont show much of a phylogenetic signal, mostly transient microbes in their poop
+- Age= one of biggest effects on human gut composition (ie. beta and alpha diversity)
+- Non-parametric test- we do special differential abundance to determine if taxa is enriched or depleted in a group. Cant do if abundance has increased or if something else decrearsed that led to the increase, so need to look at ratios. So we dont do just a statistical test on relative abundance. DONT DO THIS. Use things like ancom bc or lefC, mazlan, so these use info about how ratios of taxas are changing. 
+- Non-phylogenetic beta diversity metric: Bray Curtis
+- Longitudinal data set with repeated measures, linear mixed effects models can be useful statistical approaches
+- colostrum feeding Q - 
+- PCoA - exploratory/qualitative. not a statistical approach
+- TAxa bar plots of neg extraction controls- report taxa found on controls and use statistical contamination removal methods. 
+- 
+![[Recording 20260327110814.m4a]]
+
 ## Quiz 4
 ## Quiz 5

@@ -35,15 +35,17 @@ module load qiime2/2024.10_amplicon
 
 ```
 #go to the cow directory
-
+# plot alpha diversity of each sample to look at sequencing depth
 qiime diversity alpha-rarefaction \
 --i-table dada2/cow_table_dada2_filtered300.qza \
 --m-metadata-file metadata/cow_metadata.txt \
 --o-visualization alpha_rarefaction_curves_16S.qzv \
---p-min-depth 1 \
---p-max-depth 10000
+--p-min-depth 10 \
+--p-max-depth 33000
 ```
-
+- look at table.qzv and find minimum reads and highest reads, and then round to the nearest 1000.
+- Alpha rarefaction plot- do on observed features- want to know number of ASVs in each sample so we can see if were missing any rare stuff. Sample metadata option should be something that selects every single sample individually. 
+- if u rarefaction level off is too low, will miss some of the ones that are increasing in alpha d
 
 ### Run Core Metrics ~={red}(1 point)=~
 
