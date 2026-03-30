@@ -18,6 +18,7 @@ levels:
 
 - Planning Day: 3/30/26
     - Projects
+    - Data Analysis Plan
 ```
 ## Planning Day: 3/30/26
 -25% of grade
@@ -32,4 +33,18 @@ levels:
 9. Final Methods and Results for report due this week, as well as commands Tuesday of finals week, 5/1,2 5pm
 
 ### Projects
-- 
+- Google sheets will made, choose groups, start data analysis plan. 
+### Data Analysis Plan
+
+![[Recording 20260330112421.m4a]]
+- What to include
+	- background, methods, data generation, data analysis, results
+	- Results
+		- prelim analysis, quality control, barplots, alpha rarefaction curves, where we rareified and why
+		- alpha/beta diveresity outputs
+		- if longitudinal include that
+	- Discussion
+	- Work cited
+	
+![[Recording 20260330112747.m4a]]
+
