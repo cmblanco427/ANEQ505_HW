@@ -1,0 +1,35 @@
+
+```insta-toc
+---
+title:
+  name: Table of Contents
+  level: 1
+  center: false
+exclude: ""
+style:
+  listType: dash
+omit: []
+levels:
+  min: 1
+  max: 6
+---
+
+# Table of Contents
+
+- Planning Day: 3/30/26
+    - Projects
+```
+## Planning Day: 3/30/26
+-25% of grade
+1. Identify your questions and create a data analysis plan
+2. 4/9 Analysis plan due (5 pts)
+3. Start analyzing your data, and write your methods due 4/18
+4. First draft returned with edits 
+5. Final draft due 4/22 (10 pts)
+6. Results draft due 4/29 (10 pts)
+7. First draft will be returned with edits (final due with final report)
+8. Final presentations 5/8 during class (~20 minutes each) 
+9. Final Methods and Results for report due this week, as well as commands Tuesday of finals week, 5/1,2 5pm
+
+### Projects
+- 
