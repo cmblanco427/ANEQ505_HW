@@ -1677,7 +1677,7 @@ sinteractive --reservation=aneq505 --time=02:00:00 --partition=amilan --nodes=1 
 
 ```r
 module purge  
-module load qiime2/2024.10_amplicon  
+module load qiime2/2024.10_amplicon
   
 cd /scratch/alpine/$USER/decomp_tutorial/taxaplots  
 ```
