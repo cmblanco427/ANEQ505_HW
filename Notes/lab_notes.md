@@ -1897,7 +1897,7 @@ core-metrics-results/observed_features_vector.qza
 ```
 - <span style="color:rgb(217, 129, 129)">Richness: number of unique ASVs in each sample after rarefaction (ie. how many diff taxa are present?) Sensitive to sequencing depth but DOES NOT consider sequencing depth. Higher= More taxa detected.</span>
 
-**2. Pielou's evenness:** an alpha diversity metric that measures relative **evenness** (a comparison of organism abundance) of species richness. If abundance is higher or lower
+**2. Shannon's Evenness (Pielou's evenness):** an alpha diversity metric that measures relative **evenness** (a comparison of organism abundance) of species richness. If abundance is higher or lower
 
 ```r
 core-metrics-results/evenness_vector.qza
