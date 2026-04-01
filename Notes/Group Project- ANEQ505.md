@@ -48,3 +48,10 @@ levels:
 	
 ![[Recording 20260330112747.m4a]]
 
+Data analysis draft
+- make like QIIME2 workflow. like slide 20. Put the flow chart in words. Give info abotu how i did each step. 
+- Hopthesis at top
+- Then about tests at the end, beta diversity among habitats. 
+- Hypothesis and methods essentially. 
+- 
+![[Recording 20260401120006.m4a]]
