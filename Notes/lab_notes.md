@@ -135,6 +135,16 @@ levels:
         - 1. One more file to export!
         - 2. Directory Setup for R Analysis
         - 3. Download data for R analysis
+-  Week 10 Tutorial: ANCOM-BC2 & Machine Learning
+    - Finishing up in R
+    - ANCOM-BC2: Differential Abundance Testing
+    - Supervised learning with q2-sample-classifier tutorial
+    - ML Tutorial (classification and regression)
+    - Results
+        - Accuracy Results
+    - Heatmap QZV
+    - 2. Can we use the skin or soil microbiome to predict how long a sample has been decomposing for?
+        - Accuracy results:
 ```
 ```insta-toc
 ```
@@ -2672,3 +2682,258 @@ done
 7. Download the R markdown here and move it into the 04_code directory.  
 
 Now we are ready to work in R.
+
+--------------------------------------------------------
+
+----------------------------------
+
+# # Week 10 Tutorial: ANCOM-BC2 & Machine Learning
+**Last week on tutorial Fridays:**
+
+- Alpha and Beta diversity stats on repeated measures, longitudinal data, Linear Mixed Effects (LME) models (in R)
+
+**This week:**
+
+- Finish up R code
+- ANCOM-BC2
+- Machine Learning
+
+#### **Finishing up in R** 
+
+- Beta diversity statistics
+- Beta diversity figures
+- Taxabar plots
+
+#### **ANCOM-BC2: Differential Abundance Testing**
+
+This week, we are going to practice using the ANCOM-BC2 visualizer within the _composition_ plugin. This plugin focuses on methods that account for the compositional nature of microbiome data. [HereLinks to an external site.](https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2017.02224/full "(opens in a new window)") is a paper that explains what this means and why we have to deal with this when analyzing microbiome data. If you have questions about what it means for data to be _compositional_, this paper is worth a read. Recall that microbiome data is compositional, because 16S sequencing alone cannot capture absolute abundance of an organism, thus we get _relative abundance_.
+
+The ANCOM-BC2 pipeline is a differential abundance test that lets us investigate whether individual ASVs or taxa are more or less abundant in different sample groups. Microbiome data present several challenges for performing differential abundance using conventional methods. Microbiome abundance data are inherently _sparse_ (having a lot of zeros) and _compositional_. Because of this, traditional statistical methods that you may be familiar with such as ANOVA, Kruskal-Wallis, and t-tests are not appropriate for performing differential abundance tests of microbiome data and lead to a high false-positive rate. ANCOM-BC2 is a compositionally aware method that extends ANCOM-BC by improving bias correction and allowing for more flexible study designs (e.g., multiple groups and complex models) The paper can be found here: [https://www.nature.com/articles/s41592-023-02092-7Links to an external site.](https://www.nature.com/articles/s41592-023-02092-7 "(opens in a new window)"). Microbiome data are typically subject to two sources of biases: unequal sampling fractions (sample-specific biases) and differential sequencing efficiencies (taxon-specific biases). In short, it is a tool that identifies features that are significantly different in abundance between groups using bias-corrected log fold changes.
+
+Before we start, once again make sure you are in your decomp_tutorial directory and make sure your QIIME2 environment is activated. 
+
+**Alpine On-Demand:** [ondemand-rmacc.rc.colorado.edu](http://ondemand-rmacc.rc.colorado.edu/ "(opens in a new window)")
+```r
+sinteractive --reservation=aneq505 --time=01:00:00 --partition=amilan --nodes=1 --ntasks=6 --qos=normal
+
+#Load QIIME
+
+module purge  
+module load qiime2/2026.1_amplicon
+```
+
+Let's navigate to the correct place. Use `cd` to move into your **decomp_tutorial** folder. Use `pwd` to make sure you're in the correct place.
+```r
+cd /scratch/alpine/$USER/decomp_tutoral 
+  
+pwd
+```
+
+Make an ancombc2 directory and navigate into that directory
+```r
+mkdir ancombc2  
+  
+cd ancombc2
+```
+
+Before doing ANCOM, we will **first filter out any samples with fewer features than we rarefied at (< 2000)** using the filter-samples method from the feature table plugin.
+```r
+qiime feature-table filter-samples \  
+  --i-table ../dada2/table_nomitochloro_nocontrol.qza \  
+  --p-min-frequency 1500 \  
+  --o-filtered-table table_nomitochloro_1500.qza
+```
+
+Then, we will **filter out low abundance/low prevalence ASVs.** Filtering can provide better resolution and limit false discovery rate (FDR) penalty on features that are too far below the noise threshold to be applicable to a statistical test. A feature that shows up with 10 counts may be a real feature that is present only in that sample, it may be a feature that’s present in several samples but only got amplified and sequenced in one sample because PCR is a somewhat stochastic process, or it may be noise. It’s not possible to tell, so feature-based analysis may be better after filtering low-abundance features. However, filtering also shifts the composition of a sample, further disrupting the relationship. Here, the filtering is performed as a trade-off between the model, computational efficiency, and statistical practicality. (You don’t need to apply as stringent filtering for ANCOM-BC2 since it is more robust, but it is still good practice to understand and apply appropriate filtering).
+
+```r
+qiime feature-table filter-features \  
+  --i-table table_nomitochloro_1500.qza \  
+  --p-min-frequency 50 \  
+  --p-min-samples 4 \  
+  --o-filtered-table table_nomitochloro_1500_abund.qza
+```
+
+**Collapse the feature table to the species level**
+
+You don’t have to collapse to the species level—you can run ANCOM-BC directly on `table_nomitochloro_1500_abund.qza` to identify differentially abundant ASVs. However, collapsing to the species level makes it easier to interpret results by linking those ASVs to taxonomy. You can also collapse to the genus level or any other taxonomic level relevant to your research question by adjusting the `--p-level` parameter.
+```r
+qiime taxa collapse \  
+--i-table table_nomitochloro_1500_abund.qza \  
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \  
+--p-level 7 \  
+--o-collapsed-table table_nomitochloro_1500_abund_L7.qza
+```
+
+Time to run ANCOM-BC2! Let's first see if there are any **ASVs that are differentially abundant across the sample types and facility.**
+
+First, we need to get metadata that doesn't have controls
+```r
+cp /pl/active/courses/2025_summer/CSU_2025/q2_workshop_final/QIIME2/metadata_q2_workshop_noECs.txt .
+```
+
+```r
+qiime composition ancombc2 \  
+--i-table table_nomitochloro_1500_abund_L7.qza \  
+--m-metadata-file metadata_q2_workshop_noECs.txt \  
+--p-fixed-effects-formula 'sample_type + facility + add_0c' \  
+--p-reference-levels sample_type::soil facility::STAFS \  
+--p-random-effects-formula '(1 | host_subject_id)' \  
+--o-ancombc2-output ancombc2_sampletype_facility_add_L7.qza  
+  
+  
+qiime composition tabulate \  
+--i-data ancombc2_sampletype_facility_add_L7.qza \  
+--o-visualization ancombc2_sampletype_facility_add_L7.qzv  
+  
+  
+qiime composition ancombc2-visualizer \  
+--i-data ancombc2_sampletype_facility_add_L7.qza \  
+--o-visualization ancombc2_barplot_sampletype_facility_add_L7.qzv
+```
+
+This is the ancombc2 visualizer command to use if just visualizing ASVs without collapsing to a taxonomic level.
+
+```r
+qiime composition ancombc2-visualizer \  
+ --i-data table_nomitochloro_1500_abund.qza \  
+ --i-taxonomy ../taxonomy/taxonomy_gg2.qza \  
+ --o-visualization ancombc2_sampletype_facility_add.qzv
+```
+
+When we look at the files, we get a big table with several tabs. First is **lfc (log fold change)** which shows you how each ASV changed. A positive value indicates enrichment while a negative value means that ASV was depleted in that group. You can also think about this being enriched in the other group. The next important tab is q-values. This shows you which ASVs were significantly different between groups (note: they might not all be significant). SE shows the standard error of each lfc. These three values are used to generate the bar plot visualization. 
+
+**Which species are enriched in the skin samples? What about between facilities?** **Are there more differentially abundant features between sample type or facilities?**
+## **Supervised learning with q2-sample-classifier tutorial**
+
+In the last class, you used ANCOM to test for differential abundance and investigate whether individual ASVs or taxa were more or less abundant within different groups. Now, we will further our analysis by using a machine-learning classifier for predicting sample characteristics. This will help us determine how **predictive** the microbiome composition is of other characteristics about a sample.
+
+![[Pasted image 20260402171316.png]]
+
+![[Pasted image 20260402171320.png]]
+
+**Basic steps within supervised learning for microbiome data** 
+
+1. Split samples 
+	- 80% train, 20% test
+2. Train model 
+	- Learn patterns from training set
+3. Optimization 
+	- CV to determine best parameters
+4. Predict test samples 
+	- Test model on the test set
+5. Evaluate accuracy
+6. Extract important features
+![[Pasted image 20260402171417.png]]
+
+![[Pasted image 20260402171422.png]]
+
+**Best practices and notes of caution…**
+
+- A minimum of approximately 50 samples should be provided
+- Categorical metadata columns that are used as classifier targets should have a minimum of 10 samples per unique value
+- Continuous metadata columns that are used as regressor targets should not contain many outliers or grossly uneven distributions.
+- **Keep your testing data and testing data-related samples out of your training dataset – This is cheating and can cause unrealistically high accuracy. (we’re going to do it anyway for demonstration purposes 😬) Qiime2 does not yet provide options for studies with repeated measures.**
+- **if you have repeated measures you need to run machine learning outside of qiime2 so that you can account for donor in order to keep same-donor samples together and correctly split the training and test data**
+
+## **ML Tutorial (classification and regression)**
+
+_**1. Can we use the skin or soil microbiome to predict where a sample was collected?**_ 
+We start with the rarefied table and again collapse it to the level of interest (here is level 7- species).
+
+```r
+cd /scratch/alpine/$USER/decomp_tutoral      
+mkdir ml   
+cd ml  
+  
+qiime taxa collapse \  
+--i-table ../core-metrics-results/rarefied_table.qza \  
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \  
+--p-level 7 \  
+--o-collapsed-table rare_table_L7.qza
+```
+
+This will be done using a Random Forest classifier ([Link](https://towardsdatascience.com/random-forest-classification-and-its-implementation-d5d840dbead0 "Link (opens in a new window)") here in case you need a reminder for how this works). As a review, remember that with machine learning we will be taking our feature table and splitting it into test sample and training samples. The Random Forest classifier will be trained using the test samples, and the accuracy of the trained classifier will be assessed by testing on the test samples. Because this is a classification, we will get a matrix as our output (as opposed to a scatterplot, which is what we would get if we were training a regressor to use with continuous data). This command will take a few minutes.
+
+```r
+qiime sample-classifier classify-samples \  
+--i-table rare_table_L7.qza \  
+--m-metadata-file ../metadata/metadata.txt \  
+--m-metadata-column facility \  
+--p-random-state 123 \  
+--p-n-jobs 1 \  
+--output-dir sample_classifier_results_facility
+```
+
+If you ever want to use something other than a Random Forest method, this can be changed using the "estimator" parameter. Here is a [Link](https://docs.qiime2.org/2021.11/plugins/available/sample-classifier/classify-samples/ "Link (opens in a new window)") to the plugin that shows the different classifiers you can use. 
+
+The line "--p-random-state 123" is something we haven't seen before. This number sets a seed to the random generator such that the train-test splitting of the data is reproducible. You don't need to know a lot of detail about this, but just know that it can be any random number, and if you want to get the exact same results when running the model a second time you should use the same number.
+
+## **Results**
+
+You now have a directory called "sample_classifier_results_facility" that has several different files. We have some qza files with our predictions, important features, probabilities, and sample estimations. There is more detail about these files in the full linked tutorial below. 
+
+For now, we are going to focus on the qzv files that were generated for us - **accuracy_results.qzv, heatmap.qzv, and model_summary.qzv.** Let's transfer these to our local computers.  
+
+Let's first look at accuracy_results.qzv. This is a confusion matrix (or error matrix) that tells us how accurate our predictions are. A perfect model would give a single diagonal line. Are there any errors in our model?
+
+### **Accuracy Results**
+
+- This is a confusion matrix (or error matrix) that tells us how accurate our predictions are
+- The ROC curves below the confusion matrix are a way to visualize the true and false prediction rates. The important thing to notice is that our model is better at predicting than if it were done by chance.
+- So the higher up the ROC curve is above the by-chance model, the better. 
+    
+
+**Model Summary QZV** just prints your model parameters
+
+## **Heatmap QZV**
+
+Next we can look at the heatmap.qzv. This gives us a visualization of the abundance of important features for each facility. Do any features stick out to you, and appear to be really different between facility? 
+
+Want to see more important features? Because our modeling gave us the important features (ASVs), we can make another heat map with the top 100 most important features to look and how their abundances change over categories. 
+
+**Important features results**
+```r
+qiime sample-classifier heatmap \  
+--i-table rare_table_L7.qza \  
+--i-importance sample_classifier_results_facility/feature_importance.qza \  
+--m-sample-metadata-file ../metadata/metadata.txt \  
+--m-sample-metadata-column facility \  
+--p-group-samples \  
+--p-feature-count 100 \  
+--o-heatmap sample_classifier_results_facility/heatmap_100_features.qzv \  
+--o-filtered-table sample_classifier_results_facility/filtered_table_100_features.qza
+```
+
+## _**2. Can we use the skin or soil microbiome to predict how long a sample has been decomposing for?**_
+```r
+qiime sample-classifier regress-samples \  
+--i-table rare_table_L7.qza \  
+--m-metadata-file ../metadata/metadata.txt \  
+--m-metadata-column add_0c \  
+--p-estimator RandomForestRegressor \  
+--p-n-estimators 20 \  
+--p-random-state 123 \  
+--output-dir sample_regressor_results_ADD
+```
+
+### Accuracy results: 
+- Regression showing the real ADD vs model predicted ADD (y-axis)
+- R2  and p-values shows good fit
+- Mean squared error (MSE) lower = better
+- Square root of MSE 2076 = Mean absolute error 45.57 ADD (~ 2.8 days)
+
+HOWEVER:
+- Samples from same donor were split between training and testing data (cheating)
+
+**Which features are the most important?**
+```r
+qiime metadata tabulate \  
+  --m-input-file sample_regressor_results_ADD/feature_importance.qza \  
+  --o-visualization sample_regressor_results_ADD/feature_importance.qzv
+```
+**Notes on ML:** 
+
+If you'd like more practice using machine learning for sample classification in QIIME2, here is a whole other tutorial (with a lot more detail) for you to have fun with! [https://docs.qiime2.org/2021.11/tutorials/sample-classifier.](https://docs.qiime2.org/2021.11/tutorials/sample-classifier/ "(opens in a new window)")
+
+There are a couple of caveats to using QIIME2 for your machine learning. Cross-validation methods aren't very flexible (e.g., you can't group by subject or some other metadata category - it can only randomly split samples into your training and testing data sets). You also cannot use extra metadata as predictive features (e.g., if there was some sort of predictive metadata category, like temperature or pH, there is no way in QIIME2 to incorporate this as a feature into your model along with ASVs). If these are things that are important to your analyses, then learning how to do machine learning in Python or R is the way to go.
