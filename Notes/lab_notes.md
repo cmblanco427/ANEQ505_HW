@@ -2824,7 +2824,7 @@ In the last class, you used ANCOM to test for differential abundance and investi
 	- Test model on the test set
 5. Evaluate accuracy
 6. Extract important features
-![[Pasted image 20260402171417.png]]
+![[Pasted image 20260402171417.png|800]]
 
 ![[Pasted image 20260402171422.png]]
 
