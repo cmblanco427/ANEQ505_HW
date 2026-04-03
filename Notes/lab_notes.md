@@ -2797,6 +2797,8 @@ qiime composition ancombc2-visualizer \
 This is the ancombc2 visualizer command to use if just visualizing ASVs without collapsing to a taxonomic level.
 
 ```r
+
+## couldnt get this to work
 qiime composition ancombc2-visualizer \
 --i-data table_nomitochloro_1500_abund.qza \
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \
