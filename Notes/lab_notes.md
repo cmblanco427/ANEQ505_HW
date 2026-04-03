@@ -2844,9 +2844,9 @@ _**1. Can we use the skin or soil microbiome to predict where a sample was colle
 We start with the rarefied table and again collapse it to the level of interest (here is level 7- species).
 
 ```r
-cd /scratch/alpine/$USER/decomp_tutoral
-mkdir ml   
-cd ml  
+cd /scratch/alpine/$USER/decomp_tutorial
+mkdir ml
+cd ml
   
 qiime taxa collapse \
 --i-table ../core-metrics-results/rarefied_table.qza \
@@ -2858,7 +2858,13 @@ qiime taxa collapse \
 This will be done using a Random Forest classifier ([Link](https://towardsdatascience.com/random-forest-classification-and-its-implementation-d5d840dbead0 "Link (opens in a new window)") here in case you need a reminder for how this works). As a review, remember that with machine learning we will be taking our feature table and splitting it into test sample and training samples. The Random Forest classifier will be trained using the test samples, and the accuracy of the trained classifier will be assessed by testing on the test samples. Because this is a classification, we will get a matrix as our output (as opposed to a scatterplot, which is what we would get if we were training a regressor to use with continuous data). This command will take a few minutes.
 
 ```r
-qiime sample-classifier classify-samples \--i-table rare_table_L7.qza \--m-metadata-file ../metadata/metadata.txt \--m-metadata-column facility \--p-random-state 123 \--p-n-jobs 1 \--output-dir sample_classifier_results_facility
+qiime sample-classifier classify-samples \
+--i-table rare_table_L7.qza \
+--m-metadata-file ../metadata/metadata.txt \
+--m-metadata-column facility \
+--p-random-state 123 \
+--p-n-jobs 1 \
+--output-dir sample_classifier_results_facility
 ```
 
 If you ever want to use something other than a Random Forest method, this can be changed using the "estimator" parameter. Here is a [Link](https://docs.qiime2.org/2021.11/plugins/available/sample-classifier/classify-samples/ "Link (opens in a new window)") to the plugin that shows the different classifiers you can use. 
@@ -2890,12 +2896,27 @@ Want to see more important features? Because our modeling gave us the important 
 
 **Important features results**
 ```r
-qiime sample-classifier heatmap \--i-table rare_table_L7.qza \--i-importance sample_classifier_results_facility/feature_importance.qza \--m-sample-metadata-file ../metadata/metadata.txt \--m-sample-metadata-column facility \--p-group-samples \--p-feature-count 100 \--o-heatmap sample_classifier_results_facility/heatmap_100_features.qzv \--o-filtered-table sample_classifier_results_facility/filtered_table_100_features.qza
+qiime sample-classifier heatmap \
+--i-table rare_table_L7.qza \
+--i-importance sample_classifier_results_facility/feature_importance.qza \
+--m-sample-metadata-file ../metadata/metadata.txt \
+--m-sample-metadata-column facility \
+--p-group-samples \
+--p-feature-count 100 \
+--o-heatmap sample_classifier_results_facility/heatmap_100_features.qzv \
+--o-filtered-table sample_classifier_results_facility/filtered_table_100_features.qza
 ```
 
 ## _**2. Can we use the skin or soil microbiome to predict how long a sample has been decomposing for?**_
 ```r
-qiime sample-classifier regress-samples \--i-table rare_table_L7.qza \--m-metadata-file ../metadata/metadata.txt \--m-metadata-column add_0c \--p-estimator RandomForestRegressor \--p-n-estimators 20 \--p-random-state 123 \--output-dir sample_regressor_results_ADD
+qiime sample-classifier regress-samples \
+--i-table rare_table_L7.qza \
+--m-metadata-file ../metadata/metadata.txt \
+--m-metadata-column add_0c \
+--p-estimator RandomForestRegressor \
+--p-n-estimators 20 \
+--p-random-state 123 \
+--output-dir sample_regressor_results_ADD
 ```
 
 ### Accuracy results: 
@@ -2909,7 +2930,9 @@ HOWEVER:
 
 **Which features are the most important?**
 ```r
-qiime metadata tabulate \--m-input-file sample_regressor_results_ADD/feature_importance.qza \--o-visualization sample_regressor_results_ADD/feature_importance.qzv
+qiime metadata tabulate \
+--m-input-file sample_regressor_results_ADD/feature_importance.qza \
+--o-visualization sample_regressor_results_ADD/feature_importance.qzv
 ```
 **Notes on ML:** 
 
