@@ -146,8 +146,6 @@ levels:
     - 2. Can we use the skin or soil microbiome to predict how long a sample has been decomposing for?
         - Accuracy results:
 ```
-```insta-toc
-```
 
 ___
 # **1.23.26- Intro to command line, linux, Alpine, and Obsidian**
@@ -2720,6 +2718,8 @@ sinteractive --reservation=aneq505 --time=01:00:00 --partition=amilan --nodes=1 
 
 module purge  
 module load qiime2/2026.1_amplicon
+
+## MUST BE IN THIS VERSION OR ANCOMB2 WONT WORK
 ```
 
 Let's navigate to the correct place. Use `cd` to move into your **decomp_tutorial** folder. Use `pwd` to make sure you're in the correct place.
@@ -2797,10 +2797,10 @@ qiime composition ancombc2-visualizer \
 This is the ancombc2 visualizer command to use if just visualizing ASVs without collapsing to a taxonomic level.
 
 ```r
-qiime composition ancombc2-visualizer \  
- --i-data table_nomitochloro_1500_abund.qza \  
- --i-taxonomy ../taxonomy/taxonomy_gg2.qza \  
- --o-visualization ancombc2_sampletype_facility_add.qzv
+qiime composition ancombc2-visualizer \
+--i-data table_nomitochloro_1500_abund.qza \
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \
+--o-visualization ancombc2_sampletype_facility_add.qzv
 ```
 
 When we look at the files, we get a big table with several tabs. First is **lfc (log fold change)** which shows you how each ASV changed. A positive value indicates enrichment while a negative value means that ASV was depleted in that group. You can also think about this being enriched in the other group. The next important tab is q-values. This shows you which ASVs were significantly different between groups (note: they might not all be significant). SE shows the standard error of each lfc. These three values are used to generate the bar plot visualization. 
@@ -2844,27 +2844,21 @@ _**1. Can we use the skin or soil microbiome to predict where a sample was colle
 We start with the rarefied table and again collapse it to the level of interest (here is level 7- species).
 
 ```r
-cd /scratch/alpine/$USER/decomp_tutoral      
+cd /scratch/alpine/$USER/decomp_tutoral
 mkdir ml   
 cd ml  
   
-qiime taxa collapse \  
---i-table ../core-metrics-results/rarefied_table.qza \  
---i-taxonomy ../taxonomy/taxonomy_gg2.qza \  
---p-level 7 \  
+qiime taxa collapse \
+--i-table ../core-metrics-results/rarefied_table.qza \
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \
+--p-level 7 \
 --o-collapsed-table rare_table_L7.qza
 ```
 
 This will be done using a Random Forest classifier ([Link](https://towardsdatascience.com/random-forest-classification-and-its-implementation-d5d840dbead0 "Link (opens in a new window)") here in case you need a reminder for how this works). As a review, remember that with machine learning we will be taking our feature table and splitting it into test sample and training samples. The Random Forest classifier will be trained using the test samples, and the accuracy of the trained classifier will be assessed by testing on the test samples. Because this is a classification, we will get a matrix as our output (as opposed to a scatterplot, which is what we would get if we were training a regressor to use with continuous data). This command will take a few minutes.
 
 ```r
-qiime sample-classifier classify-samples \  
---i-table rare_table_L7.qza \  
---m-metadata-file ../metadata/metadata.txt \  
---m-metadata-column facility \  
---p-random-state 123 \  
---p-n-jobs 1 \  
---output-dir sample_classifier_results_facility
+qiime sample-classifier classify-samples \--i-table rare_table_L7.qza \--m-metadata-file ../metadata/metadata.txt \--m-metadata-column facility \--p-random-state 123 \--p-n-jobs 1 \--output-dir sample_classifier_results_facility
 ```
 
 If you ever want to use something other than a Random Forest method, this can be changed using the "estimator" parameter. Here is a [Link](https://docs.qiime2.org/2021.11/plugins/available/sample-classifier/classify-samples/ "Link (opens in a new window)") to the plugin that shows the different classifiers you can use. 
@@ -2896,27 +2890,12 @@ Want to see more important features? Because our modeling gave us the important 
 
 **Important features results**
 ```r
-qiime sample-classifier heatmap \  
---i-table rare_table_L7.qza \  
---i-importance sample_classifier_results_facility/feature_importance.qza \  
---m-sample-metadata-file ../metadata/metadata.txt \  
---m-sample-metadata-column facility \  
---p-group-samples \  
---p-feature-count 100 \  
---o-heatmap sample_classifier_results_facility/heatmap_100_features.qzv \  
---o-filtered-table sample_classifier_results_facility/filtered_table_100_features.qza
+qiime sample-classifier heatmap \--i-table rare_table_L7.qza \--i-importance sample_classifier_results_facility/feature_importance.qza \--m-sample-metadata-file ../metadata/metadata.txt \--m-sample-metadata-column facility \--p-group-samples \--p-feature-count 100 \--o-heatmap sample_classifier_results_facility/heatmap_100_features.qzv \--o-filtered-table sample_classifier_results_facility/filtered_table_100_features.qza
 ```
 
 ## _**2. Can we use the skin or soil microbiome to predict how long a sample has been decomposing for?**_
 ```r
-qiime sample-classifier regress-samples \  
---i-table rare_table_L7.qza \  
---m-metadata-file ../metadata/metadata.txt \  
---m-metadata-column add_0c \  
---p-estimator RandomForestRegressor \  
---p-n-estimators 20 \  
---p-random-state 123 \  
---output-dir sample_regressor_results_ADD
+qiime sample-classifier regress-samples \--i-table rare_table_L7.qza \--m-metadata-file ../metadata/metadata.txt \--m-metadata-column add_0c \--p-estimator RandomForestRegressor \--p-n-estimators 20 \--p-random-state 123 \--output-dir sample_regressor_results_ADD
 ```
 
 ### Accuracy results: 
@@ -2930,9 +2909,7 @@ HOWEVER:
 
 **Which features are the most important?**
 ```r
-qiime metadata tabulate \  
-  --m-input-file sample_regressor_results_ADD/feature_importance.qza \  
-  --o-visualization sample_regressor_results_ADD/feature_importance.qzv
+qiime metadata tabulate \--m-input-file sample_regressor_results_ADD/feature_importance.qza \--o-visualization sample_regressor_results_ADD/feature_importance.qzv
 ```
 **Notes on ML:** 
 
