@@ -145,6 +145,8 @@ levels:
     - Heatmap QZV
     - 2. Can we use the skin or soil microbiome to predict how long a sample has been decomposing for?
         - Accuracy results:
+        - HW Notes
+```     - HW N
 ```
 
 ___
@@ -2781,17 +2783,17 @@ qiime composition ancombc2 \
 --i-table table_nomitochloro_1500_abund_L7.qza \
 --m-metadata-file metadata_q2_workshop_noECs.txt \
 --p-fixed-effects-formula 'sample_type + facility + add_0c' \ #these 3 add effects
---p-reference-levels sample_type::soil facility::STAFS \ #lookat soil as reference level of sample type. Also look at facility with a reference level of STAFs. If u dont put in gl
---p-random-effects-formula '(1 | host_subject_id)' \
+--p-reference-levels sample_type::soil facility::STAFS \ #lookat soil as reference level of sample type. Also look at facility with a reference level of STAFs. If u dont put in flag, itll just pick first thing alphabetically
+--p-random-effects-formula '(1 | host_subject_id)' \ #if u have longitudinal study accounts for repeated samples
 --o-ancombc2-output ancombc2_sampletype_facility_add_L7.qza  
   
-  
+ #output u would put into R with statistical data 
 qiime composition tabulate \
 --i-data ancombc2_sampletype_facility_add_L7.qza \
 --o-visualization ancombc2_sampletype_facility_add_L7.qzv  
   
   
-  
+ #barplot to see changes in relative abundance 
 qiime composition ancombc2-visualizer \
 --i-data ancombc2_sampletype_facility_add_L7.qza \
 --o-visualization ancombc2_barplot_sampletype_facility_add_L7.qzv
@@ -2799,9 +2801,9 @@ qiime composition ancombc2-visualizer \
 
 This is the ancombc2 visualizer command to use if just visualizing ASVs without collapsing to a taxonomic level.
 
+(dont run this, for reference only. use in future if u want to run ANCOBC2 at the ASB level)
 ```r
-
-## couldnt get this to work
+## Dont run this, just for future reference if u want to look at ASVs instead of genus or spp level
 qiime composition ancombc2-visualizer \
 --i-data table_nomitochloro_1500_abund.qza \
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \
@@ -3012,3 +3014,6 @@ There are 3 different flags from the old command
 --o-summary dada2_visual_summary.qzv
 
 - There are two different output qza files, and the output visualization flag is different and has a slightly different name.
+
+### HW Notes
+- Change directories in R, theyll give us code.  Just edit file paths
