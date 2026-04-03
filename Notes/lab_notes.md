@@ -2738,30 +2738,30 @@ cd ancombc2
 
 Before doing ANCOM, we will **first filter out any samples with fewer features than we rarefied at (< 2000)** using the filter-samples method from the feature table plugin.
 ```r
-qiime feature-table filter-samples \  
-  --i-table ../dada2/table_nomitochloro_nocontrol.qza \  
-  --p-min-frequency 1500 \  
-  --o-filtered-table table_nomitochloro_1500.qza
+qiime feature-table filter-samples \
+--i-table ../dada2/table_nomitochloro_nocontrol.qza \
+--p-min-frequency 1500 \
+--o-filtered-table table_nomitochloro_1500.qza
 ```
 
 Then, we will **filter out low abundance/low prevalence ASVs.** Filtering can provide better resolution and limit false discovery rate (FDR) penalty on features that are too far below the noise threshold to be applicable to a statistical test. A feature that shows up with 10 counts may be a real feature that is present only in that sample, it may be a feature that’s present in several samples but only got amplified and sequenced in one sample because PCR is a somewhat stochastic process, or it may be noise. It’s not possible to tell, so feature-based analysis may be better after filtering low-abundance features. However, filtering also shifts the composition of a sample, further disrupting the relationship. Here, the filtering is performed as a trade-off between the model, computational efficiency, and statistical practicality. (You don’t need to apply as stringent filtering for ANCOM-BC2 since it is more robust, but it is still good practice to understand and apply appropriate filtering).
 
 ```r
-qiime feature-table filter-features \  
-  --i-table table_nomitochloro_1500.qza \  
-  --p-min-frequency 50 \  
-  --p-min-samples 4 \  
-  --o-filtered-table table_nomitochloro_1500_abund.qza
+qiime feature-table filter-features \
+--i-table table_nomitochloro_1500.qza \
+--p-min-frequency 50 \
+--p-min-samples 20 \
+--o-filtered-table table_nomitochloro_1500_abund.qza
 ```
 
 **Collapse the feature table to the species level**
 
 You don’t have to collapse to the species level—you can run ANCOM-BC directly on `table_nomitochloro_1500_abund.qza` to identify differentially abundant ASVs. However, collapsing to the species level makes it easier to interpret results by linking those ASVs to taxonomy. You can also collapse to the genus level or any other taxonomic level relevant to your research question by adjusting the `--p-level` parameter.
 ```r
-qiime taxa collapse \  
---i-table table_nomitochloro_1500_abund.qza \  
---i-taxonomy ../taxonomy/taxonomy_gg2.qza \  
---p-level 7 \  
+qiime taxa collapse \
+--i-table table_nomitochloro_1500_abund.qza \
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \
+--p-level 7 \
 --o-collapsed-table table_nomitochloro_1500_abund_L7.qza
 ```
 
@@ -2773,22 +2773,24 @@ cp /pl/active/courses/2025_summer/CSU_2025/q2_workshop_final/QIIME2/metadata_q2_
 ```
 
 ```r
-qiime composition ancombc2 \  
---i-table table_nomitochloro_1500_abund_L7.qza \  
---m-metadata-file metadata_q2_workshop_noECs.txt \  
---p-fixed-effects-formula 'sample_type + facility + add_0c' \  
---p-reference-levels sample_type::soil facility::STAFS \  
---p-random-effects-formula '(1 | host_subject_id)' \  
+qiime composition ancombc2 \
+--i-table table_nomitochloro_1500_abund_L7.qza \
+--m-metadata-file metadata_q2_workshop_noECs.txt \
+--p-fixed-effects-formula 'sample_type + facility + add_0c' \
+--p-reference-levels sample_type::soil facility::STAFS \
+--p-random-effects-formula '(1 | host_subject_id)' \
 --o-ancombc2-output ancombc2_sampletype_facility_add_L7.qza  
   
   
-qiime composition tabulate \  
---i-data ancombc2_sampletype_facility_add_L7.qza \  
+  
+qiime composition tabulate \
+--i-data ancombc2_sampletype_facility_add_L7.qza \
 --o-visualization ancombc2_sampletype_facility_add_L7.qzv  
   
   
-qiime composition ancombc2-visualizer \  
---i-data ancombc2_sampletype_facility_add_L7.qza \  
+  
+qiime composition ancombc2-visualizer \
+--i-data ancombc2_sampletype_facility_add_L7.qza \
 --o-visualization ancombc2_barplot_sampletype_facility_add_L7.qzv
 ```
 
