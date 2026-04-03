@@ -2740,8 +2740,9 @@ Before doing ANCOM, we will **first filter out any samples with fewer features 
 ```r
 qiime feature-table filter-samples \
 --i-table ../dada2/table_nomitochloro_nocontrol.qza \
---p-min-frequency 1500 \
+--p-min-frequency 1500 \ #Where we rarified, cow was from 4-6thousand, so put that for this command
 --o-filtered-table table_nomitochloro_1500.qza
+#if u have chloroplasts and controls will skew everything. 
 ```
 
 Then, we will **filter out low abundance/low prevalence ASVs.** Filtering can provide better resolution and limit false discovery rate (FDR) penalty on features that are too far below the noise threshold to be applicable to a statistical test. A feature that shows up with 10 counts may be a real feature that is present only in that sample, it may be a feature that’s present in several samples but only got amplified and sequenced in one sample because PCR is a somewhat stochastic process, or it may be noise. It’s not possible to tell, so feature-based analysis may be better after filtering low-abundance features. However, filtering also shifts the composition of a sample, further disrupting the relationship. Here, the filtering is performed as a trade-off between the model, computational efficiency, and statistical practicality. (You don’t need to apply as stringent filtering for ANCOM-BC2 since it is more robust, but it is still good practice to understand and apply appropriate filtering).
@@ -2750,7 +2751,7 @@ Then, we will **filter out low abundance/low prevalence ASVs.** Filtering can 
 qiime feature-table filter-features \
 --i-table table_nomitochloro_1500.qza \
 --p-min-frequency 50 \
---p-min-samples 20 \
+--p-min-samples 20 \ #should be 10% of samples u have
 --o-filtered-table table_nomitochloro_1500_abund.qza
 ```
 
@@ -2761,8 +2762,10 @@ You don’t have to collapse to the species level—you can run ANCOM-BC directl
 qiime taxa collapse \
 --i-table table_nomitochloro_1500_abund.qza \
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \
---p-level 7 \
+--p-level 7 \ #this goes to species, but with 16s, should really go to genus level
 --o-collapsed-table table_nomitochloro_1500_abund_L7.qza
+
+#would need to do this in R, put in the file and then match to taxonomy in R
 ```
 
 Time to run ANCOM-BC2! Let's first see if there are any **ASVs that are differentially abundant across the sample types and facility.**
@@ -2773,14 +2776,14 @@ cp /pl/active/courses/2025_summer/CSU_2025/q2_workshop_final/QIIME2/metadata_q2_
 ```
 
 ```r
+# Ancomb 2
 qiime composition ancombc2 \
 --i-table table_nomitochloro_1500_abund_L7.qza \
 --m-metadata-file metadata_q2_workshop_noECs.txt \
---p-fixed-effects-formula 'sample_type + facility + add_0c' \
---p-reference-levels sample_type::soil facility::STAFS \
+--p-fixed-effects-formula 'sample_type + facility + add_0c' \ #these 3 add effects
+--p-reference-levels sample_type::soil facility::STAFS \ #lookat soil as reference level of sample type. Also look at facility with a reference level of STAFs. If u dont put in gl
 --p-random-effects-formula '(1 | host_subject_id)' \
 --o-ancombc2-output ancombc2_sampletype_facility_add_L7.qza  
-  
   
   
 qiime composition tabulate \
@@ -2941,3 +2944,71 @@ qiime metadata tabulate \
 If you'd like more practice using machine learning for sample classification in QIIME2, here is a whole other tutorial (with a lot more detail) for you to have fun with! [https://docs.qiime2.org/2021.11/tutorials/sample-classifier.](https://docs.qiime2.org/2021.11/tutorials/sample-classifier/ "(opens in a new window)")
 
 There are a couple of caveats to using QIIME2 for your machine learning. Cross-validation methods aren't very flexible (e.g., you can't group by subject or some other metadata category - it can only randomly split samples into your training and testing data sets). You also cannot use extra metadata as predictive features (e.g., if there was some sort of predictive metadata category, like temperature or pH, there is no way in QIIME2 to incorporate this as a feature into your model along with ASVs). If these are things that are important to your analyses, then learning how to do machine learning in Python or R is the way to go.
+
+
+**Notes on older version of qiime2 vs qiime2 2026.1:**
+
+**The first command that is different is the dada2 denoising command**
+
+**Old command**
+
+```
+qiime dada2 denoise-paired \
+--i-demultiplexed-seqs ../demux/demux_cow.qza \
+--p-trim-left-f 0 \
+--p-trim-left-r 0 \
+--p-trunc-len-f 250 \
+--p-trunc-len-r 250 \
+--p-n-threads 6 \
+--o-representative-sequences cow_seqs_dada2.qza \
+--o-denoising-stats cow_dada2_stats.qza \
+--o-table cow_table_dada2.qza
+```
+
+**New command**
+
+```
+qiime dada2 denoise-paired \
+--i-demultiplexed-seqs ../demux/demux_cow.qza \
+--p-trim-left-f 0 \
+--p-trim-left-r 0 \
+--p-trunc-len-f 250 \
+--p-trunc-len-r 250 \
+--p-n-threads 6 \
+--o-representative-sequences cow_seqs_dada2.qza \
+--o-denoising-stats cow_dada2_stats.qza \
+--o-table cow_table_dada2.qza \
+--o-base-transition-stats base-transition-stats.qza
+```
+
+**What is new:**  
+In the new command this flag needs to be added ~={red}--o-base-transition-stats base-transition-stats.qza=~
+
+**The second command is one of the dada2 output visualization commands**
+
+**Old command**
+
+```
+qiime feature-table summarize \
+--i-table cow_table_dada2.qza \
+--m-sample-metadata-file ../metadata/cow_metadata.txt \
+--o-visualization cow_table_dada2.qzv
+```
+
+**New command**
+
+```
+qiime feature-table summarize \
+  --i-table cow_table_dada2.qza \
+  --o-feature-frequencies feature-frequencies.qza \
+  --o-sample-frequencies sample-frequencies.qza \
+  --o-summary dada2_visual_summary.qzv
+```
+
+**What is new:**  
+There are 3 different flags from the old command  
+--o-feature-frequencies feature-frequencies.qza   
+--o-sample-frequencies sample-frequencies.qza  
+--o-summary dada2_visual_summary.qzv
+
+- There are two different output qza files, and the output visualization flag is different and has a slightly different name.
