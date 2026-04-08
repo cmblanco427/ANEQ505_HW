@@ -56,13 +56,13 @@ cow_r
 **Read in metadata ~={red}(1 point)=~**
 - Fill in the file path you used in the R Markdown to load the metadata. 
 ```
-metadata <- read_tsv("YOUR FILE PATH HERE")
+metadata <- read_tsv("../03_metadatacow_metadata.txt")
 ```
 
 **Read in alpha diversity data ~={red}(1 point)=~**
 - Fill in the file path you used in the R Markdown to load the shannon data
 ```
-shannon <- read_tsv("YOUR FILE PATH HERE")
+shannon <- read_tsv("../04_code/alpha_div/shannon.tsv")
 ```
 
 **Read in beta diversity data ~={red}(1 point)=~**
@@ -74,7 +74,7 @@ uw_unifrac <- read_tsv("YOUR FILE PATH HERE")
 **Load in tabulated results ~={red}(1 point)=~**
 - Fill in the file path you used in the R Markdown to load the tabulated_results.tsv
 ```
-tabulated_results <- read_tsv("YOUR FILE PATH HERE")
+tabulated_results <- read_tsv("../02_data/tabulated_results.tsv")
 ```
 
 #### Cow Body Site - ANCOM-BC2 in Qiime2
@@ -96,7 +96,10 @@ module load qiime2/2026.1_amplicon
 # Get matadata with no controls
 cp /pl/active/courses/2025_summer/CSU_2025/cow_hw/cow_metadata_nocontrols.txt .
 
-qiime feature-table filter-samples \--i-table ../dada2/table_nomitochloro_gg2_filtered300.qza \--m-metadata-file cow_metadata_nocontrols.txt \--o-filtered-table table_nomitochlorocontrols_gg2_filtered300.qza
+qiime feature-table filter-samples \
+--i-table ../dada2/table_nomitochloro_gg2_filtered300.qza \
+--m-metadata-file cow_metadata_nocontrols.txt \
+--o-filtered-table table_nomitochlorocontrols_gg2_filtered300.qza
 ```
 
 **Filter Samples ~={red}(1 point)=~** 
