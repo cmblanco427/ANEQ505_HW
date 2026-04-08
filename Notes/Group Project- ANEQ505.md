@@ -55,3 +55,18 @@ Data analysis draft
 - Hypothesis and methods essentially. 
 - 
 ![[Recording 20260401120006.m4a]]
+Data Analysis 
+
+Background 
+
+Methods 
+
+Data Generation 
+
+Data Analysis 
+
+Results 
+
+Discussion 
+
+Works Cited
