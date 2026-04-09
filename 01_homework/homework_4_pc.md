@@ -128,7 +128,11 @@ qiime feature-table filter-features \
 - We will collapse to the genus level to make it easier to interpret the results. (Hint: We used 7 for species, so think about which number you would use for genus.)
 
 ```
-qiime taxa collapse \--i-table table_5k_abund.qza \--i-taxonomy ../taxonomy/taxonomy_gg2.qza \--p-level GENUS NUMBER \--o-collapsed-table table_5k_abund_GENUS NUMBER.qza
+qiime taxa collapse \
+--i-table table_5k_abund.qza \
+--i-taxonomy ../taxonomy/taxonomy_gg2.qza \
+--p-level 6 \
+--o-collapsed-table table_5k_abund_L6.qza
 ```
 
 
