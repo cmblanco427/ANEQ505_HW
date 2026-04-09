@@ -99,7 +99,7 @@ cp /pl/active/courses/2025_summer/CSU_2025/cow_hw/cow_metadata_nocontrols.txt .
 qiime feature-table filter-samples \
 --i-table dada2/table_nomitochloro_gg2_filtered300.qza \
 --m-metadata-file cow_metadata_nocontrols.txt \
---o-filtered-table table_nomitochlorocontrols_gg2_filtered300.qza
+--o-filtered-table dada2/table_nomitochlorocontrols_gg2_filtered300.qza
 ```
 
 **Filter Samples ~={red}(1 point)=~** 
@@ -112,16 +112,16 @@ qiime feature-table filter-samples \
 --p-min-frequency 5000 \
 --o-filtered-table table_5k.qza
 
-qiime feature-table filter-samples \
---i-table ../dada2/table_nomitochloro_gg2_filtered300.qza \
---p-min-frequency 5000 \
---o-filtered-table table_5k.qza
 ```
 
 **Filter out low abundance and low prevalence ASVs ~={red}(1 point)=~**
 
 ```
-qiime feature-table filter-features \--i-table INPUT TABLE \--p-min-frequency 50 \--p-min-samples 20 \--o-filtered-table table_5k_abund.qza
+qiime feature-table filter-features \
+--i-table table_5k.qza \
+--p-min-frequency 50 \
+--p-min-samples 20 \
+--o-filtered-table table_5k_abund.qza
 ```
 
 **Collapse features to genus level ~={red}(1 point)=~**
