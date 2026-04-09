@@ -161,7 +161,7 @@ qiime composition ancombc2-visualizer \
 
 ## Homework questions: (~={red}5 POINTS=~)
 1. Describe one way to get data from your qiime2 outputs into a format that can be used for R. 
-- Data can be downloaded from On Demand and then unzipped
+- Files can be downloaded from On Demand and then unzipped using powershell. I used 7Zip.
 
 2. Which body site appeared most distinct in the taxa bar plot, meaning it was not similar to at least one of the other body sites? Explain why that site looks different. 
 
@@ -180,13 +180,26 @@ mkdir ml
 cd ml
 
 #remove controls
-qiime feature-table filter-samples \--i-table ../core_metrics_results/rarefied_table.qza \--m-metadata-file ../metadata/cow_metadata.txt \--p-where "[body_site] != 'control'" \--o-filtered-table rarefied_table_no_controls.qza
+qiime feature-table filter-samples \
+--i-table ../core_metrics_results/rarefied_table.qza \
+--m-metadata-file ../metadata/cow_metadata.txt \
+--p-where "[body_site] != 'control'" \
+--o-filtered-table rarefied_table_no_controls.qza
 
-qiime taxa collapse \--i-table rarefied_table_no_controls.qza \--i-taxonomy ../taxonomy/taxonomy_gg2.qza \--p-level 7 \--o-collapsed-table rarefied_table_no_controls_L7.qza
+qiime taxa collapse \
+--i-table rarefied_table_no_controls.qza \
+--i-taxonomy ../taxonomy/taxonomy_gg2_filtered.qza \
+--p-level 7 \
+--o-collapsed-table rarefied_table_no_controls_L7.qza
 ```
 
 ```
-qiime sample-classifier classify-samples \--i-table rarefied_table_no_controls_L7.qza \--m-metadata-file ../metadata/cow_metadata_nocontrols.txt \--m-metadata-column WHAT TO TEST \--p-random-state 123 \--p-n-jobs 1 \--output-dir sample_classifier_results_bodysite
+qiime sample-classifier classify-samples \
+--i-table rarefied_table_no_controls_L7.qza \
+--m-metadata-file ../metadata/cow_metadata_nocontrols.txt \--m-metadata-column WHAT TO TEST \
+--p-random-state 123 \
+--p-n-jobs 1 \
+--output-dir sample_classifier_results_bodysite
 ```
 
 ### **Questions:**
