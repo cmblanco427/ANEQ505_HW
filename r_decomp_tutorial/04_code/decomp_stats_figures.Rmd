@@ -794,6 +794,11 @@ metadata_wunifrac <- w_unifrac %>%
 ## add0c_split + facility + sample_type (question 3)
 - If you think back to the PCoA plots we visualized in Emperor, we saw three axes: PC1, PC2, and PC3. We will test each of these axes to determine whether the variance along that axis is explained by our variables. In many microbiome datasets, time often explains a large portion of the variance on PC1, although this is not always the case. 
 
+
+-emmeans categorical, emtrends for continuous
+
+-in alpha diversity- strict numerical count, can say inc or dec in diveristy, but beta diversity is 3-D, so can only see if more or less similiar, so use PC1s
+
 # Bray Curtis
 
 #PC1
@@ -1110,6 +1115,8 @@ beta_div_sample_type
 # Save the figure
 ggsave(beta_div_sample_type, filename = "../05_figures/beta_div_sample_type.jpeg", device = "jpeg", dpi = 300, width = 10, height = 9)
 ```
+- now talking about personal data
+To get a bottom part of the image to show where lines fall in a horizontal boxplot, add a boxplot code to see. 
 
 ################################################################################
 # Taxa bar plots
