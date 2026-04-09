@@ -130,7 +130,7 @@ qiime feature-table filter-features \
 ```
 qiime taxa collapse \
 --i-table table_5k_abund.qza \
---i-taxonomy ../taxonomy/taxonomy_gg2.qza \
+--i-taxonomy ../taxonomy/taxonomy_gg2_filtered.qza \
 --p-level 6 \
 --o-collapsed-table table_5k_abund_L6.qza
 ```
@@ -139,16 +139,24 @@ qiime taxa collapse \
 **Run ANCOM-BC2 ~={red}(1 point)=~**
 
 ```
-qiime composition ancombc2 \--i-table table_5k_abund_GENUS NUMBER.qza \--m-metadata-file cow_metadata_nocontrols.txt \--p-fixed-effects-formula body_site \--o-ancombc2-output ancombc2_results_bodysite_genus.qza
+qiime composition ancombc2 \
+--i-table table_5k_abund_L6.qza \
+--m-metadata-file cow_metadata_nocontrols.txt \
+--p-fixed-effects-formula body_site \
+--o-ancombc2-output ancombc2_results_bodysite_genus.qza
 ```
 
 
 **Visualize the ANCOM-BC2 results ~={red}(1 point)=~**
 - Generate a barplot to visualize the differentially abundant features. 
 ```
-qiime composition tabulate \--i-data INPUT FILE \--o-visualization ancombc2_bodysite_genus.qzv
+qiime composition tabulate \
+--i-data INPUT FILE \
+--o-visualization ancombc2_bodysite_genus.qzv
   
-qiime composition ancombc2-visualizer \--i-data INPUT FILE \--o-visualization ancombc2_barplot_bodysite_genus.qzv
+qiime composition ancombc2-visualizer \
+--i-data INPUT FILE \
+--o-visualization ancombc2_barplot_bodysite_genus.qzv
 ```
 
 ## Homework questions: (~={red}5 POINTS=~)
