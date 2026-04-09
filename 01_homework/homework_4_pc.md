@@ -163,13 +163,16 @@ qiime composition ancombc2-visualizer \
 1. Describe one way to get data from your qiime2 outputs into a format that can be used for R. 
 - Files can be downloaded from On Demand and then unzipped using powershell. I used 7Zip.
 
-2. Which body site appeared most distinct in the taxa bar plot, meaning it was not similar to at least one of the other body sites? Explain why that site looks different. 
+1. Which body site appeared most distinct in the taxa bar plot, meaning it was not similar to at least one of the other body sites? Explain why that site looks different. 
+- It appears that skin is the most distinct body site. It appears to have the highest number of taxa that are depleted or enriched when compared to the fecal site (reference site)
 
-3. When generating the filtered table for ANCOM-BC2, what value did you choose for `--p-min-frequency`? Which core metrics parameter should this match, and why do these values need to be the same? (Report your core metrics value here:     ___) 
+1. When generating the filtered table for ANCOM-BC2, what value did you choose for `--p-min-frequency`? Which core metrics parameter should this match, and why do these values need to be the same? (Report your core metrics value here:     ___) 
+- I selected 5,000 for the minimum frequency. This is equivalent to the rarefaction depth I chose for generating core metrics. 
 
-4. Why do we filter out samples with low frequency and low abundance ASVs?
+1. Why do we filter out samples with low frequency and low abundance ASVs?
+- samples with low frequency have poor sequencing depth, so will likely not reliably represent the microbial community. Low abundance ASVs
 
-5. What was the most enriched genus in skin compared to fecal, and what was the most depleted genus in skin compared to fecal (make sure adjusted p is set to less than 0.05)?
+3. What was the most enriched genus in skin compared to fecal, and what was the most depleted genus in skin compared to fecal (make sure adjusted p is set to less than 0.05)?
 	
 
 ## Extra credit~={orange} (3 points)=~ generate a classification model to see how well we can predict cow body site
