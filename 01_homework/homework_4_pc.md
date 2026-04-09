@@ -141,7 +141,7 @@ qiime taxa collapse \
 ```
 qiime composition ancombc2 \
 --i-table table_5k_abund_L6.qza \
---m-metadata-file cow_metadata_nocontrols.txt \
+--m-metadata-file ../metadata/cow_metadata_nocontrols.txt \
 --p-fixed-effects-formula body_site \
 --o-ancombc2-output ancombc2_results_bodysite_genus.qza
 ```
@@ -151,16 +151,17 @@ qiime composition ancombc2 \
 - Generate a barplot to visualize the differentially abundant features. 
 ```
 qiime composition tabulate \
---i-data INPUT FILE \
+--i-data ancombc2_results_bodysite_genus.qza \
 --o-visualization ancombc2_bodysite_genus.qzv
   
 qiime composition ancombc2-visualizer \
---i-data INPUT FILE \
+--i-data ancombc2_results_bodysite_genus.qza \
 --o-visualization ancombc2_barplot_bodysite_genus.qzv
 ```
 
 ## Homework questions: (~={red}5 POINTS=~)
 1. Describe one way to get data from your qiime2 outputs into a format that can be used for R. 
+- Data can be downloaded from On Demand and then unzipped
 
 2. Which body site appeared most distinct in the taxa bar plot, meaning it was not similar to at least one of the other body sites? Explain why that site looks different. 
 
