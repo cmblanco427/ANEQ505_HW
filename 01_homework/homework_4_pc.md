@@ -209,5 +209,8 @@ qiime sample-classifier classify-samples \
 1. Why might removing controls be important before downstream analysis? 
 - We are not interested in analyzing the controls, and if we dont remove them they can bias the model, so we must remove them to see the true biological information in analysis.
 1. what 2 features that are high in fecal samples? 
-2. what are 2 features that are low in nasal?
-3. what is the accuracy of your model, and if the accuracy of the classifier is high, what does that suggest about the microbial compositions of each site?
+- Faecousia sp000434635 and Cryptobacterioides sp902787255
+1. what are 2 features that are low in nasal?
+- It seems like there are quite a few low features in nasal, two are cornybebacterium and paraprevotella clara
+1. what is the accuracy of your model, and if the accuracy of the classifier is high, what does that suggest about the microbial compositions of each site?
+-
