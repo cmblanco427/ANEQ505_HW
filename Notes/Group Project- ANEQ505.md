@@ -79,4 +79,9 @@ Notes from Metcalf
 
 ### Analysis plan notes from Val
 sampling depth = 10,000
-missing = put rarefaction i
+missing = put rarefaction into the flow chart
+Can we add section for telling val what negative and positive controls (and all the types)
+filtering samples - filtering out controls and rareified table in ancomb2
+Add in 
+
+![[Recording 20260410123323.m4a]]
