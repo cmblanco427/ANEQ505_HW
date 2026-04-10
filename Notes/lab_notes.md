@@ -2970,7 +2970,10 @@ qiime sample-classifier regress-samples \
 - Mean squared error (MSE) lower = better
 - Square root of MSE 2076 = Mean absolute error 45.57 ADD (~ 2.8 days)
 
--initial model accuracy results will be a bit overinflated.
+![[Recording 20260410112846.m4a]]
+
+-initial model accuracy results will be a bit overinflated. 
+- This is paired data, so these data are summer 
 ![[20260410-1725-02.4551194.mp4]]
 HOWEVER:
 - Samples from same donor were split between training and testing data (cheating)
@@ -2981,11 +2984,15 @@ qiime metadata tabulate \
 --m-input-file sample_regressor_results_ADD/feature_importance.qza \
 --o-visualization sample_regressor_results_ADD/feature_importance.qzv
 ```
+![[20260410-1729-44.1197868.mp4]]
+
 **Notes on ML:** 
 
 If you'd like more practice using machine learning for sample classification in QIIME2, here is a whole other tutorial (with a lot more detail) for you to have fun with! [https://docs.qiime2.org/2021.11/tutorials/sample-classifier.](https://docs.qiime2.org/2021.11/tutorials/sample-classifier/ "(opens in a new window)")
 
 There are a couple of caveats to using QIIME2 for your machine learning. Cross-validation methods aren't very flexible (e.g., you can't group by subject or some other metadata category - it can only randomly split samples into your training and testing data sets). You also cannot use extra metadata as predictive features (e.g., if there was some sort of predictive metadata category, like temperature or pH, there is no way in QIIME2 to incorporate this as a feature into your model along with ASVs). If these are things that are important to your analyses, then learning how to do machine learning in Python or R is the way to go.
+
+![[Recording 20260410113133.m4a]]
 
 
 **Notes on older version of qiime2 vs qiime2 2026.1:**
@@ -2994,7 +3001,7 @@ There are a couple of caveats to using QIIME2 for your machine learning. Cross-v
 
 **Old command**
 
-```
+```r
 qiime dada2 denoise-paired \
 --i-demultiplexed-seqs ../demux/demux_cow.qza \
 --p-trim-left-f 0 \
@@ -3003,13 +3010,13 @@ qiime dada2 denoise-paired \
 --p-trunc-len-r 250 \
 --p-n-threads 6 \
 --o-representative-sequences cow_seqs_dada2.qza \
---o-denoising-stats cow_dada2_stats.qza \
---o-table cow_table_dada2.qza
+--o-denoising-stats cow_dada2_stats.qza \ #DIFFERENT
+--o-table cow_table_dada2.qza #DIFFERENT
 ```
 
 **New command**
 
-```
+```r
 qiime dada2 denoise-paired \
 --i-demultiplexed-seqs ../demux/demux_cow.qza \
 --p-trim-left-f 0 \
@@ -3019,8 +3026,8 @@ qiime dada2 denoise-paired \
 --p-n-threads 6 \
 --o-representative-sequences cow_seqs_dada2.qza \
 --o-denoising-stats cow_dada2_stats.qza \
---o-table cow_table_dada2.qza \
---o-base-transition-stats base-transition-stats.qza
+--o-table cow_table_dada2.qza \ #DIFFERENT
+--o-base-transition-stats base-transition-stats.qza #DIFFERENT
 ```
 
 **What is new:**  
@@ -3030,25 +3037,27 @@ In the new command this flag needs to be added ~={red}--o-base-transition-stats 
 
 **Old command**
 
-```
+```r
 qiime feature-table summarize \
 --i-table cow_table_dada2.qza \
 --m-sample-metadata-file ../metadata/cow_metadata.txt \
---o-visualization cow_table_dada2.qzv
+--o-visualization cow_table_dada2.qzv #DIFFERENT
 ```
 
 **New command**
 
-```
+```r
 qiime feature-table summarize \
   --i-table cow_table_dada2.qza \
   --o-feature-frequencies feature-frequencies.qza \
   --o-sample-frequencies sample-frequencies.qza \
-  --o-summary dada2_visual_summary.qzv
+  --o-summary dada2_visual_summary.qzv #DIFFERENT
 ```
 
 **What is new:**  
-There are 3 different flags from the old command  
+There are 3 differen
+![[Recording 20260410113342.m4a]]
+t flags from the old command  
 --o-feature-frequencies feature-frequencies.qza   
 --o-sample-frequencies sample-frequencies.qza  
 --o-summary dada2_visual_summary.qzv

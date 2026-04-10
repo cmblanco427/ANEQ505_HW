@@ -1,3 +1,27 @@
+
+```insta-toc
+---
+title:
+  name: Table of Contents
+  level: 1
+  center: false
+exclude: ""
+style:
+  listType: dash
+omit: []
+levels:
+  min: 1
+  max: 6
+---
+
+# Table of Contents
+
+- Quiz 1
+- Quiz 2
+- Quiz 3
+- Quiz 4
+```
+
 ## Quiz 1
 
 ![[Quiz 1 review audio.m4a]]
@@ -51,4 +75,26 @@
 ![[Recording 20260327110814.m4a]]
 
 ## Quiz 4
-## Quiz 5
+1. 4 main func of gut microbiome - digestion, immunity, gut health, neurochem signaling.
+2.  Vagus nerve= primary neural connection between gut and brain. gut bacteria interact with it vai bio active molecules
+3. Scientists can move past correlation and test causation by using gnotobiotic mice and including particular microbiomes to assess its effect on host phenotype - TRUE
+4. A genetically mod strain of e.coli is best described as an example of - SYNTHETIC BIOLOGY
+5. A synthetic microbial comm designed from a metabolic model to inc phos + micronutrient availability in an otherwise sterile sys is an ex of - Bott up microbiome engineering
+6. what are 2 methods u can use to export a feature table from wiime2 for analysis in R
+	1. unzip table qza in terminal, download it as a tsv from tableqzv as ur visualizeing files in qiimeview
+7. What do these results tell us about shannon diveristy
+	1. - results of this test suggest that ADD does not significantly affect shannon diversity over entire study. 
+8. In the model lmer(shannon)entropy...etc) whats primary purpose of 1|host_subject_id
+	1. to account for repeated measures and non ind among samples from same donor
+9. Which scenario would benefit from LMA testing
+	1. mice are sampled befor a tx, immediately after, and 24hrs later.
+	2. sample mice samples in linear study, so repeated samples from same study.
+10. If u want to ID interesting taxa correlated withan outcome, what is an analysis approach u could use
+	1. ANCOMBC2, differential abundance testing
+	2. 
+11. Which would give u a higher alpha diveristy (richness metric) for an amplicon seq data set like 16s rRNA.
+	1. processing your data for ASVs - basically keeping it at 100% similarity. ASVs are the most high resolution approach for IDentifying ASVs. 
+![[Recording 20260410114213.m4a]]
+
+
+
