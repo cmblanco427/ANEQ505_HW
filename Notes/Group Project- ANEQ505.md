@@ -19,6 +19,7 @@ levels:
 - Planning Day: 3/30/26
     - Projects
     - Data Analysis Plan
+    - Analysis plan notes from Val
 ```
 ## Planning Day: 3/30/26
 -25% of grade
@@ -70,3 +71,12 @@ Results 
 Discussion 
 
 Works Cited
+
+
+Notes from Metcalf
+
+![[Recording 20260410121457.m4a]]
+
+### Analysis plan notes from Val
+sampling depth = 10,000
+missing = put rarefaction i
