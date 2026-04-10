@@ -146,7 +146,6 @@ levels:
     - 2. Can we use the skin or soil microbiome to predict how long a sample has been decomposing for?
         - Accuracy results:
         - HW Notes
-```     - HW N
 ```
 
 ___
@@ -2747,6 +2746,9 @@ qiime feature-table filter-samples \
 #if u have chloroplasts and controls will skew everything. 
 ```
 
+![[Recording 20260410110548.m4a]]
+
+
 Then, we will **filter out low abundance/low prevalence ASVs.** Filtering can provide better resolution and limit false discovery rate (FDR) penalty on features that are too far below the noise threshold to be applicable to a statistical test. A feature that shows up with 10 counts may be a real feature that is present only in that sample, it may be a feature that’s present in several samples but only got amplified and sequenced in one sample because PCR is a somewhat stochastic process, or it may be noise. It’s not possible to tell, so feature-based analysis may be better after filtering low-abundance features. However, filtering also shifts the composition of a sample, further disrupting the relationship. Here, the filtering is performed as a trade-off between the model, computational efficiency, and statistical practicality. (You don’t need to apply as stringent filtering for ANCOM-BC2 since it is more robust, but it is still good practice to understand and apply appropriate filtering).
 
 ```r
@@ -2817,23 +2819,39 @@ When we look at the files, we get a big table with several tabs. First is **lfc
 
 In the last class, you used ANCOM to test for differential abundance and investigate whether individual ASVs or taxa were more or less abundant within different groups. Now, we will further our analysis by using a machine-learning classifier for predicting sample characteristics. This will help us determine how **predictive** the microbiome composition is of other characteristics about a sample.
 
-![[Pasted image 20260402171316.png]]
 
-![[Pasted image 20260402171320.png]]
+- 2 types you can use in QIIME2
+- inputs= metadata, feature table
+
+Regressor model
+![[Pasted image 20260402171316.png|700]]
+
+- classifier model - confusion matrix. used for categorical data
+![[Pasted image 20260402171320.png|700]]
+
+-need to split data into a training set before. Then reserve some data (~20%) unseen by model to actually test.
+
 
 **Basic steps within supervised learning for microbiome data** 
 
 1. Split samples 
-	- 80% train, 20% test
+	- 80% train, 20% test (default split percentages)
 2. Train model 
 	- Learn patterns from training set
 3. Optimization 
-	- CV to determine best parameters
+	- Cross validation model to determine best parameters
 4. Predict test samples 
 	- Test model on the test set
 5. Evaluate accuracy
 6. Extract important features
-![[Pasted image 20260402171417.png|800]]
+
+![[Recording 20260410110904.m4a]]
+
+![[Recording 20260410110918.m4a]]
+
+
+QIIME generated outputs/pipelines
+![[Pasted image 20260402171417.png|700]]
 
 ![[Pasted image 20260402171422.png]]
 
@@ -2844,6 +2862,14 @@ In the last class, you used ANCOM to test for differential abundance and investi
 - Continuous metadata columns that are used as regressor targets should not contain many outliers or grossly uneven distributions.
 - **Keep your testing data and testing data-related samples out of your training dataset – This is cheating and can cause unrealistically high accuracy. (we’re going to do it anyway for demonstration purposes 😬) Qiime2 does not yet provide options for studies with repeated measures.**
 - **if you have repeated measures you need to run machine learning outside of qiime2 so that you can account for donor in order to keep same-donor samples together and correctly split the training and test data**
+
+![[Recording 20260410111201.m4a]]
+in real life:
+
+![[Recording 20260410111222.m4a]]
+
+
+
 
 ## **ML Tutorial (classification and regression)**
 
