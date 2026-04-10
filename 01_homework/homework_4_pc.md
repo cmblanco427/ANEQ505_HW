@@ -46,6 +46,9 @@ cow_r
 **What directory should the cow_HW4_r.Rmd file go in? ~={red}(1 point)=~**
 
 - *Write the directory here:* ── 04_code  
+
+![[Recording 20260410114429.m4a]]
+
 #### Statistical analysis and figure generation in R 
 
 - Now that we have set up the correct file structure and put our files in the correct directories, we can start our cow R analysis. 
@@ -74,7 +77,7 @@ uw_unifrac <- read_tsv("../04_code/beta_div/unweighted_unifrac.txt")
 **Load in tabulated results ~={red}(1 point)=~**
 - Fill in the file path you used in the R Markdown to load the tabulated_results.tsv
 ```
-tabulated_results <- read_tsv("../02_data/tabulated_results.tsv")
+tabulated_results <- read_tsv("../taxonomy/tabulated_results.tsv")
 ```
 
 #### Cow Body Site - ANCOM-BC2 in Qiime2
@@ -109,7 +112,7 @@ qiime feature-table filter-samples \
 ```
 qiime feature-table filter-samples \
 --i-table ../dada2/table_nomitochlorocontrols_gg2_filtered300.qza \
---p-min-frequency 5000 \
+--p-min-frequency 5000 \ #number that matches from core metrics
 --o-filtered-table table_5k.qza
 
 ```
@@ -135,6 +138,8 @@ qiime taxa collapse \
 --o-collapsed-table table_5k_abund_L6.qza
 ```
 
+![[Recording 20260410114609.m4a]]
+
 
 **Run ANCOM-BC2 ~={red}(1 point)=~**
 
@@ -159,21 +164,26 @@ qiime composition ancombc2-visualizer \
 --o-visualization ancombc2_barplot_bodysite_genus.qzv
 ```
 
+![[Recording 20260410114633.m4a]]
+
 ## Homework questions: (~={red}5 POINTS=~)
 1. Describe one way to get data from your qiime2 outputs into a format that can be used for R. 
 - Files can be downloaded from On Demand and then unzipped using powershell. I used 7Zip.
 
 1. Which body site appeared most distinct in the taxa bar plot, meaning it was not similar to at least one of the other body sites? Explain why that site looks different. 
 - It looks like the skin is the most distinct body site. It appears to have the highest number of taxa that are depleted or enriched when compared to the fecal site (reference site)
+-<span style="color:rgb(238, 170, 170)"> nasal and oral should be similiar and skin and udder should be similiar</span>
 
 1. When generating the filtered table for ANCOM-BC2, what value did you choose for `--p-min-frequency`? Which core metrics parameter should this match, and why do these values need to be the same? (Report your core metrics value here:  5000 ___) 
 - I selected 5,000 for the minimum frequency. This is equivalent to the rarefaction depth I chose for generating core metrics. These values should match to ensure consistency for comparisons, and including samples with less sequences than the rarefaction depth would bias the results.
 
 1. Why do we filter out samples with low frequency and low abundance ASVs?
-- samples with low frequency have poor sequencing depth, so will likely not reliably represent the microbial community. Low abundance ASVs are rare or in only a few samples and could be contamination or sequencing errors
+- samples with low frequency have poor sequencing depth, so will likely not reliably represent the microbial community. Low abundance ASVs are rare or in only a few <span style="color:rgb(238, 170, 170)">samples and could be contamination or sequencing errors. filtering can provide better resolution and limit false discovery rate which inc statistical power</span>
 
 3. What was the most enriched genus in skin compared to fecal, and what was the most depleted genus in skin compared to fecal (make sure adjusted p is set to less than 0.05)?
 - Atopostipes is the most enriched genus, whereas streptococcus is the most depleted genus. 
+
+![[Recording 20260410114818.m4a]]
 
 ## Extra credit~={orange} (3 points)=~ generate a classification model to see how well we can predict cow body site
 
@@ -207,7 +217,7 @@ qiime sample-classifier classify-samples \
 
 ### **Questions:**
 1. Why might removing controls be important before downstream analysis? 
-- We are not interested in analyzing the controls, and if we dont remove them they can bias the model, so we must remove them to see the true biological information in analysis.
+- We are not interested in analyzing the controls, and if we dont remove them they can bias the model, so we must remove them to see the true biological information in analysis. <span style="color:rgb(238, 170, 170)">we dont want our model to have skewed results but using control samples to try and predict from</span>
 
 2. what 2 features that are high in fecal samples? 
 - Faecousia sp000434635 and Cryptobacterioides sp902787255
@@ -217,4 +227,6 @@ qiime sample-classifier classify-samples \
 
 4. what is the accuracy of your model, and if the accuracy of the classifier is high, what does that suggest about the microbial compositions of each site?
 - The overall accuracy is 0.941, indicating a strong predictive accuracy of the model. This is also much higher than the baseline accuracy of 0.353, with an accuracy ratio of 2.67, indicating ahigh predictive power. This suggests distinct microbial signatures across body sites. 
--
+- <span style="color:rgb(238, 170, 170)"><span style="color:rgb(238, 170, 170)"> That each location hosts a unique microbial</span></span> <span style="color:rgb(238, 170, 170)">composition</span>
+![[Recording 20260410115120.m4a]]
+
