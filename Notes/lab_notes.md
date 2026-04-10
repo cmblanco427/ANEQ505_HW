@@ -2886,7 +2886,10 @@ qiime taxa collapse \
 --i-taxonomy ../taxonomy/taxonomy_gg2.qza \
 --p-level 7 \
 --o-collapsed-table rare_table_L7.qza
+
+#rareified table= 7. we know from previous testing/optimizing, level 7 predicts the best at machine learning for this specific data.
 ```
+
 
 This will be done using a Random Forest classifier ([Link](https://towardsdatascience.com/random-forest-classification-and-its-implementation-d5d840dbead0 "Link (opens in a new window)") here in case you need a reminder for how this works). As a review, remember that with machine learning we will be taking our feature table and splitting it into test sample and training samples. The Random Forest classifier will be trained using the test samples, and the accuracy of the trained classifier will be assessed by testing on the test samples. Because this is a classification, we will get a matrix as our output (as opposed to a scatterplot, which is what we would get if we were training a regressor to use with continuous data). This command will take a few minutes.
 
@@ -2895,16 +2898,20 @@ qiime sample-classifier classify-samples \
 --i-table rare_table_L7.qza \
 --m-metadata-file ../metadata/metadata.txt \
 --m-metadata-column facility \
---p-random-state 123 \
+--p-random-state 123 \ #like the set.seed function in R, allows same prediction iteravely
 --p-n-jobs 1 \
 --output-dir sample_classifier_results_facility
 ```
+
+![[Recording 20260410111826.m4a]]
 
 If you ever want to use something other than a Random Forest method, this can be changed using the "estimator" parameter. Here is a [Link](https://docs.qiime2.org/2021.11/plugins/available/sample-classifier/classify-samples/ "Link (opens in a new window)") to the plugin that shows the different classifiers you can use. 
 
 The line "--p-random-state 123" is something we haven't seen before. This number sets a seed to the random generator such that the train-test splitting of the data is reproducible. You don't need to know a lot of detail about this, but just know that it can be any random number, and if you want to get the exact same results when running the model a second time you should use the same number.
 
 ## **Results**
+
+![[Recording 20260410112040.m4a]]
 
 You now have a directory called "sample_classifier_results_facility" that has several different files. We have some qza files with our predictions, important features, probabilities, and sample estimations. There is more detail about these files in the full linked tutorial below. 
 
@@ -2917,9 +2924,11 @@ Let's first look at accuracy_results.qzv. This is a confusion matrix (or error m
 - This is a confusion matrix (or error matrix) that tells us how accurate our predictions are
 - The ROC curves below the confusion matrix are a way to visualize the true and false prediction rates. The important thing to notice is that our model is better at predicting than if it were done by chance.
 - So the higher up the ROC curve is above the by-chance model, the better. 
-    
+    ![[20260410-1720-19.4601580.mp4]]
 
 **Model Summary QZV** just prints your model parameters
+
+![[Recording 20260410112148.m4a]]
 
 ## **Heatmap QZV**
 
@@ -2939,7 +2948,7 @@ qiime sample-classifier heatmap \
 --o-heatmap sample_classifier_results_facility/heatmap_100_features.qzv \
 --o-filtered-table sample_classifier_results_facility/filtered_table_100_features.qza
 ```
-
+![[20260410-1722-03.0424993.mp4]]
 ## _**2. Can we use the skin or soil microbiome to predict how long a sample has been decomposing for?**_
 ```r
 qiime sample-classifier regress-samples \
@@ -2951,6 +2960,9 @@ qiime sample-classifier regress-samples \
 --p-random-state 123 \
 --output-dir sample_regressor_results_ADD
 ```
+- missed some notes about this. But can look up qiime plugins
+- 
+![[Recording 20260410112449.m4a]]
 
 ### Accuracy results: 
 - Regression showing the real ADD vs model predicted ADD (y-axis)
@@ -2958,6 +2970,8 @@ qiime sample-classifier regress-samples \
 - Mean squared error (MSE) lower = better
 - Square root of MSE 2076 = Mean absolute error 45.57 ADD (~ 2.8 days)
 
+-initial model accuracy results will be a bit overinflated.
+![[20260410-1725-02.4551194.mp4]]
 HOWEVER:
 - Samples from same donor were split between training and testing data (cheating)
 
