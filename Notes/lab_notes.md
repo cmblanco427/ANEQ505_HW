@@ -2100,11 +2100,11 @@ Weighted, <span style="color:rgb(238, 170, 170)">phylogenetic.</span> Measures t
 `core-metrics-results/weighted_unifrac_emperor.qzv` 
 
 #### **Jaccard:** 
-Unweighted, <span style="color:rgb(238, 170, 170)">non-phylogenetic</span>. Measures how many shared microbes there are between the samples. So the fraction of unique features, regardless of abundance. 
+<span style="color:rgb(238, 170, 170)"><span style="color:rgb(238, 170, 170)">Unweighted, <span style="color:rgb(238, 170, 170)">non-phylogenetic</span></span>.</span> Measures how many shared microbes there are between the samples. So the fraction of unique features, regardless of abundance. 
 - `core-metrics-results/jaccard_emperor.qzv` 
 
 #### **Bray Curtis:** 
-Weighted, <span style="color:rgb(238, 170, 170)">non-phylogenetic</span>. Uses richness and evenness to measure how many features are shared and the abundance of those features. Good when you have highly abundant species!
+<span style="color:rgb(238, 170, 170)">Weighted, <span style="color:rgb(238, 170, 170)">non-phylogenetic</span></span>. Uses richness and evenness to measure how many features are shared and the abundance of those features. Good when you have highly abundant species!
 - `core-metrics-results/bray_curtis_emperor.qzv`
 
 Let's explore the following files: 
