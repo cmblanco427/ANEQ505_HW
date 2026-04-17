@@ -85,3 +85,11 @@ filtering samples - filtering out controls and rareified table in ancomb2
 Add in 
 
 ![[Recording 20260410123323.m4a]]
+
+
+4/17/26
+- next week go to cosmic lunch and learn Friday at 11 in the LSC
+- May 1st= wrapping up
+- May 8th= final presentation
+- Use rubrics on Canvas
+- 
