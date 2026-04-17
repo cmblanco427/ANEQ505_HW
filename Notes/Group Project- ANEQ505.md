@@ -92,4 +92,9 @@ Add in
 - May 1st= wrapping up
 - May 8th= final presentation
 - Use rubrics on Canvas
-- 
+- - Methods
+	- add fecal collection sampling techniques, traps for the story telling
+- make a manual taxonomy file - for dissertation, not class
+	- ASV ID + amplicon + greengenes2 + NCBI tax
+	- 
+![[Recording 20260417113438.m4a]]
