@@ -146,6 +146,8 @@ levels:
     - 2. Can we use the skin or soil microbiome to predict how long a sample has been decomposing for?
         - Accuracy results:
         - HW Notes
+- Tutorial: Globus and Alpine
+- Upload your data to QIITA
 ```
 
 ___
@@ -3066,3 +3068,57 @@ t flags from the old command
 
 ### HW Notes
 - Change directories in R, theyll give us code.  Just edit file paths
+
+# Tutorial: Globus and Alpine
+
+**How to transfer files to Alpine when:**
+
+- The files are too large
+- There are too many files
+- The files keep failing to transfer
+- You dont have enough space on your local computer to store the data in order to transfer it to Alpine
+
+Today we will teach you how to use Global Protect, Globus, and linking Globus to your computer or OneDrive, and then linking Globus to Alpine
+
+**Step 1: Make sure you have Global Protect installed on your computer so that you can use the CSU network to log into Alpine and Globus.**
+
+see the PC directions here: **[https://fachelp.fm.colostate.edu/en/support/solutions/articles/72000539794-installing-using-globalprotect-vpn-clientLinks to an external site.](https://fachelp.fm.colostate.edu/en/support/solutions/articles/72000539794-installing-using-globalprotect-vpn-client "(opens in a new window)")**
+
+see mac directions here: **[https://csusystem.freshservice.com/support/solutions/articles/23000146925-Installing-GlobalProtect-for-macOSLinks to an external site.](https://csusystem.freshservice.com/support/solutions/articles/23000146925-Installing-GlobalProtect-for-macOS "(opens in a new window)")**
+
+**Step 2: Install Globus Connect Personal & set up the local endpoint (i.e. your computer) & connection to Alpine**
+
+download from here: [https://www.globus.org/globus-connect-personalLinks to an external site.](https://www.globus.org/globus-connect-personal "(opens in a new window)") 
+
+use this guide to set up your local endpoint and connection to Alpine: **[https://vprservicedesk.freshservice.com/support/solutions/articles/19000108710Links to an external site.](https://vprservicedesk.freshservice.com/support/solutions/articles/19000108710 "(opens in a new window)")** 
+
+**Step 3:** **Link Globus to external storage systems like R stor, DropBox, or OneDrive**
+
+use my SOP to add external file paths to wherever you store your data: **[SOP on adding other filepaths to globus.docxLinks to an external site.](https://colostate-my.sharepoint.com/:w:/g/personal/lindsval_colostate_edu/IQA42rJB755LQZfs1IZ3LsxBAeceMZuFW0y4JyEqanSECnU?e=OC24HA "(opens in a new window)")**
+
+**Step 4: transfer your data!**
+
+use step 5-6 of this SOP to transfer your files: **[https://vprservicedesk.freshservice.com/support/solutions/articles/19000108710Links to an external site.](https://vprservicedesk.freshservice.com/support/solutions/articles/19000108710 "(opens in a new window)")** 
+
+**I will show you what it looks like when files are transferring and when they are done**
+
+How to remote in.
+```r
+ssh cristina.blanco@colostate.edu@login.rc.colorado.edu
+```
+
+password: mypassword, duokey
+
+Put this into powershell? Then...
+
+# Upload your data to QIITA
+- like NCBI, give it raw data and it analyzes it with deblur to process. Done per sequencing run. 
+- Demultiplexes and trims as well
+- Can click on nodes and download data.
+- Is a public repository. 
+[https://qiita.ucsd.edu/Links to an external site.](https://qiita.ucsd.edu/)
+
+follow this SOP [SOP on Uploading Data to Qiita for ANEQ505.docxLinks to an external site.](https://colostate-my.sharepoint.com/:w:/g/personal/lindsval_colostate_edu/IQBcZK-u6-QuQJq6Xln0nB-aAS3dvbMKQSIOyiBnZgq5XWc?e=DxtKNA)
+- val made this since QIITA SOPs suck
+
+here is a metadata template [Qiita-Meta-Data-Template.xlsxLinks to an external site.](https://colostate-my.sharepoint.com/:x:/g/personal/lindsval_colostate_edu/IQDy_JSPJ9bRTaRn4RJETPtKAQJEQLaSPFMmPkcD1GG0Mic?e=qQ8SAf)
