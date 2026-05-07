@@ -2805,7 +2805,7 @@ qiime composition ancombc2-visualizer \
 
 This is the ancombc2 visualizer command to use if just visualizing ASVs without collapsing to a taxonomic level.
 
-(dont run this, for reference only. use in future if u want to run ANCOBC2 at the ASB level)
+(dont run this, for reference only. use in future if u want to run ANCOBC2 at the ASV level)
 ```r
 ## Dont run this, just for future reference if u want to look at ASVs instead of genus or spp level
 qiime composition ancombc2-visualizer \
