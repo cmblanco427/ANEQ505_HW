@@ -1,0 +1,26 @@
+{
+  "auth": {
+    "method": "none",
+    "token": "",
+    "provider": "github"
+  },
+  "mappings": [],
+  "defaultCommitTemplate": "Sync from Obsidian ({mapping}): {datetime} — {added}+ {modified}~ {deleted}-",
+  "excludedPaths": [
+    ".trash/**",
+    ".git/**",
+    "node_modules/**",
+    ".easy-git-backup/**",
+    ".claude/**",
+    ".DS_Store",
+    "Thumbs.db",
+    "*.tmp",
+    "*.swp",
+    ".obsidian/**"
+  ],
+  "maxFileSizeBytes": 99614720,
+  "showNotifications": true,
+  "debugLogging": false,
+  "autoResolveByMtime": true,
+  "autoMergeText": true
+}
